@@ -1,5 +1,5 @@
 var pull = require('websocket-pull-stream');
-var ws = new WebSocket('ws://localhost:4001');
+var ws = new WebSocket('ws://' + location.hostname + ':4001');
 var srv = pull(ws)();
 var uid = require('./uid')().split('').map((c) => c.charCodeAt(0));
 
