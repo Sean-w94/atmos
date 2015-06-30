@@ -1,15 +1,17 @@
 require('./views/menu')
-require('./views/results')
-require('./views/mood')
+
+require('./views/excitement-in')
+require('./views/excitement-out')
+
 require('riot').mount('*')
 
 const router = require('./logic/router');
-const views = [
+const tabs = [
   document.querySelector('results'),
   document.querySelector('mood')
 ]
 
-const [results, mood] = views;
+const [results, mood] = tabs;
 
 
 router({
@@ -18,9 +20,9 @@ router({
 })
 
 function tab(target) {
-    views
-      .filter(view => view !== target)
-      .forEach(view => view.classList.add('hidden'))
+    tabs
+      .filter(t => t !== target)
+      .forEach(t => t.classList.add('hidden'))
 
     target.classList.remove('hidden');
 }

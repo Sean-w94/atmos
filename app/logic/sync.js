@@ -1,6 +1,7 @@
 var pull = require('websocket-pull-stream');
 var ws = new WebSocket('ws://localhost:4001');
 var srv = pull(ws)();
+var uid = require('./uid')().split('').map((c) => c.charCodeAt(0));
 
 module.exports = (scope, chan, map) => {
   if (typeof chan !== 'number') { 
@@ -24,12 +25,12 @@ module.exports = (scope, chan, map) => {
     .pipe(sink());
 }
 
-module.exports.write = (val, chan) => {
+module.exports.vote = (chan) => {
   if (typeof chan !== 'number') { 
     throw Error('must supply channel');
   }
 
-  ws.send(new Uint8Array([chan, val]));
+  ws.send(new Uint8Array(uid.concat(chan)));
 }
 
 module.exports.srv = srv;

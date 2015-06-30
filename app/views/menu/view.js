@@ -1,4 +1,4 @@
-var menu = require('../../config/menu.json');
+var menu = require('@atmos/config/menu.json');
 
 module.exports = function (scope) {
   scope.menu = menu;

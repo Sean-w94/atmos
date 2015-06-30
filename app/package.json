@@ -7,8 +7,9 @@
     "light-server": "^0.1.2",
     "minifyify": "^6.4.0",
     "riot": "^2.0.13",
+    "riotify": "^0.1.2",
     "sinopia": "^1.4.0",
-    "riotify": "^0.1.2"
+    "uid": "0.0.2"
   },
   "scripts": {
     "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
