@@ -25,21 +25,33 @@ const voteRanges = {
   topic: 8
 }
 
+const percentages = {
+  [EXCITED]: 0,
+  [NEUTRAL]: 0,
+  [BORED]: 0
+}
+
 
 const makeSource = stream.Source((stat) => {
-  return function src(end, cb) {
+  var init;
+  return function src(end, cb) {    
     if (end) { return cb(end); }
     const area = areaOf(stat);
     if (!area) { return cb(end); }
     const voters = stats[area].voters;
     const subject = stats[area][stat];
 
+    if (!init) {
+      init = true;
+      cb(null, percentages[stat]);
+    }
+
     Object.observe(subject, () => {
       var votes = Object.keys(subject)
         .map(uid => subject[uid])
         .filter(Boolean).length;
-      console.log(votes / voters.size)
-      cb(null, votes / voters.size);
+      percentages[stat] = (votes / voters.size || 0);
+      cb(null, percentages[stat]);
     });
   }
 })
@@ -85,7 +97,7 @@ function registerVoter(uid, stat) {
 }
 
 function areaOf(stat) {
-  if (stat <= BORED) return 'excitement'
-  if (stat <= 5) return 'pace'
-  if (stat <= 8) return 'topic'  
+  if (stat <= voteRanges.excitement) return 'excitement'
+  if (stat <= voteRanges.pace) return 'pace'
+  if (stat <= voteRanges.topic) return 'topic'  
 }

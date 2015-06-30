@@ -25,10 +25,12 @@ module.exports = (scope) => {
   sync(scope, NEUTRAL, map('neutral', scope));
   sync(scope, BORED, map('bored', scope));
 
+  scope._excited = scope._neutral = scope._bored = 0;
+
   scope.aggregate = () => {
-    return (weights.excited * ~~(scope._excited)) + 
-     (weights.neutral * ~~(scope._neutral)) +
-     (weights.bored * ~~(scope._bored)) + '%'
+    return (weights.excited * scope._excited) + 
+     (weights.neutral * scope._neutral) +
+     (weights.bored * scope._bored) + '%'
   }
 
 }
