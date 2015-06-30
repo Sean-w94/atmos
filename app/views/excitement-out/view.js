@@ -7,10 +7,28 @@ const {
   BORED
 } = enums;
 
-const map = (name) => (n) => ({[name]: parseInt(n * 100, 10) + '%'});
+const weights = {
+  excited: 100,
+  neutral: 50,
+  bored: 0
+}
+
+const map = (name, scope) => (n) => {
+  return {
+    [name]: parseInt(n * 100, 10) + '%',
+    ['_' + name]: n
+  };
+}
 
 module.exports = (scope) => {
-  sync(scope, EXCITED, map('excited'));
-  sync(scope, NEUTRAL, map('neutral'));
-  sync(scope, BORED, map('bored'));
+  sync(scope, EXCITED, map('excited', scope));
+  sync(scope, NEUTRAL, map('neutral', scope));
+  sync(scope, BORED, map('bored', scope));
+
+  scope.aggregate = () => {
+    return (weights.excited * ~~(scope._excited)) + 
+     (weights.neutral * ~~(scope._neutral)) +
+     (weights.bored * ~~(scope._bored)) + '%'
+  }
+
 }
