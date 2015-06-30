@@ -1,0 +1,11 @@
+{
+  "name": "@atmos/srv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "David Mark Clements",
+  "license": "MIT",
+  "dependencies": {
+    "websocket-pull-stream": "^2.0.12",
+    "ws": "^0.7.2"
+  }
+}

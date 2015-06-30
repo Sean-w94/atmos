@@ -1,0 +1,24 @@
+{
+  "name": "@atmos/app",
+  "devDependencies": {
+    "babel": "^4.7.16",
+    "babelify": "^5.0.5",
+    "browserify": "^9.0.7",
+    "light-server": "^0.1.2",
+    "minifyify": "^6.4.0",
+    "riot": "^2.0.13",
+    "sinopia": "^1.4.0",
+    "riotify": "^0.1.2"
+  },
+  "scripts": {
+    "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
+    "build:dist": "npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
+    "build": "npm run build:app && npm run build:dist",
+    "repo": "sinopia",
+    "dev": "light-server -s . -w 'app/**, app.js' -c 'npm run build:app'"
+  },
+  "dependencies": {
+    "@atmos/results": "^1.0.3",
+    "websocket-pull-stream": "^2.0.12"
+  }
+}
