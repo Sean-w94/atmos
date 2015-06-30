@@ -1,12 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";var riot=require("riot");module.exports=function(){var r=void 0===arguments[0]?{}:arguments[0];riot.route(function(){for(var t=arguments.length,n=Array(t),e=0;t>e;e++)n[e]=arguments[e];n=n.filter(function(r){return r.length}),n=n[0],r[n]instanceof Function&&r[n]()})};
+"use strict";var riot=require("riot");module.exports=function(){var r=void 0===arguments[0]?{}:arguments[0];riot.route(function(){for(var t=arguments.length,n=Array(t),o=0;t>o;o++)n[o]=arguments[o];n=n.filter(function(r){return r.length}),n=n[0],r[n]instanceof Function&&r[n]()}),riot.route("mood")};
 },{"riot":7}],2:[function(require,module,exports){
 "use strict";var pull=require("websocket-pull-stream"),ws=new WebSocket("ws://localhost:4001"),srv=pull(ws)(),uid=require("./uid")().split("").map(function(e){return e.charCodeAt(0)});module.exports=function(e,u,n){if("number"!=typeof u)throw Error("must supply channel");var r=pull.Funnel(function(u){Object.assign(e,u),e.update()});return n instanceof Function?srv.demux.channel(u).pipe(pull.Tunnel(n)()).pipe(r()):srv.demux.channel(u).pipe(r())},module.exports.vote=function(e){if("number"!=typeof e)throw Error("must supply channel");ws.send(new Uint8Array(uid.concat(e)))},module.exports.srv=srv,module.exports.pull=pull;
 },{"./uid":3,"websocket-pull-stream":9}],3:[function(require,module,exports){
 "use strict";module.exports=function(){return localStorage.uid=localStorage.uid||Math.random().toString(35).substr(2,7),localStorage.uid};
 },{}],4:[function(require,module,exports){
-"use strict";function tab(t){tabs.filter(function(r){return r!==t}).forEach(function(t){return t.classList.add("hidden")}),t.classList.remove("hidden")}require("./views/menu"),require("./views/excitement-in"),require("./views/excitement-out"),require("riot").mount("*");var router=require("./logic/router"),tabs=[document.querySelector("results"),document.querySelector("mood")],results=tabs[0],mood=tabs[1];router({results:function(t){var r=function(){return t.apply(this,arguments)};return r.toString=function(){return t.toString()},r}(function(){tab(results)}),mood:function(t){var r=function(){return t.apply(this,arguments)};return r.toString=function(){return t.toString()},r}(function(){tab(mood)})});
-},{"./logic/router":1,"./views/excitement-in":21,"./views/excitement-out":23,"./views/menu":25,"riot":7}],5:[function(require,module,exports){
+"use strict";function tab(t){tabs.filter(function(r){return r!==t}).forEach(function(t){return t.classList.add("hidden")}),t.classList.remove("hidden")}require("./views/tabs"),require("./views/excitement-in"),require("./views/excitement-out"),require("riot").mount("*");var router=require("./logic/router"),tabs=[document.querySelector("results"),document.querySelector("mood")],results=tabs[0],mood=tabs[1];router({results:function(t){var r=function(){return t.apply(this,arguments)};return r.toString=function(){return t.toString()},r}(function(){tab(results)}),mood:function(t){var r=function(){return t.apply(this,arguments)};return r.toString=function(){return t.toString()},r}(function(){tab(mood)})});
+},{"./logic/router":1,"./views/excitement-in":21,"./views/excitement-out":23,"./views/tabs":25,"riot":7}],5:[function(require,module,exports){
 module.exports={"EXCITED":0,"NEUTRAL":1,"BORED":2}
 },{}],6:[function(require,module,exports){
 module.exports=[{"href":"#mood","name":"Mood"},{"href":"#results","name":"Results"}]
@@ -47,7 +47,7 @@ var riot=require("riot");module.exports=riot.tag("excitement-out","<h1> Exciteme
 },{"./view":22,"riot":7}],24:[function(require,module,exports){
 "use strict";var menu=require("@atmos/config/menu.json");module.exports=function(e){e.menu=menu};
 },{"@atmos/config/menu.json":6}],25:[function(require,module,exports){
-var riot=require("riot");module.exports=riot.tag("menu",'<div class="pure-menu pure-menu-horizontal"> <ul class="pure-menu-list"> <li class="pure-menu-item" each="{item, i in menu}"> <a href="{item.href}" class="pure-menu-link">{item.name}</a> </li> </ul> </div>',function(e){require("./view")(this)});
+var riot=require("riot");module.exports=riot.tag("tabs",'<div class="pure-menu pure-menu-horizontal"> <ul class="pure-menu-list"> <li class="pure-menu-item" each="{item, i in menu}"> <a href="{item.href}" class="pure-menu-link">{item.name}</a> </li> </ul> </div>',function(e){require("./view")(this)});
 },{"./view":24,"riot":7}]},{},[4])
 
 

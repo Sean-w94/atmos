@@ -11,4 +11,6 @@ module.exports = (routes = {}) => {
    }
   })
 
+  riot.route('mood')
+
 }

@@ -1,4 +1,4 @@
-<menu>
+<tabs>
   <div class="pure-menu pure-menu-horizontal">
       <ul class="pure-menu-list">
           <li class="pure-menu-item" each={item, i in menu}>
@@ -7,4 +7,4 @@
       </ul>
   </div>
   <script> require('./view')(this) </script>
-</menu>
+</tabs>

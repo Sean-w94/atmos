@@ -1,4 +1,4 @@
-require('./views/menu')
+require('./views/tabs')
 
 require('./views/excitement-in')
 require('./views/excitement-out')
