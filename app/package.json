@@ -19,7 +19,7 @@
     "dev": "light-server -s . -w 'app/**, app.js' -c 'npm run build:app'"
   },
   "dependencies": {
-    "@atmos/results": "^1.0.3",
+    "@atmos/config": "^1.0.0",
     "websocket-pull-stream": "^2.0.12"
   }
 }
