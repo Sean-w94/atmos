@@ -1,8 +1,17 @@
 const WebSocketServer = require('ws').Server;
 const wss = new WebSocketServer({port: 4001, origin: '*'})
-const stream = require('websocket-pull-stream')
-const enums = require('@atmos/config/enums.json');
-const { EXCITED, NEUTRAL, BORED } = enums;
+const through = require('through2');
+const stream = require('websocket-stream')
+const chans = require('@atmos/config/chans.json');
+const { EXCITED, NEUTRAL, BORED } = chans.excitement;
+const { FAST, PERFECT, SLOW } = chans.pace;
+
+const enums = Object.keys(chans).reduce((o, area) => {
+  return Object.keys(chans[area]).reduce((o, stat) => {
+    o[stat] = chans[area][stat];
+    return o;
+  }, o);
+}, Object.create(null));
 
 const stats = {
   excitement: {
@@ -12,7 +21,10 @@ const stats = {
     [BORED]: Object.create(null)
   },
   pace: {
-    voters: new Set()
+    voters: new Set(),
+    [FAST]: Object.create(null),
+    [PERFECT]: Object.create(null),
+    [SLOW]: Object.create(null)
   },
   topics: {
     voters: new Set()
@@ -21,78 +33,120 @@ const stats = {
 
 const voteRanges = {
   excitement: BORED,
-  pace: 5,
+  pace: SLOW,
   topic: 8
 }
 
 const percentages = {
   [EXCITED]: 0,
   [NEUTRAL]: 0,
-  [BORED]: 0
+  [BORED]: 0,
+  [FAST]: 0,
+  [PERFECT]: 0,
+  [SLOW]: 0
 }
 
-
-const makeSource = stream.Source((stat) => {
-  var init;
-  return function src(end, cb) {    
-    if (end) { return cb(end); }
-    const area = areaOf(stat);
-    if (!area) { return cb(end); }
-    const voters = stats[area].voters;
-    const subject = stats[area][stat];
-
-    if (!init) {
-      init = true;
-      cb(null, percentages[stat]);
-    }
-
-    Object.observe(subject, () => {
-      var votes = Object.keys(subject)
-        .map(uid => subject[uid])
-        .filter(Boolean).length;
-      percentages[stat] = (votes / voters.size || 0);
-      cb(null, percentages[stat]);
-    });
-  }
+var r = require('repl').start({
+  prompt: '> ',
+  input: process.stdin,
+  output: process.stdout,
 })
+
+r.context.stats = stats;
+r.context.percentages = percentages;
+
+
+const makeSource = (stat) => {
+  var init;
+  var stream = through();
+
+  const area = areaOf(stat);
+  const voters = stats[area].voters;
+  const subject = stats[area][stat];
+
+  if (!init) {
+    init = true;
+    stream.push(percentages[stat]+'');
+  }
+
+  Object.observe(subject, changes => {
+    // changes = changes.filter(c => c.type === 'update');
+    if (!changes.length) { return; }
+
+    var votes = Object.keys(subject)
+      .map(uid => subject[uid])
+      .filter(Boolean).length;
+
+    percentages[stat] = (votes / voters.size || 0);
+
+    stream.push(percentages[stat]+'');
+
+  });
+
+  return stream;
+}
 
 wss.on('connection', function(ws) {
   bcast(ws);
 
-  ws.onmessage = function (msg) {
-    msg = [].slice.call(toUint8Array(msg.data));
+  ws.on('message', function (msg) {
+    //only allow 8 byte messages (these are sync messages)
+    if (msg.length !== 8) { return; }
+
+    msg = [].slice.call(toUint8Array(msg));
+    
     var stat = msg.pop();
     var uid = msg.map(c => String.fromCharCode(c)).join('');
-    registerVoter(uid, stat);
+    var area = areaOf(stat);
+    registerVoter(uid, stat, area);
 
-    Object.keys(enums)
-      .map(st => enums[st])
-      .forEach(n => { 
-        stats[areaOf(n)][n][uid] = (n === stat)
+    Object.keys(stats[area])
+      .forEach(n => {
+        n = +n;
+        if (isNaN(n)) {return;}
+        stats[area][n][uid] = (n === stat)
       });
-  }
+  })
+
 });
 
-function bcast(ws) {
-  var sink = stream(ws)();
-
-  Object.keys(enums).forEach((stat) => {
-    makeSource(enums[stat]).pipe(sink.mux.channel(enums[stat]));
+function channel(chan) {
+  return through(function (data, enc, cb) {
+    const b = Buffer(1);
+    b[0] = chan;
+    this.push(Buffer.concat([b, data]))
+    cb();
   })
 }
 
+function bcast(ws) {
+  var sink = stream(ws);
+
+  // Object.keys(enums).forEach((stat) => {
+  //   console.log(enums[stat], stat);
+  //   makeSource(enums[stat]).pipe(sink.mux.channel(enums[stat]));
+  // })
+
+  makeSource(EXCITED).pipe(channel(EXCITED)).pipe(sink)
+  makeSource(NEUTRAL).pipe(channel(NEUTRAL)).pipe(sink)
+  makeSource(BORED).pipe(channel(BORED)).pipe(sink)
+  makeSource(FAST).pipe(channel(FAST)).pipe(sink)
+  makeSource(PERFECT).pipe(channel(PERFECT)).pipe(sink)
+  makeSource(SLOW).pipe(channel(SLOW)).pipe(sink)
+
+}
+
 function toUint8Array(buffer) {
-    var ab = new ArrayBuffer(buffer.length);
-    var view = new Uint8Array(ab);
-    for (var i = 0; i < buffer.length; ++i) {
-        view[i] = buffer[i];
-    }
-    return view;
+  var ab = new ArrayBuffer(buffer.length);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buffer.length; ++i) {
+    view[i] = buffer[i];
+  }
+  return view;
 }
 
 
-function registerVoter(uid, stat) {
-  const area = areaOf(stat);
+function registerVoter(uid, stat, area) {
   return area && stats[area].voters.add(uid)
 }
 

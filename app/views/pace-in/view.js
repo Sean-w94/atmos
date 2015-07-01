@@ -1,23 +1,22 @@
 const sync = require('../../logic/sync');
-const enums = require('@atmos/config/enums.json');
+const chans = require('@atmos/config/chans.json');
 
 const {
-  EXCITED,
-  NEUTRAL,
-  BORED
-} = enums;
+  FAST,
+  PERFECT,
+  SLOW
+} = chans.pace;
 
 module.exports = (scope) => {
-
-  scope.excited = () => {
-    sync.vote(EXCITED)
+  scope.fast = () => {
+    sync.vote(FAST)
   }
 
-  scope.neutral = () => {
-    sync.vote(NEUTRAL)
+  scope.perfect = () => {
+    sync.vote(PERFECT)
   }
 
-  scope.bored = () => {
-    sync.vote(BORED)
+  scope.slow = () => {
+    sync.vote(SLOW)
   }
 }

@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "@atmos/config": "^1.0.0",
-    "websocket-pull-stream": "^2.0.12"
+    "object.assign": "^3.0.1"
   }
 }

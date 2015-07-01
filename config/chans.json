@@ -1,0 +1,15 @@
+{
+  "excitement": {
+    "EXCITED": 0,
+    "NEUTRAL": 1,
+    "BORED": 2
+  },
+  "pace": {
+    "FAST": 3,
+    "PERFECT": 4,
+    "SLOW": 5
+  },
+  "topic": {
+
+  }
+}

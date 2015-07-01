@@ -1,11 +1,11 @@
 const sync = require('../../logic/sync');
-const enums = require('@atmos/config/enums.json');
+const chans = require('@atmos/config/chans.json');
 
 const {
   EXCITED,
   NEUTRAL,
   BORED
-} = enums;
+} = chans.excitement;
 
 const weights = {
   excited: 100,
@@ -13,7 +13,7 @@ const weights = {
   bored: 0
 }
 
-const map = (name, scope) => (n) => {
+const map = (name) => (n) => {
   return {
     [name]: parseInt(n * 100, 10) + '%',
     ['_' + name]: n
@@ -21,9 +21,9 @@ const map = (name, scope) => (n) => {
 }
 
 module.exports = (scope) => {
-  sync(scope, EXCITED, map('excited', scope));
-  sync(scope, NEUTRAL, map('neutral', scope));
-  sync(scope, BORED, map('bored', scope));
+  sync(scope, EXCITED, map('excited'));
+  sync(scope, NEUTRAL, map('neutral'));
+  sync(scope, BORED, map('bored'));
 
   scope._excited = scope._neutral = scope._bored = 0;
 

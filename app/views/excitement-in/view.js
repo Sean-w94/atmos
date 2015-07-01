@@ -1,11 +1,11 @@
 const sync = require('../../logic/sync');
-const enums = require('@atmos/config/enums.json');
+const chans = require('@atmos/config/chans.json');
 
 const {
   EXCITED,
   NEUTRAL,
   BORED
-} = enums;
+} = chans.excitement;
 
 module.exports = (scope) => {
 

@@ -1,10 +1,19 @@
+//polyfills
+require('object.assign').shim()
+
+//views
 require('./views/tabs')
 
 require('./views/excitement-in')
 require('./views/excitement-out')
 
+require('./views/pace-in')
+require('./views/pace-out')
+
+//mount
 require('riot').mount('*')
 
+//routing
 const router = require('./logic/router');
 const tabs = [
   document.querySelector('results'),
