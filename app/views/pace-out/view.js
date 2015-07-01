@@ -20,6 +20,12 @@ const map = (name) => (n) => {
   };
 }
 
+function combined(scope) {
+  return (weights.fast * scope._fast) + 
+    (weights.perfect * scope._perfect) +
+    (weights.slow * scope._slow) 
+}
+
 module.exports = (scope) => {
   sync(scope, FAST, map('fast'));
   sync(scope, PERFECT, map('perfect'));
@@ -28,9 +34,21 @@ module.exports = (scope) => {
   scope._fast = scope._perfect = scope._slow = 0;
 
   scope.aggregate = () => {
-    return (weights.fast * scope._fast) + 
-     (weights.perfect * scope._perfect) +
-     (weights.slow * scope._slow) + '%'
+    return combined(scope) + '%'
   }
+
+  scope.rotation = () => {
+    const max = 120;
+    const min = -120;
+    const percent = combined(scope)/100;
+
+    scope.max = (percent === 1);
+
+    const total = (240 * percent) - 120;
+
+    return total + 'deg';
+  }
+
+
 
 }

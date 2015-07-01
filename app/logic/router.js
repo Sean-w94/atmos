@@ -11,6 +11,6 @@ module.exports = (routes = {}) => {
    }
   })
 
-  riot.route('mood')
+  riot.route(location.hash.split('#')[1] || 'mood');
 
 }

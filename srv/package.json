@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "babel": "^5.6.14",
+    "engine.io-stream": "^0.4.3",
     "through2": "^2.0.0",
     "websocket-stream": "^1.5.0",
     "ws": "^0.7.2"
