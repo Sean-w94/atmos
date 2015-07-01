@@ -1,17 +1,17 @@
 <topic-in>
   <p class=question>This talk is...</p>
   <div>
-    <input onclick={ topicA } id="r-topicA" type="radio" name="pace" value="topicA">
+    <input onclick={ topicA } id="r-topicA" type="radio" name="topic" value="topicA">
     <label for="r-topicA" class="pure-radio"> Topic A </label>
   </div>
 
   <div>
-    <input onclick={ topicB } id="r-topicB" type="radio" name="pace" value="topicB">
+    <input onclick={ topicB } id="r-topicB" type="radio" name="topic" value="topicB">
     <label for="r-topicB" class="pure-radio"> Topic B </label>
   </div>
 
   <div>
-    <input onclick={ topicC } id="r-topicC" type="radio" name="pace" value="topicC">
+    <input onclick={ topicC } id="r-topicC" type="radio" name="topic" value="topicC">
     <label for="r-topicC" class="pure-radio"> Topic C </label>
   </div>
   <script> require('./view')(this)</script>
