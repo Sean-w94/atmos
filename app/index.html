@@ -12,22 +12,52 @@
       .pure-g [class *="pure-u"] {
         height: 23.25em;
       }
+
+      app { display:black; }
+
+      tabs {
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+
+      .mood [href="#mood"] {background:#eee;}
+      .results [href="#mood"] {background:#fff;}
+
+      .results [href="#results"] {background:#eee;}
+      .mood [href="#results"] {background:#fff;}
+
+      .pure-g {
+        margin-top: 2.5em;
+      }
+
+      @media screen and (max-width: 48em) {
+        .pure-g {
+          width: 300%;
+        }
+
+        .pure-u-1 {
+          width: 33%;
+        }
+      }
     </style>
   </head>
 
   <body>
 
     <tabs></tabs>
-    <results class="hidden pure-g">
-      <excitement-out class="pure-u-1 pure-u-md-1-3"></excitement-out>
-      <pace-out class="pure-u-1 pure-u-md-1-3"></pace-out>
-      <topic-out class="pure-u-1 pure-u-md-1-3"></topic-out>
-    </results>
-    <mood class="pure-g">
-      <excitement-in class="pure-u-1 pure-u-md-1-3"></excitement-in>
-      <pace-in class="pure-u-1 pure-u-md-1-3"></pace-in>
-      <topic-in class="pure-u-1 pure-u-md-1-3"></topic-in>
-    </mood>
+    <app>
+      <results class="hidden pure-g">
+        <excitement-out class="pure-u-1 pure-u-md-1-3"></excitement-out>
+        <pace-out class="pure-u-1 pure-u-md-1-3"></pace-out>
+        <topic-out class="pure-u-1 pure-u-md-1-3"></topic-out>
+      </results>
+      <mood class="pure-g">
+        <excitement-in class="pure-u-1 pure-u-md-1-3"></excitement-in>
+        <pace-in class="pure-u-1 pure-u-md-1-3"></pace-in>
+        <topic-in class="pure-u-1 pure-u-md-1-3"></topic-in>
+      </mood>
+    </app>
 
 
     <script src="build/app.js"></script>
