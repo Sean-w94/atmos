@@ -1,4 +1,6 @@
 [
   {"href": "#mood", "name": "Mood"},
-  {"href": "#results", "name": "Results"}
+  {"href": "#results", "name": "Results"},
+  {"href": "#beam", "name": "Beam"}
+
 ]

@@ -6,7 +6,7 @@ module.exports = (routes = {}) => {
     path = path.filter(s => s.length);
     const base = path[0];
 
-    ;['mood', 'results'].forEach((item) => {
+    ;['mood', 'results', 'beam'].forEach((item) => {
       document.body.classList.remove(item);
     });
 

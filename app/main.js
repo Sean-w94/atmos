@@ -14,6 +14,8 @@ require('./views/pace-out')
 require('./views/topic-in')
 require('./views/topic-out')
 
+require('./views/compose')
+
 
 //mount
 require('riot').mount('*')
@@ -25,15 +27,17 @@ require('./logic/paging')
 const router = require('./logic/router');
 const tabs = [
   document.querySelector('results'),
-  document.querySelector('mood')
+  document.querySelector('mood'),
+  document.querySelector('beam')
 ]
 
-const [results, mood] = tabs;
+const [results, mood, beam] = tabs;
 
 
 router({
   results() { tab(results); },
-  mood () { tab(mood);  }
+  mood () { tab(mood);  },
+  beam () { tab(beam); }
 })
 
 function tab(target) {
