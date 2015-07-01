@@ -46,14 +46,14 @@ const percentages = {
   [SLOW]: 0
 }
 
-var r = require('repl').start({
-  prompt: '> ',
-  input: process.stdin,
-  output: process.stdout,
-})
+// var r = require('repl').start({
+//   prompt: '> ',
+//   input: process.stdin,
+//   output: process.stdout,
+// })
 
-r.context.stats = stats;
-r.context.percentages = percentages;
+// r.context.stats = stats;
+// r.context.percentages = percentages;
 
 
 const makeSource = (stat) => {
