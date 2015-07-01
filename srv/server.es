@@ -5,6 +5,7 @@ const stream = require('websocket-stream')
 const chans = require('@atmos/config/chans.json');
 const { EXCITED, NEUTRAL, BORED } = chans.excitement;
 const { FAST, PERFECT, SLOW } = chans.pace;
+const { TOPIC_A, TOPIC_B, TOPIC_C } = chans.topic;
 
 const enums = Object.keys(chans).reduce((o, area) => {
   return Object.keys(chans[area]).reduce((o, stat) => {
@@ -26,8 +27,11 @@ const stats = {
     [PERFECT]: Object.create(null),
     [SLOW]: Object.create(null)
   },
-  topics: {
-    voters: new Set()
+  topic: {
+    voters: new Set(),
+    [TOPIC_A]: Object.create(null),
+    [TOPIC_B]: Object.create(null),
+    [TOPIC_C]: Object.create(null)
   }
 };
 
@@ -43,7 +47,10 @@ const percentages = {
   [BORED]: 0,
   [FAST]: 0,
   [PERFECT]: 0,
-  [SLOW]: 0
+  [SLOW]: 0,
+  [TOPIC_A]: 0,
+  [TOPIC_B]: 0,
+  [TOPIC_C]: 0
 }
 
 // var r = require('repl').start({
@@ -132,6 +139,10 @@ function bcast(ws) {
   makeSource(FAST).pipe(channel(FAST)).pipe(sink)
   makeSource(PERFECT).pipe(channel(PERFECT)).pipe(sink)
   makeSource(SLOW).pipe(channel(SLOW)).pipe(sink)
+
+  makeSource(TOPIC_A).pipe(channel(TOPIC_A)).pipe(sink)
+  makeSource(TOPIC_B).pipe(channel(TOPIC_B)).pipe(sink)
+  makeSource(TOPIC_C).pipe(channel(TOPIC_C)).pipe(sink)
 
 }
 

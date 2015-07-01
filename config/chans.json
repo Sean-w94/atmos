@@ -10,6 +10,8 @@
     "SLOW": 5
   },
   "topic": {
-
+    "TOPIC_A": 6,
+    "TOPIC_B": 7,
+    "TOPIC_C": 8
   }
 }
