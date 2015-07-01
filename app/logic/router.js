@@ -4,16 +4,16 @@ module.exports = (routes = {}) => {
 
   riot.route(function (...path) {
     path = path.filter(s => s.length);
-    path = path[0];
+    const base = path[0];
 
     ;['mood', 'results'].forEach((item) => {
       document.body.classList.remove(item);
     });
 
-    document.body.classList.add(path);
+    document.body.classList.add(base);
 
-    if (routes[path] instanceof Function) {
-     routes[path]();
+    if (routes[base] instanceof Function) {
+     routes[base]();
     }
 
   })
