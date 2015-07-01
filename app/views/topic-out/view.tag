@@ -1,5 +1,5 @@
 <topic-out>        
-  <h1> Pace </h1>
+  <h1> Topic </h1>
   <div>
     Topic A: {topicA}, Topic B: {topicB}, Topic C: {topicC}
   </div>

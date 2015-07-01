@@ -1,5 +1,5 @@
 <topic-in>
-  <p class=question>This talk is...</p>
+  <p class=question>Next topic should be...</p>
   <div>
     <input onclick={ topicA } id="r-topicA" type="radio" name="topic" value="topicA">
     <label for="r-topicA" class="pure-radio"> Topic A </label>
