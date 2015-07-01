@@ -70,7 +70,6 @@ const makeSource = (stat) => {
   }
 
   Object.observe(subject, changes => {
-    // changes = changes.filter(c => c.type === 'update');
     if (!changes.length) { return; }
 
     var votes = Object.keys(subject)
