@@ -50,14 +50,19 @@ function move(evt) {
 
 function next() {
   if (page >= 2) return; 
-  const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
+  // const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
   page += 1;
-  app.style.transform = 'translateX(-' + (w * page) + 'px)';
+  app.style.transition = 'transform 300ms';
+  app.style.transform = 'translateX(-' + (100 * page) + 'vw)';
+  setTimeout(()=>(app.style.transition = ''), 310)
 }
 
 function prev() {
   if (page <= 0) return;
-  const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
+  // const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
   page -= 1;
-  app.style.transform = 'translateX(-' + (w * page) + 'px)';
+  app.style.transition = 'transform 300ms';
+  app.style.transform = 'translateX(-' + (100 * page) + 'vw)';
+  setTimeout(()=>(app.style.transition = ''), 310)
+
 }

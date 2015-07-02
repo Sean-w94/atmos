@@ -15,7 +15,7 @@
         height: 23.25em;
       }
 
-      app { display:block; transition: transform 300ms; }
+      app { display:block; }
 
       tabs {
         position: fixed;
@@ -48,6 +48,11 @@
       @media screen and (max-width: 35.5em) {
         ctrl { display: none; }
       }
+
+      @media screen and (min-width: 48em) {
+        app[style]{transform:none!important;transition:none!important;}
+      }
+
     </style>
   </head>
 
