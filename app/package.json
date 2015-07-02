@@ -4,18 +4,21 @@
     "babel": "^4.7.16",
     "babelify": "^5.0.5",
     "browserify": "^9.0.7",
+    "clean-css": "^3.3.5",
+    "html-minifier": "^0.7.2",
     "light-server": "^0.1.2",
     "minifyify": "^6.4.0",
     "riot": "^2.0.13",
     "riotify": "^0.1.2",
     "sinopia": "^1.4.0",
-    "uid": "0.0.2"
+    "uncss": "^0.12.1"
   },
   "scripts": {
+    "build:compress": "uncss http://localhost:4000/index.dev.html | cleancss --s0 --skip-import --skip-aggressive-merging | ./node_modules/.bin/@atmos/inliner index.dev.html | html-minifier --collapse-whitespace --remove-attribute-quotes --collapse-boolean-attributes > index.html",
     "build:assets": "rm -fr build/assets && cp -fr assets build/assets; cp index.html build/index.html",
     "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
     "build:dist": "npm run build:assets; npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
-    "build": "npm run build:app && npm run build:dist",
+    "build": "npm run build:compress && npm run build:app && npm run build:dist",
     "repo": "sinopia",
     "dev": "light-server -s . -w 'app/**, app.js' -c 'npm run build:app'"
   },

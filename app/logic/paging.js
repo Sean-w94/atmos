@@ -27,8 +27,6 @@ function move(evt) {
   
   if (!matchMedia("(max-width: 48em)").matches) return;
 
-  evt.preventDefault();  
-
   if (swiping) return; 
   if (!xDown) return;
 
@@ -39,6 +37,9 @@ function move(evt) {
   const yDiff = yDown - yUp;
 
   if (Math.abs(xDiff) <= Math.abs(yDiff)) return;
+
+  evt.preventDefault();  
+
   if (Math.abs(xDiff) < 60) return;
   swiping = true;
 
@@ -53,20 +54,19 @@ function move(evt) {
 function next() {
   if (page >= 2) return;
 
-  // const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
+  const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
   page += 1;
   app.style[prefix + 'transition'] = prefix + 'transform 300ms';
-  app.style[prefix + 'transform'] = 'translateX(-' + (100 * page) + 'vw)';
-  console.log(app.style)
+  app.style[prefix + 'transform'] = 'translateX(-' + (w * page) + 'px)';
   setTimeout(()=>(app.style[prefix + 'transition'] = ''), 310)
 }
 
 function prev() {
   if (page <= 0) return;
-  // const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
+  const w = Math.max(document.documentElement.clientWidth, innerWidth || 0);
   page -= 1;
   app.style[prefix + 'transition'] = prefix + 'transform 300ms';
-  app.style[prefix + 'transform'] = 'translateX(-' + (100 * page) + 'vw)';
+  app.style[prefix + 'transform'] = 'translateX(-' + (w * page) + 'px)';
   setTimeout(()=>(app.style[prefix + 'transition'] = ''), 310)
 
 }

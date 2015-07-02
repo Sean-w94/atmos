@@ -42,8 +42,6 @@
         margin: 0 auto;
       }
 
-      @import url(http://fonts.googleapis.com/css?family=Open+Sans);
-
       #tachometer{
         background: #171717;
         width: 600px;
@@ -189,20 +187,19 @@
           font-size:40px;
           text-align: center;
           text-transform: uppercase;
-          font-family: 'Open Sans', sans-serif;
           text-decoration:none;
             
       }
 
-      .num_1 {-webkit-transform: rotate(120deg);-ms-transform: rotate(120deg);transform: rotate(120deg); top:20px;}
-      .num_2 {-webkit-transform: rotate(90deg);-ms-transform: rotate(90deg);transform: rotate(90deg); top:13px; left:5px}
-      .num_3 {-webkit-transform: rotate(60deg);-ms-transform: rotate(60deg);transform: rotate(60deg); top:21px;}
-      .num_4 {-webkit-transform: rotate(30deg);-ms-transform: rotate(30deg);transform: rotate(30deg); top:25px;}
-      .num_5 {-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);transform: rotate(0deg);  top:30px;left:-8px}
-      .num_6 {-webkit-transform: rotate(330deg);-ms-transform: rotate(330deg);transform: rotate(330deg); top:35px;left:-10px}
-      .num_7 {-webkit-transform: rotate(300deg);-ms-transform: rotate(300deg);transform: rotate(300deg); top:35px;left:-7px;}
-      .num_8 {-webkit-transform: rotate(270deg);-ms-transform: rotate(270deg);transform: rotate(270deg);top:30px;}
-      .num_9 {-webkit-transform: rotate(240deg);-ms-transform: rotate(240deg);transform: rotate(240deg);top:30px;left:8px}
+      .num_1 {-webkit-transform: rotate(120deg);-ms-transform: rotate(120deg);transform: rotate(120deg); top:22px;}
+      .num_2 {-webkit-transform: rotate(90deg);-ms-transform: rotate(90deg);transform: rotate(90deg); top:15px; left:4px}
+      .num_3 {-webkit-transform: rotate(60deg);-ms-transform: rotate(60deg);transform: rotate(60deg); top:23px;}
+      .num_4 {-webkit-transform: rotate(30deg);-ms-transform: rotate(30deg);transform: rotate(30deg); top:27px;}
+      .num_5 {-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);transform: rotate(0deg);  top:32px;left:-7px}
+      .num_6 {-webkit-transform: rotate(330deg);-ms-transform: rotate(330deg);transform: rotate(330deg); top:37px;left:-9px}
+      .num_7 {-webkit-transform: rotate(300deg);-ms-transform: rotate(300deg);transform: rotate(300deg); top:37px;left:-6px;}
+      .num_8 {-webkit-transform: rotate(270deg);-ms-transform: rotate(270deg);transform: rotate(270deg);top:32px;}
+      .num_9 {-webkit-transform: rotate(240deg);-ms-transform: rotate(240deg);transform: rotate(240deg);top:32px;left:7px}
 
       #redline{     
         width:28px; height:150px;
