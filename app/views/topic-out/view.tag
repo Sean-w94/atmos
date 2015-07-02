@@ -51,17 +51,17 @@
 
     topic-a {
       left: 1em;
-      background: rgb(192, 0, 0);
+      background: rgb(0, 192, 0);
     }
 
     topic-b {
       left: 6.5em;
-      background: rgb(0, 192, 0);
+      background: rgb(0, 0, 192);
     }
 
     topic-c {
       left: 12em;
-      background: rgb(0, 0, 192);
+      background: rgb(192, 0, 0);
     }
 
 

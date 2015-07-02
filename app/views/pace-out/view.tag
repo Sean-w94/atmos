@@ -21,7 +21,7 @@
         <div><b><span class="num_9">8</span></b></div>
       </div> 
       <div id="redline"></div>
-      <div class={line: true, thrash: max} style="transform:rotate({rotation()})"></div>
+      <div class={line: true} style="transform:rotate({rotation()})"></div>
       <div class="pin"><div class="inner"></div></div> 
     </div>
 
@@ -38,7 +38,6 @@
         color: white;
         font-size: 1.5em;
         text-indent: .4em;
-        border: 1px solid white;
         width: 8em;
         margin: 0 auto;
       }

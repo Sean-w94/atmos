@@ -34,7 +34,7 @@ module.exports = (scope) => {
   scope._fast = scope._perfect = scope._slow = 0;
 
   scope.aggregate = () => {
-    return combined(scope) + '%'
+    return Math.floor(combined(scope)) + '%'
   }
 
   scope.rotation = () => {

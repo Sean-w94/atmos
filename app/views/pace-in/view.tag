@@ -18,7 +18,6 @@
   <style scoped>
     label {
       font-size: 3.25em;
-      outline: 1px solid #888;
       width: 5em;
       display: inline-block;
       height: 1.6em;
