@@ -20,4 +20,13 @@ module.exports = (scope) => {
   scope.bored = () => {
     sync.vote(BORED)
   }
+
+  scope.fastcheck = (stat) => {
+    cache(stat).checked = true;
+    scope[stat]();
+  }
+}
+
+function cache(stat) {
+  return cache[stat] || (cache[stat] = document.getElementById('r-' + stat));
 }

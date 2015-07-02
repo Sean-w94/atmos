@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
 
     <style>
+      @import url(http://fonts.googleapis.com/css?family=Roboto:300); 
+      html, .pure-g [class *="pure-u"] {font-family: 'Roboto', sans-serif;}
       body {overflow:hidden;}
       mood, results {text-align:center;}
       ctrl {display:none;}
@@ -17,23 +19,13 @@
 
       app { 
         display:block; 
-        -webkit-filter: drop-shadow(9px 9px 9px rgba(0,0,0,0.125));
       }
 
-      tabs {
-        position: fixed;
-        left: 0;
-        top: 0;
-      }
 
       [href] {background:none}
       .mood [href="#mood"] {background:#eee;}
       .results [href="#results"] {background:#eee;}
       .beam [href="#beam"] {background:#eee;}
-
-      .pure-g {
-        margin-top: 2.5em;
-      }
 
       @media screen and (max-width: 48em) {
         .pure-g {
@@ -74,9 +66,9 @@
         <topic-in class="pure-u-1 pure-u-md-1-3"></topic-in>
       </mood>
     </app>
-    <beam class="hidden pure-g">
+    <share class="hidden pure-g">
       <compose class="pure-u-1 pure-u-md-1-3"></compose>
-    </beam>
+    </share>
     <ctrl></ctrl>
 
 

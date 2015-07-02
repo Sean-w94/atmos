@@ -1,5 +1,8 @@
-//polyfills
+const riot = require('riot')
+
+//polyfills/behaviour consistency
 require('object.assign').shim()
+require('fastclick')(document.body);
 
 //views
 require('./views/tabs')
@@ -18,7 +21,7 @@ require('./views/compose')
 
 
 //mount
-require('riot').mount('*')
+riot.mount('*')
 
 //paging
 require('./logic/paging')
@@ -28,16 +31,16 @@ const router = require('./logic/router');
 const tabs = [
   document.querySelector('results'),
   document.querySelector('mood'),
-  document.querySelector('beam')
+  document.querySelector('share')
 ]
 
-const [results, mood, beam] = tabs;
+const [results, mood, share] = tabs;
 
 
 router({
   results() { tab(results); },
   mood () { tab(mood);  },
-  beam () { tab(beam); }
+  share () { tab(share); }
 })
 
 function tab(target) {

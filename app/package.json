@@ -12,14 +12,16 @@
     "uid": "0.0.2"
   },
   "scripts": {
+    "build:assets": "cp -fr assets build/assets",
     "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
-    "build:dist": "npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
+    "build:dist": "npm run build:assets; npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
     "build": "npm run build:app && npm run build:dist",
     "repo": "sinopia",
     "dev": "light-server -s . -w 'app/**, app.js' -c 'npm run build:app'"
   },
   "dependencies": {
     "@atmos/config": "^1.0.0",
+    "fastclick": "^1.0.6",
     "object.assign": "^3.0.1"
   }
 }

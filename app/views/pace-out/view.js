@@ -1,5 +1,7 @@
 const sync = require('../../logic/sync');
+const prefix = require('../../logic/prefix')();
 const chans = require('@atmos/config/chans.json');
+
 
 const {
   FAST,
@@ -49,6 +51,6 @@ module.exports = (scope) => {
     return total + 'deg';
   }
 
-
+  scope.prefix = prefix;
 
 }
