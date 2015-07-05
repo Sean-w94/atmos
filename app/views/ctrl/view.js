@@ -1,5 +1,5 @@
-var paging = require('../../logic/paging');
+var paging = require('../../logic/paging')
 
 module.exports = (scope) => {
-  Object.assign(scope, paging);
+  Object.assign(scope, paging)
 }

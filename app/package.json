@@ -13,7 +13,14 @@
     "sinopia": "^1.4.0",
     "uncss": "^0.12.1"
   },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "build/**"
+    ]
+  },
   "scripts": {
+    "lint": "standard",
     "build:compress": "uncss http://localhost:4000/index.dev.html | cleancss --s0 --skip-import --skip-aggressive-merging | ./node_modules/.bin/@atmos/inliner index.dev.html | html-minifier --collapse-whitespace --remove-attribute-quotes --collapse-boolean-attributes > index.html",
     "build:assets": "rm -fr build/assets && cp -fr assets build/assets; cp index.html build/index.html",
     "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
@@ -24,7 +31,10 @@
   },
   "dependencies": {
     "@atmos/config": "^1.0.0",
+    "babel-eslint": "^3.1.20",
+    "es6-set": "^0.1.1",
     "fastclick": "^1.0.6",
-    "object.assign": "^3.0.1"
+    "object.assign": "^3.0.1",
+    "standard": "^4.5.2"
   }
 }

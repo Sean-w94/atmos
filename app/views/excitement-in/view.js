@@ -1,11 +1,7 @@
-const sync = require('../../logic/sync');
-const chans = require('@atmos/config/chans.json');
+const sync = require('../../logic/sync')
+const chans = require('@atmos/config/chans.json')
 
-const {
-  EXCITED,
-  NEUTRAL,
-  BORED
-} = chans.excitement;
+const {EXCITED, NEUTRAL, BORED} = chans.excitement
 
 module.exports = (scope) => {
 
@@ -22,11 +18,11 @@ module.exports = (scope) => {
   }
 
   scope.fastcheck = (stat) => {
-    cache(stat).checked = true;
-    scope[stat]();
+    cache(stat).checked = true
+    scope[stat]()
   }
 }
 
-function cache(stat) {
-  return cache[stat] || (cache[stat] = document.getElementById('r-' + stat));
+function cache (stat) {
+  return cache[stat] || (cache[stat] = document.getElementById('r-' + stat))
 }

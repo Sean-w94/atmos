@@ -1,32 +1,61 @@
-var ws = new WebSocket('ws://' + location.hostname + ':4001');
-ws.binaryType = 'arraybuffer';
+/* eslint-env node, browser */
 
-var uid = require('./uid')().split('').map((c) => c.charCodeAt(0));
+const uid = require('./uid')().split('').map(c => c.charCodeAt(0))
 
-module.exports = (scope, chan, map) => {
-  if (typeof chan !== 'number') { 
-    throw Error('must supply channel');
-  }
-  if (!(map instanceof Function)) {
-    throw Error('must supply object mapper');
-  }
+var ws = wsab('ws://' + location.hostname + ':4001')
+var reg = false
 
-  ws.addEventListener('message', function (e) {
-    var data = new Uint8Array(e.data)
-    var channel = data[0];
-    if (chan !== channel) { return; }
-    data = [].slice.call(data);
-    data.shift()
-    data = map(+data.map(c => String.fromCharCode(c)).join(''))
-    Object.assign(scope, data);
-    scope.update();
-  })
+const chans = {}
+
+const update = data => {
+  data = new Uint8Array(data)
+  const channel = data[0]
+  const {scope, map} = chans[channel]
+  data = Array.from(data)
+  data.shift()
+  data = map(+data.map(c => String.fromCharCode(c)).join(''))
+  Object.assign(scope, data)
+  scope.update()
+}
+
+const recon = (attempt = 0) => {
+  const factor = (attempt + 1) / 3
+  const t = ~~(Math.random() * (2e3 * factor)) + 1e3 * factor
+  setTimeout(() => {
+    ws = wsab('ws://' + location.hostname + ':4001')
+    ws.addEventListener('error', () => recon(attempt + 1))
+    wsRdy(ws, attach)
+  }, t)
+}
+
+const attach = () => {
+  ws.addEventListener('close', () => recon())
+  ws.addEventListener('message', e => update(e.data))
+  reg = true
+}
+
+function wsRdy (sock, cb) {
+  setTimeout(() => sock.readyState === 1 ? cb() : wsRdy(sock, cb)
+    , 15)
+}
+
+function wsab (uri) {
+  const ws = new WebSocket(uri)
+  ws.binaryType = 'arraybuffer'
+  return ws
+}
+
+module.exports = (chan, scope, map) => {
+  if (!reg) attach()
+
+  if (typeof chan !== 'number') throw Error('must supply channel')
+
+  if (!(map instanceof Function)) throw Error('must supply object mapper')
+
+  chans[chan] = {scope, map}
 }
 
 module.exports.vote = (chan) => {
-  if (typeof chan !== 'number') { 
-    throw Error('must supply channel');
-  }
-  ws.send(new Uint8Array(uid.concat(chan)));
+  if (typeof chan !== 'number') throw Error('must supply channel')
+  ws.send(new Uint8Array(uid.concat(chan)))
 }
-

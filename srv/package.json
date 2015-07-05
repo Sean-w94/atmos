@@ -4,9 +4,17 @@
   "main": "index.js",
   "author": "David Mark Clements",
   "license": "MIT",
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "scripts": {
+    "lint": "standard"
+  },
   "dependencies": {
     "babel": "^5.6.14",
+    "babel-eslint": "^3.1.20",
     "engine.io-stream": "^0.4.3",
+    "standard": "^4.5.2",
     "through2": "^2.0.0",
     "websocket-stream": "^1.5.0",
     "ws": "^0.7.2"

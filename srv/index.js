@@ -1,2 +1,2 @@
-require("babel/register");
-require('./server.es');
+require('babel/register')
+require('./server.es')

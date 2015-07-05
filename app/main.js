@@ -1,10 +1,13 @@
+/* eslint-env node, browser */
+
 const riot = require('riot')
 
-//polyfills/behaviour consistency
+// polyfills/behaviour consistency
 require('object.assign').shim()
-require('fastclick')(document.body);
+require('es6-set/implement')
+require('fastclick')(document.body)
 
-//views
+// views
 require('./views/tabs')
 require('./views/ctrl')
 
@@ -19,34 +22,34 @@ require('./views/topic-out')
 
 require('./views/compose')
 
-
-//mount
+// mount
 riot.mount('*')
 
-//paging
+// paging
 require('./logic/paging')
 
-//routing
-const router = require('./logic/router');
+// routing
+const router = require('./logic/router')
 const tabs = [
   document.querySelector('results'),
   document.querySelector('mood'),
   document.querySelector('share')
 ]
 
-const [results, mood, share] = tabs;
+const [results, mood, share] = tabs
 
-
+/*eslint-disable */
 router({
-  results() { tab(results); },
-  mood () { tab(mood);  },
-  share () { tab(share); }
+  results() { tab(results) },
+  mood() { tab(mood) },
+  share() { tab(share) }
 })
+/*eslint-enable */
 
-function tab(target) {
-    tabs
-      .filter(t => t !== target)
-      .forEach(t => t.classList.add('hidden'))
+function tab (target) {
+  tabs
+    .filter(t => t !== target)
+    .forEach(t => t.classList.add('hidden'))
 
-    target.classList.remove('hidden');
+  target.classList.remove('hidden')
 }

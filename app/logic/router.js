@@ -1,23 +1,25 @@
-const riot = require('riot');
+/* eslint-env node, browser */
+
+const riot = require('riot')
 
 module.exports = (routes = {}) => {
 
   riot.route(function (...path) {
-    path = path.filter(s => s.length);
-    const base = path[0];
+    path = path.filter(s => s.length)
+    const base = path[0]
 
     ;['mood', 'results', 'beam'].forEach((item) => {
-      document.body.classList.remove(item);
-    });
+      document.body.classList.remove(item)
+    })
 
-    document.body.classList.add(base);
+    document.body.classList.add(base)
 
     if (routes[base] instanceof Function) {
-     routes[base]();
+      routes[base]()
     }
 
   })
 
-  riot.route(location.hash.split('#')[1] || 'mood');
+  riot.route(location.hash.split('#')[1] || 'mood')
 
 }
