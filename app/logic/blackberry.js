@@ -1,8 +1,7 @@
-const ua = navigator.userAgent;
-
+const ua = 'BlackBerry Webkit' //navigator.userAgent;
 
 module.exports = () => {
-  if (!(~ua.indexOf("BlackBerry") && ~ua.indexOf("WebKit"))) return
+  if (!~ua.indexOf("BB10")) return
 
   document.documentElement.className = 
     document.documentElement.className + ' blackberry'
