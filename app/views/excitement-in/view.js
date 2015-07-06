@@ -1,4 +1,5 @@
 const sync = require('../../logic/sync')
+const support = require('../../logic/support')
 const chans = require('@atmos/config/chans.json')
 
 const {EXCITED, NEUTRAL, BORED} = chans.excitement
@@ -21,6 +22,10 @@ module.exports = (scope) => {
     cache(stat).checked = true
     scope[stat]()
   }
+
+  scope.ext = support.svg() ? 'svg' : 'png'
+  
+
 }
 
 function cache (stat) {

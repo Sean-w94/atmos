@@ -5,24 +5,26 @@ const uid = require('./uid')().split('').map(c => c.charCodeAt(0))
 var ws = wsab('ws://' + location.hostname + ':4001')
 var reg = false
 
+window.logs = []
+
 const chans = {}
 
 const update = data => {
 
-  console.log('raw', data)
+  logs.push('raw', data)
   data = new Uint8Array(data)
-  console.log('wrapped', data)
+  logs.push('wrapped', data)
   const channel = data[0]
-  console.log('channel', data)
+  logs.push('channel', data)
   const {scope, map} = chans[channel]
   data = Array.from(data)
   data.shift()
-  console.log('arrayed and shifted', data)
+  logs.push('arrayed and shifted', data)
   data = map(+data.map(c => String.fromCharCode(c)).join(''))
-  console.log('stringified', data)
+  logs.push('stringified', data)
   Object.assign(scope, data)
   scope.update()
-  console.log(scope)
+  logs.push(scope)
 }
 
 const recon = (attempt = 0) => {
@@ -42,6 +44,8 @@ const attach = () => {
 }
 
 function wsRdy (sock, cb) {
+  console.log('readyState: ', sock.readyState)
+  logs.push('readyState: ', sock.readyState)
   setTimeout(() => sock.readyState === 1 ? cb() : wsRdy(sock, cb)
     , 15)
 }
