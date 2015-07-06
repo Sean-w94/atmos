@@ -8,14 +8,21 @@ var reg = false
 const chans = {}
 
 const update = data => {
+
+  console.log('raw', data)
   data = new Uint8Array(data)
+  console.log('wrapped', data)
   const channel = data[0]
+  console.log('channel', data)
   const {scope, map} = chans[channel]
   data = Array.from(data)
   data.shift()
+  console.log('arrayed and shifted', data)
   data = map(+data.map(c => String.fromCharCode(c)).join(''))
+  console.log('stringified', data)
   Object.assign(scope, data)
   scope.update()
+  console.log(scope)
 }
 
 const recon = (attempt = 0) => {
