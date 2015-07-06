@@ -35,9 +35,9 @@ const attach = () => {
   reg = true
 }
 
-function wsRdy (sock, cb) {
-  setTimeout(() => sock.readyState === 1 ? cb() : wsRdy(sock, cb)
-    , 15)
+function wsRdy (sock, cb, max = 10000) {
+  setTimeout(max => sock.readyState === 1 ? cb() : max > 0 && wsRdy(sock, cb, max - 1)
+    , 15, max)
 }
 
 function wsab (uri) {
