@@ -1,4 +1,4 @@
-const ua = 'BlackBerry Webkit' //navigator.userAgent;
+const ua = navigator.userAgent;
 
 module.exports = () => {
   if (!~ua.indexOf("BB10")) return
