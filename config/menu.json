@@ -1,6 +1,5 @@
 [
   {"href": "#mood", "name": "Mood"},
-  {"href": "#results", "name": "Results"},
-  {"href": "#share", "name": "Share"}
+  {"href": "#results", "name": "Results"}
 
 ]

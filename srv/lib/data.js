@@ -7,13 +7,14 @@ const at = name => path.join(data, name + '.json')
 const {
   EXCITED, NEUTRAL, BORED,
   FAST, PERFECT, SLOW,
-  TOPIC_A, TOPIC_B, TOPIC_C
+  TOPIC_A, TOPIC_B, TOPIC_C, TOPIC_D, TOPIC_E
 } = require('./enums')
+
 
 const voteRanges = Object.freeze({
   excitement: BORED,
   pace: SLOW,
-  topic: TOPIC_C
+  topic: TOPIC_E
 })
 
 const stats = fs.existsSync(at('stats')) ?
@@ -35,7 +36,9 @@ const stats = fs.existsSync(at('stats')) ?
       voters: new Set(),
       [TOPIC_A]: hash(),
       [TOPIC_B]: hash(),
-      [TOPIC_C]: hash()
+      [TOPIC_C]: hash(),
+      [TOPIC_D]: hash(),
+      [TOPIC_E]: hash()
     }
   })
 
@@ -53,7 +56,9 @@ const percentages = fs.existsSync(at('percentages')) ?
     [SLOW]: 0,
     [TOPIC_A]: 0,
     [TOPIC_B]: 0,
-    [TOPIC_C]: 0
+    [TOPIC_C]: 0,
+    [TOPIC_D]: 0,
+    [TOPIC_E]: 0
   })
 
 function areaOf (stat) {
@@ -63,7 +68,10 @@ function areaOf (stat) {
 }
 
 function persist (opts = {object, name, depth: 0}) {
-  const write = () => fs.writeFile(at(name), JSON.stringify(object))
+  const write = () => {
+    // console.log('write')
+    fs.writeFile(at(name), JSON.stringify(object))
+  }
 
   const {object, name} = opts
   var {depth} = opts

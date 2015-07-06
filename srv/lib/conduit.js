@@ -51,7 +51,10 @@ const sink = () => through((msg, _, cb) => {
     .forEach(n => {
       n = +n
       if (isNaN(n)) return
-      stats[area][n][uid] = (n === stat)
+      //undefined instead of false, so that 
+      //properties are stripped when stringified
+      //(deleting is bad for perf)
+      stats[area][n][uid] = (n === stat) || undefined
     })
 
   cb()

@@ -18,6 +18,16 @@ app {
 .results [href="#results"] {background:#eee;}
 .beam [href="#beam"] {background:#eee;}
 
+
+.present tabs {
+  display: none;
+}
+
+.present app {
+  margin-top: 3em;
+}
+
+
 @media screen and (max-width: 48em) {
   .pure-g {
     width: 300%;
@@ -38,3 +48,6 @@ app {
 @media screen and (min-width: 48em) {
   app[style]{transform:none!important;transition:none!important;}
 }
+
+
+

@@ -25,6 +25,7 @@
       margin-top: 1.2em;
       background: rgb(74, 144, 226);
       color: #fff;
+      border-radius: .1em;
     }
     input[type=radio] {display:none;}
     input[type=radio]:checked + label {
