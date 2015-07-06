@@ -6,7 +6,7 @@ const riot = require('riot')
 require('object.assign').shim()
 require('es6-set/implement')
 require('fastclick')(document.body)
-require('./logic/blackberry')
+require('./logic/blackberry')()
 
 // views
 require('./views/tabs')
