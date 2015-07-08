@@ -3,10 +3,13 @@
 const riot = require('riot')
 
 // polyfills/behaviour consistency
-require('object.assign').shim()
-require('es6-set/implement')
+require('core-js/fn/set');
+require('core-js/fn/array/from');
+require('core-js/fn/object/assign')
+
 require('fastclick')(document.body)
 require('./logic/support').blackberry()
+
 
 // views
 require('./views/tabs')
@@ -20,8 +23,6 @@ require('./views/pace-out')
 
 require('./views/topic-in')
 require('./views/topic-out')
-
-require('./views/compose')
 
 // mount
 riot.mount('*')
