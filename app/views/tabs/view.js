@@ -1,5 +1,3 @@
-var menu = require('@atmos/config/menu.json')
+const menu = require('@atmos/config/menu.json')
 
-module.exports = function (scope) {
-  scope.menu = menu
-}
+module.exports = (scope) => scope.menu = menu
