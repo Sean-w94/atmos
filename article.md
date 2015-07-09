@@ -126,11 +126,15 @@ inline among HTML.
 
 For instance here's how a react component might be written
 
-```js react comp ```
+```js
+ react comp 
+ ```
 
 Here's the equivalent in RiotJS
 
-```js riot comp ```
+```js
+ riot comp 
+```
 
 In some ways this looks like the return of the 90's but there is a 
 vital difference. The event handler attributes in a Riot component 
@@ -141,7 +145,9 @@ which we know is a recipe for disaster.
 The scope is defined by the outer tag, which is initialized via 
 `riot.mount`
 
-``` riot.mount('... ```
+```js 
+riot.mount('... 
+```
 
 ## Application Structure
 
@@ -155,7 +161,8 @@ CommonJS modules for our front end code. CommonJS is the module system
 implemented in Node. Use `require` to load a module, use 
 `module.exports` to export a module.
 
-```js require and export
+```js 
+require and export
 
 ```
 
