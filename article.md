@@ -95,15 +95,13 @@ for this project to help keep the code clean and readable.
 
 We stuck with micro-syntax extensions such as
 
-* lambda functions
-* property reflection
-* destructuring
-* default parameters
-* methods shorthand
-* property value shorthand
-* rest operator
-* spread operator
-* const
+* [lambdas (arrow functions)][]
+* [destructuring][]
+* [default parameters][]
+* [enhanced object literals][]
+* [rest operator][]
+* [spread operator][]
+* [const][]
 
 These little pieces of sugar helped keep code cleaner and lighter.
 
@@ -134,41 +132,39 @@ Further, there's the issue of code bloat during transpilation,
 plus runtime inefficiency (generators being the prime candidate slow 
 execution when transpiled). 
 
-Finally, it was important to keep the project simple, 
-classes aren't the right paradigm for linear/cyclical data 
+Finally, it was important to keep the project simple.
+[Classes][] aren't the right paradigm for linear/cyclical data 
 flow management (actually.. they aren't the right paradigm for
-a prototypal language but that's another story!), 
-iterators encourage a procedural approach 
-(which is somewhat backwards) and the ES6 module system isn't
+a prototypal language but that's another story!).
+[Iterators][] (counterpart to generators) encourage a procedural approach 
+(which is somewhat backwards). Finally the [ES6 module][] system isn't
 a good fit for current tooling. Also it may only be 
 opinion but CommonJS modules are cleaner.
 
-Finally we also used some ES6 language additions
+We also used some ES6 language additions
 
-* Object.observe
-* Set
-* Object.assign
-* Array.from
+* [`Set`][]
+* [`Object.assign`][]
+* [`Array.from`][]
 
 The `Object.assign` and `Array.from` methods simply afforded a nice way
 to do mixins and convert array like objects to arrays-proper (no more
 `Array.prototype.slice.call(ThingThatsLikeAnArray)`, hooray!).
-
-`Object.observe` and the `Set` constructor were fundamental to model
-management. 
-
-Using `Object.observe` meant that we could store data in a plain 
-JavaScript object and react to changes in that object. This drove
-the data flow: when a vote for an item came into the server, the
-appropriate observed object was modified. When the object was changed,
-the change was both broadcast to all open sockets and persisted to disk.
 
 The `Set` constructor returns a unique list object. 
 By pushing unique id's (determined browserside), onto a set 
 we could keep a constant running total of voters which allowed us to 
 calculate aggregated percentages.
 
-### StandardJS
+And one EcmaScript 7 method: [`Object.observe`][]
+
+`Object.observe` was fundamental to model management. 
+
+Using `Object.observe` meant that we could store data in a plain 
+JavaScript object and react to changes in that object. This drove
+the data flow: when a vote for an item came into the server, the
+appropriate observed object was modified. When the object was changed,
+the change was both broadcast to all open sockets and persisted to disk.
 
 
 ### Backend platform
@@ -482,6 +478,7 @@ the styles apply to.
 ## Realtime Connections
 
 
+## StandardJS
 
 
 ## Development Environment
@@ -564,3 +561,19 @@ the
 [app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
 [There's a direct correlation]: http://www.coverity.com/press-releases/coverity-scan-report-finds-open-source-software-quality-outpaces-proprietary-code-for-the-first-time/
+
+[lambdas (arrow functions)]: https://github.com/lukehoban/es6features#arrows
+[destructuring]: https://github.com/lukehoban/es6features#destructuring
+[default parameters]: https://github.com/lukehoban/es6features#default--rest--spread
+[enhanced object literals]: https://github.com/lukehoban/es6features#enhanced-object-literals
+[rest operator]: https://github.com/lukehoban/es6features#default--rest--spread
+[spread operator]: https://github.com/lukehoban/es6features#default--rest--spread
+[const]: https://github.com/lukehoban/es6features#let--const
+[Classes]: https://github.com/lukehoban/es6features#classes
+[Iterators]: https://github.com/lukehoban/es6features#iterators--forof
+[ES6 module]: https://github.com/lukehoban/es6features#modules
+[Set]: https://github.com/lukehoban/es6features#map--set--weakmap--weakset
+[`Object.observe`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
+[`Set`]: https://github.com/lukehoban/es6features#map--set--weakmap--weakset
+[`Object.assign`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
+[`Array.from`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
