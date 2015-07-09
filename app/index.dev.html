@@ -36,7 +36,7 @@
       }
 
       .present app {
-        margin-top: 3em;
+        margin-top: 2.75em;
       }
 
       .present .bar:after {
@@ -53,8 +53,24 @@
         margin-bottom: -0.3em;
       }
 
+      .present app:after {
+        display: block;
+        content: 'atmos.costadigital.io';
+        text-align: center;
+        margin-top: .75em;
+        font-size: 2em;
+        color: #888;
+        position: absolute;
+        bottom: 3%;
+        width: 100%;
+      }
+
       .blackberry app {
         -webkit-filter: none;
+      }
+
+      .blackberry tabs [href="#results"] {
+        display: none;
       }
     </style>
   </body>
