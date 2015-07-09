@@ -28,6 +28,10 @@ anyone wanting to build a scalable (both in project scope and
 deployment) realtime application using some of the latest tools and 
 techniques available.
 
+```
+git clone --branch v1 http://github.com/costacruise/atmos
+```
+
 ## Considerations
 
 Interestingly the primary constraints for our scenario match those of 
@@ -68,6 +72,10 @@ We also didn't pay much attention to IE, even IE11 can be a time hog when
 it comes to compatibility and ~99% of our audience would be on mobile 
 devices anyway.
 
+Progressive enhancement for SEO and accessibility was not followed on this 
+project, however our design and tool choices have made it easy to retrofit
+progressive enhancement with server side rendering. 
+
 ### Backend platform
 
 
@@ -84,7 +92,7 @@ excellent framework with a strong ecosystem. However, for this project
 we chose RiotJS. The driving factor in this decision was file size.
 
 The less data we have to send across the wire, the faster the app will 
-load and establish a WebSocket connection. Ideally, a use of a 
+load and establish a realtime connection. Ideally, use of a 
 framework should result in less code than writing an equivalent 
 implementation sans-framework.
 
@@ -101,15 +109,16 @@ When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb.
 Other alternatives were also deemed too large: Ember clocks in at a whopping 493kb,
 almost half a megabyte before we write a single line of application code!
 In fairness, Ember isn't primarily a view layer like React and Riot, it's an entire
-MVC suite. But then so is Angular and it's a third of the size.
+MVC suite. But then so is Angular and it's a third of the size of Ember.
 
 React is 121.7kb and that's before you include a flux implementation.
 
-Another consideration was writing Atmos using future-standards with
+Another possibility was writing Atmos using future-standards with
 the Web Components Polyfill (which is the basis for Polymer). The 
 promise of this approach, is that over time we'll be able shed pieces
 of the (currently 117kb) polyfill as browser support grows. 
-However, we had 5 days not 5 years. 
+However, WebComponents haven't been implemented as fast as expected 
+by browser vendors, and anyway we had 5 days not 5 years. 
 
 ### RiotJS
 
@@ -159,31 +168,156 @@ small single purpose modules helps to avoid human error.
 ### Client-side Modularity
 
 For modules in the browser we used Browserify. Browserify allows us to write 
-CommonJS modules for our front end code. CommonJS is the module system 
+CommonJS modules for our frontend code. CommonJS is the module system 
 implemented in Node. Use `require` to load a module, use 
 `module.exports` to export a module.
 
 For example, Atmos has a front-end local module (located in [app/logic/uid.js][]) 
-which enables us to
-consistently identify a devices browser between page refreshes or closing
-and opening the browser. 
-
+which enables us to consistently identify a devices browser between page 
+refreshes or closing and opening the browser. 
 
 ```js 
+//app/logic/uid.js
 const uid = () => Math.random().toString(35).substr(2, 7)
 module.exports = () => (localStorage.uid = localStorage.uid || uid())
 ```
 
+The `sync.js` module [app/logic/sync.js][] (which provides realtime communication) 
+uses the `uid` module by requiring it (also converting it into an array of integers
+representing byte values, in preparation for sending binary data across the wire):
+
+```js
+const uid = require('./uid')().split('').map(c => c.charCodeAt(0))
+```
+
+JavaScripters will note that this code uses some of the latest syntax
+from EcmaScript (syntax that isn't supported by default in Node). We'll
+talk more about this later (see EcmaScript 6).
+
+For demonstration purposes, let's see how Browserify processes a require
+statement. 
+
+In the `atmos/app` folder we can run the following:
+
+```sh
+sudo npm install -g browserify
+browserify <(echo "require('"$PWD"/logic/uid')") 
+```
+
+---screenshot of code run---
 
 
 Standardizing a paradigm across environments by using the same module 
 system for server and client implementations yields similar cognitive 
-benefits to writing everything in the same language.
-
+benefits to writing the entire stack in the same language.
 
 ## View Components
 
-Indicator inputs were divided up into views
+Browserify can be augmented with transforms. Riotify is a browserify
+transform that allows us to `require` a riot view (a `.tag` file).
+
+This allows us to create view-packages, where a view is a folder
+that contains `package.json`, `view.tag` and `view.js` files, and
+optionally a `style.tag` file.
+
+In Atmos, the `tabs` view is a tiny component that outputs links 
+based on the configuration of a menu array.
+
+[app/views/tabs/package.json][]
+```js
+{ "main": "view.tag" }
+```
+
+The `package.json` file has one purpose: define the entry-point
+for the `tabs` folder as the `view.tag` file instead of the default
+`index.js` file as per Node's module loading algorithm. This allows
+us to require the `tabs` folder (instead of `tabs/view.tag`).
+Requiring a views folder helps to enforce the idea that the view
+is a module that can stand on it's own. 
+
+
+[app/views/tabs/view.tag][]
+
+```js
+<tabs>
+  <div class="pure-menu pure-menu-horizontal">
+      <ul class="pure-menu-list">
+          <li class="pure-menu-item" each={item, i in menu}>
+            <a href="{item.href}" class="pure-menu-link">{item.name}</a>
+          </li>
+      </ul>
+  </div>
+  <script> require('./view')(this) </script>
+</tabs>
+```
+
+The `view.tag` file employs the `each` attribute (part of the Riot's DSL), 
+to loop through objects in a `menu`, referencing each object as `item`.
+Then we output the `item.name` linking into to the `item.href` for each item.
+
+At the bottom we `require` the `view.js` file (`.js` is implied when omitted).
+
+It's important to understand that the `tag` file actually represents a sort of
+component object, we're just building that object using HTML syntax. When we pass
+`this` to the function returned by `require('./view')` we are giving the `view.js`' 
+exported function the components *instance*. Another way to think of it, is 
+we're giving `view.js` the components *scope* object.
+
+
+[app/views/tabs/view.js][]
+```js
+const menu = require('@atmos/config/menu.json')
+
+module.exports = (scope) => scope.menu = menu
+```
+
+The `view.js` is the component controller (or perhaps it's a ViewController...).
+When we attach the menu array to the scope object (e.g. the `this` object from
+the `view.tag` file) we make it available to the component. 
+
+Finally the apps entry point can load the tab view and mount it.
+
+[app/main.js][]
+```js
+const riot = require('riot')
+/* ... snip ... */
+require('./views/tabs')
+/* ... snip ... */
+riot.mount('*')
+/* .. snip ... */
+```
+
+Passing the asterisk to `riot.mount` essentially tells `riot` to mount all
+required tags.
+
+
+## Scoped Styles
+
+Modularizing CSS seems to be the final frontier of frontend development. 
+It's all too easy for web app styles to become entangled and confusing
+because CSS selectors are global. Disciplines such as OOCSS and SMACSS
+have arisen to tackle this problem. But when it comes to protecting the
+sanity of a code-base, tools are better than convention.
+
+RiotJS supports scoped style tags, for instance
+
+```html
+<my-tag>
+  <p> Awesome </p>
+  <style scoped> 
+    p {font-size: 40em} 
+    :scope {display:block; outline: 1px solid red}
+  </style>
+</my-tag>
+```
+
+This won't style **all** `p` tags at size 40em, only `p` tags
+inside `my-tag`. Also the special pseduo-selector `:scope` 
+applies to the `my-tag` tag.
+
+Scoped styles were proposed as a native spec for browsers, 
+but sadly may never be implemented across all browsers.
+
 
 ## Realtime Connections
 
@@ -262,5 +396,9 @@ packages prevents accidental publishing.
 We take an additional measure by adding an `.npmrc` file to
 the  
 
-
+[app/main.js]: https://github.com/costacruise/atmos/blob/master/app/main.js
 [app/logic/uid.js]: https://github.com/costacruise/atmos/blob/master/app/logic/uid.js
+[app/logic/sync.js]: https://github.com/costacruise/atmos/blob/master/app/logic/sync.js
+[app/views/tabs/package.json]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/package.json
+[app/views/tabs/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.tag
+[app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
