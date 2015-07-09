@@ -54,39 +54,74 @@ message.
 With little time for bike shedding, the top considerations had to 
 influence our tools and workflow.
 
+### Device Support
+
+Given the time constraints we opted to support modern browsers and modern
+devices only. All conference participants had received iPhones and iPads, 
+however there was still an inclination towards blackberry devices. 
+
+As a trade-off we supported touch screen blackberries, but did not implement 
+support for key-only blackberries (adjusting the user interface alone would 
+demand a significant time investment that we could not afford). 
+
+We also didn't pay much attention to IE, even IE11 can be a time hog when 
+it comes to compatibility and ~99% of our audience would be on mobile 
+devices anyway.
+
 ### Backend platform
 
 
 ### Choosing a frontend framework
 
-To speed up development time and reduce time-wasting bugs like global 
-collisions, the project needed structure and some form of data-binding 
-for reactive elements.
+To speed up development time we ideally wanted some form of view-layer
+that provides data-binding capabilities. We also wanted to be able to
+isolate features into components in order to reduce time-wasting bugs
+that result from global collisions and general state confusion.
 
-Angular is the predominant framework in use at Costa Digital. It's an 
+Angular is the predominant framework in use at Costa Digital. Whilst
+componentization is a little muddied in Angular, it is nevertheless an 
 excellent framework with a strong ecosystem. However, for this project 
-we chose RiotJS.
-
-Angular is XXkb RiotJS is only XXkb. Similarly other alternatives are 
-much to big for our purposes: Ember clocks in at a whopping XXkb, 
-ReactJS is XXkb and that's before you include a flux implementation.
-
----frameworks and sizes table---
+we chose RiotJS. The driving factor in this decision was file size.
 
 The less data we have to send accross the wire, the faster the app will 
 load and establish a WebSocket connection. Ideally, a use of a 
 framework should result in less code than writing an equivalent 
 implementation sans-framework.
 
-RiotJS feels like Angular: templates are essentially HTML with a DSL 
+When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb. 
+
+| Framework              | Version    | Minified Size |
+|------------------------|------------|---------------|
+| Ember                  | 1.13.3     | 493.3kb       |
+| Angular                | 1.4.2      | 145.5kb       |
+| React                  | 0.13.3     | 121.7kb       |
+| Web Components Polyfill| 0.7.5      | 117.1kb       |
+| Riot                   | 2.2.2-beta | 12.75kb       |
+
+Other alternatives were also deemed too large: Ember clocks in at a whopping 493kb,
+almost half a megabyte before we write a single line of application code!
+In fairness, Ember isn't primarily a view layer like React and Riot, it's an entire
+MVC suite. But then so is Angular and it's a third of the size.
+
+React is 121.7kb and that's before you include a flux implementation.
+
+Another consideration was writing Atmos using future-standards with
+the Web Components Polyfill (which is the basis for Polymer). The 
+promise of this approach, is that over time we'll be able shed pieces
+of the (currently 117kb) polyfill as browser support grows. 
+However, we had 5 days not 5 years. 
+
+### RiotJS
+
+Riot feels like Angular: templates are essentially HTML with a DSL 
 layer. It's also inspired by React's virtual DOM, where changes are 
 measured and executed by diffing an efficient DOM representation. The 
-API surface of RiotJS is a small yet powerful set of primitives, which 
+API surface of Riot is a small yet powerful set of primitives, which 
 makes for a short and shallow learning curve. Perfect for our 
 time-limited needs.
 
 Unlike React where HTML can be written inline among JavaScript code 
-(the JSX format), the RiotJS paradigm is to write JavaScript code 
+(the JSX format), the Riot paradigm is to write JavaScript code 
 inline among HTML.
 
 For instance here's how a react component might be written
@@ -98,8 +133,8 @@ Here's the equivalent in RiotJS
 ```js riot comp ```
 
 In some ways this looks like the return of the 90's but there is a 
-vital difference. The event handler attributes in the HTML can only 
-reference methods that exist in their scope, whereas vanilla HTML 
+vital difference. The event handler attributes in a Riot component 
+can only reference methods that exist in their scope, whereas vanilla HTML 
 handler attributes can only reference methods on the global scope - 
 which we know is a recipe for disaster.
 
@@ -124,8 +159,8 @@ implemented in Node. Use `require` to load a module, use
 
 ```
 
-Standardizing a paradigm accross environments by using the same module 
-system for server and client implementions yields similar cognitive 
+Standardizing a paradigm across environments by using the same module 
+system for server and client implementations yields similar cognitive 
 benefits to writing everything in the same language.
 
 ## Setting up
