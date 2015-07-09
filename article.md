@@ -258,7 +258,8 @@ Then we output the `item.name` linking into to the `item.href` for each item.
 At the bottom we `require` the `view.js` file (`.js` is implied when omitted).
 
 It's important to understand that the `tag` file actually represents a sort of
-component object, we're just building that object using HTML syntax. When we pass
+component object, we're just building that object using HTML syntax. The root
+tag (`<tabs>` in this case) is a declaration of a component. When we pass
 `this` to the function returned by `require('./view')` we are giving the `view.js`' 
 exported function the components *instance*. Another way to think of it, is 
 we're giving `view.js` the components *scope* object.
@@ -317,6 +318,66 @@ applies to the `my-tag` tag.
 
 Scoped styles were proposed as a native spec for browsers, 
 but sadly may never be implemented across all browsers.
+
+## Style Modules
+
+It's possible to compose a tag from several sources
+by redeclaring the tag and compiling each declaration 
+separately. Browserify in conjunction with Riotify 
+automatically compiles the tags via the `require` statement,
+which means we can decouple style from structure whilst 
+keeping it associated and scoped to the view.
+
+Let's take a look at the `excitement-in` view
+(this is the view that uses emoticons for user input)
+
+[app/views/excitement-in/view.tag][]
+
+```html
+<excitement-in>
+  <p class=question>How excited are you?</p>
+  <face onclick={ fastcheck.bind(null, 'excited') }>
+      <input onclick={ excited } id="r-excited" type="radio" name="excitement" value="excited">
+      <label for="r-excited" class="pure-radio"><img src="assets/excited.{ext}"></label>
+  </face>
+  <face onclick={ fastcheck.bind(null, 'neutral') }>
+      <input onclick={ neutral } id="r-neutral" type="radio" name="excitement" value="neutral">
+      <label for="r-neutral" class="pure-radio"><img src="assets/neutral.{ext}"></label>
+  </face>
+  <face onclick={ fastcheck.bind(null, 'bored') }>
+      <input onclick={ bored } id="r-bored" type="radio" name="excitement" value="bored">
+      <label for="r-bored" class="pure-radio"><img src="assets/bored.{ext}"></label>
+  </face>
+  <script> 
+    require('./view')(this)
+    require('./style.tag')
+  </script>
+</excitement-in>
+```
+
+The views `style.tag` is required in in the `view.tag`. 
+
+[app/views/excitement-in/style.tag][]
+
+```html
+<excitement-in>
+  <style scoped>
+    face {display:block;margin-top:1em;margin-bottom:1em;text-align:center;}
+    label {opacity:0.5;width:9em;}
+    label img {width:9em;}
+    input[type=radio] {display:none;}
+    input[type=radio]:checked + label {opacity:1;}
+    .question { margin: 0; margin-top: 0.7em; margin-bottom: 0.1em; }
+  </style>
+</excitement-in>
+```
+
+In the `style.tag` file, the base element (`<excitement-in>`) is declared again
+and the view components styles are placed inside a scoped style element.
+
+There's a little more boilerplate than the standard CSS file, however the 
+advantage of having the base tag in the styles file reinforces which view
+the styles apply to.
 
 
 ## Realtime Connections
@@ -402,3 +463,6 @@ the
 [app/views/tabs/package.json]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/package.json
 [app/views/tabs/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.tag
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
+[app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
+[app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
+
