@@ -1,5 +1,5 @@
 # Travelling Light
-## Combining RiotJS, Node, Browserify and ES6 to rapidly prototype a performant realtime application
+## Combining RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant realtime application
 
 Business demands change and fluctuate constantly, there are occasions 
 that require a quick turn around with a hard deadline.
@@ -7,7 +7,7 @@ that require a quick turn around with a hard deadline.
 This was one of those occasions.
 
 The hard deadline in this case was an internal conference where our 
-goal was to engendre excitement for technology among stakeholders.
+goal was to engender excitement for technology among stakeholders.
 
 We decided to build a real-time conference voting application that 
 allowed for input via personal devices (mobile, tablet, laptop) 
