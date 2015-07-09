@@ -56,7 +56,7 @@ message.
 ## Process
 
 With little time for bike shedding, the top considerations had to 
-influence our tools and workflow.
+influence our tools, priorities and workflow.
 
 ### Device Support
 
@@ -75,6 +75,101 @@ devices anyway.
 Progressive enhancement for SEO and accessibility was not followed on this 
 project, however our design and tool choices have made it easy to retrofit
 progressive enhancement with server side rendering. 
+
+### EcmaScript 6
+
+[There's a direct correlation][] between code size and product quality.
+Defect density can be measured in bugs per 1000 lines of code and averages
+around 0.59 bugs per line for open source projects or .72 bugs per line
+on proprietary code bases. Either way, there will always be a ratio of 
+bugs to code size, thus the more boilerplate we can shed the better. 
+
+EcmaScript 6 (a.k.a EcmaScript 2015) was finalized in June 2015. 
+Parts of it have already been implemented in modern browsers and
+in Node. However for cross-browser consistency and to run Node
+without additional flags we transpiled the ES6 code into ES5 code
+as part of the build process (see the Build Process section for details).
+
+There was only a subset of ES6 features we wanted to use
+for this project to help keep the code clean and readable. 
+
+We stuck with micro-syntax extensions such as
+
+* lambda functions
+* property reflection
+* destructuring
+* default parameters
+* methods shorthand
+* property value shorthand
+* rest operator
+* spread operator
+* const
+
+These little pieces of sugar helped keep code cleaner and lighter.
+
+In particular we used destructuring to emulate configuration based
+enums which were then used to establish light-weight multiplexor 
+(more on this later).
+
+Another gem is the lamdas, the removal of noise around a function 
+accelerates readability. However there is a potential debugging 
+issue there (a similar issue to using anonymous functions). The code
+base was small enough in our case to let that go on this occasion.
+
+Usage of const was more of a mental assist, it prevented the (generally)
+bad habit of reassignment, and made us think about what exactly
+constitutes an actual variable reference.
+
+Adopting ES6 syntax resulted in less code being written than using ES5, 
+without obfuscating the intent of the code (in some cases, quite the opposite).
+
+For this project we steered clear of macro-syntax extensions 
+such as classes, modules and generators. 
+
+For one thing, whilst learning the syntax of these language additions
+is straightforward understanding the implications of their usage is a 
+longer journey than we had time for. 
+
+Further, there's the issue of code bloat during transpilation, 
+plus runtime inefficiency (generators being the prime candidate slow 
+execution when transpiled). 
+
+Finally, it was important to keep the project simple, 
+classes aren't the right paradigm for linear/cyclical data 
+flow management (actually.. they aren't the right paradigm for
+a prototypal language but that's another story!), 
+iterators encourage a procedural approach 
+(which is somewhat backwards) and the ES6 module system isn't
+a good fit for current tooling. Also it may only be 
+opinion but CommonJS modules are cleaner.
+
+Finally we also used some ES6 language additions
+
+* Object.observe
+* Set
+* Object.assign
+* Array.from
+
+The `Object.assign` and `Array.from` methods simply afforded a nice way
+to do mixins and convert array like objects to arrays-proper (no more
+`Array.prototype.slice.call(ThingThatsLikeAnArray)`, hooray!).
+
+`Object.observe` and the `Set` constructor were fundamental to model
+management. 
+
+Using `Object.observe` meant that we could store data in a plain 
+JavaScript object and react to changes in that object. This drove
+the data flow: when a vote for an item came into the server, the
+appropriate observed object was modified. When the object was changed,
+the change was both broadcast to all open sockets and persisted to disk.
+
+The `Set` constructor returns a unique list object. 
+By pushing unique id's (determined browserside), onto a set 
+we could keep a constant running total of voters which allowed us to 
+calculate aggregated percentages.
+
+### StandardJS
+
 
 ### Backend platform
 
@@ -380,17 +475,20 @@ advantage of having the base tag in the styles file reinforces which view
 the styles apply to.
 
 
-## Realtime Connections
 
 ## Shared Configuration
 
-## EcmaScript 6
 
-## StandardJS
+## Realtime Connections
+
+
+
 
 ## Development Environment
 
 ## Polyfills
+
+
 
 ## Deployment
 
@@ -465,4 +563,4 @@ the
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
 [app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
-
+[There's a direct correlation]: http://www.coverity.com/press-releases/coverity-scan-report-finds-open-source-software-quality-outpaces-proprietary-code-for-the-first-time/
