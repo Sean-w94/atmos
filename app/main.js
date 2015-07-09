@@ -35,16 +35,14 @@ const router = require('./logic/router')
 const tabs = [
   document.querySelector('results'),
   document.querySelector('mood'),
-  document.querySelector('share')
 ]
 
-const [results, mood, share] = tabs
+const [results, mood] = tabs
 
 /*eslint-disable */
 router({
   results() { tab(results) },
-  mood() { tab(mood) },
-  share() { tab(share) }
+  mood() { tab(mood) }
 })
 /*eslint-enable */
 

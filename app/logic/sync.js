@@ -13,7 +13,6 @@ const update = data => {
   const channel = data[0]
   const {scope, map} = chans[channel]
   data = Array.from(data)
-  console.log(data)
   data.shift()
   data = map(+data.map(c => String.fromCharCode(c)).join(''))
   Object.assign(scope, data)
