@@ -22,7 +22,7 @@ back-end to the front-end, Atmos was completed in around five days.
 # Viewing the Source
 
 Atmos can be found on github 
-[here](http://github.com/costadigital/atmos). The code is intended both 
+[here](http://github.com/costacruise/atmos). The code is intended both 
 as a reference for this article and as a potential starting point for 
 anyone wanting to build a scalable (both in project scope and 
 deployment) realtime application using some of the latest tools and 
@@ -30,7 +30,7 @@ techniques available.
 
 ## Considerations
 
-Interestingly the primary constriants for our scenario match those of 
+Interestingly the primary constraints for our scenario match those of 
 many other projects, though for different reasons and at difference 
 scales.
 
@@ -46,7 +46,7 @@ issues.
 
 ### Robustness
 This was a live demo to demonstrate the virtues of technology to 
-non-developers. Noticeable failure could siginificantly hinder our 
+non-developers. Noticeable failure could significantly hinder our 
 message.
 
 ## Process
@@ -83,7 +83,7 @@ componentization is a little muddied in Angular, it is nevertheless an
 excellent framework with a strong ecosystem. However, for this project 
 we chose RiotJS. The driving factor in this decision was file size.
 
-The less data we have to send accross the wire, the faster the app will 
+The less data we have to send across the wire, the faster the app will 
 load and establish a WebSocket connection. Ideally, a use of a 
 framework should result in less code than writing an equivalent 
 implementation sans-framework.
@@ -156,19 +156,69 @@ needed to define a structural approach for our application. To
 establish clean code boundaries we wanted a modular structure. Writing 
 small single purpose modules helps to avoid human error.
 
-We achieved this with browserify. Browserify allows us to write 
+### Client-side Modularity
+
+For modules in the browser we used Browserify. Browserify allows us to write 
 CommonJS modules for our front end code. CommonJS is the module system 
 implemented in Node. Use `require` to load a module, use 
 `module.exports` to export a module.
 
-```js 
-require and export
+For example, Atmos has a front-end local module (located in [app/logic/uid.js][]) 
+which enables us to
+consistently identify a devices browser between page refreshes or closing
+and opening the browser. 
 
+
+```js 
+const uid = () => Math.random().toString(35).substr(2, 7)
+module.exports = () => (localStorage.uid = localStorage.uid || uid())
 ```
+
+
 
 Standardizing a paradigm across environments by using the same module 
 system for server and client implementations yields similar cognitive 
 benefits to writing everything in the same language.
+
+
+## View Components
+
+Indicator inputs were divided up into views
+
+## Realtime Connections
+
+## Shared Configuration
+
+## EcmaScript 6
+
+## StandardJS
+
+## Development Environment
+
+## Polyfills
+
+## Deployment
+
+## Testing
+
+- test at a view level - include test descripting inside the view - 
+also, have global e2e tests for general realtime func
+
+## How did it go?
+
+## Future
+
+
+---
+
+# Scratch Pad
+
+* Time - we had to have rapid prototyping, along with structural 
+choices that avoid time wasting bugs like global collisions yet provide 
+good performance. We also saved time by writing one codebase that 
+served as both the presentation app and the mobile/tablet/laptop ap
+
+
 
 ## Setting up
 
@@ -212,35 +262,5 @@ packages prevents accidental publishing.
 We take an additional measure by adding an `.npmrc` file to
 the  
 
-## View Components
 
-Indicator inputs were divided up into views
-
-## Realtime Connections
-
-## Shared Configuration
-
-## EcmaScript 6
-
-## StandardJS
-
-## Development Environment
-
-## Polyfills
-
-## Deployment
-
-## Testing
-
-- test at a view level - include test descripting inside the view - 
-also, have global e2e tests for general realtime func
-
-## How did it go?
-
-## Future
-
-
-* Time - we had to have rapid prototyping, along with structural 
-choices that avoid time wasting bugs like global collisions yet provide 
-good performance. We also saved time by writing one codebase that 
-served as both the presentation app and the mobile/tablet/laptop ap
+[app/logic/uid.js]: https://github.com/costacruise/atmos/blob/master/app/logic/uid.js
