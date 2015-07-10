@@ -156,7 +156,7 @@ By pushing unique id's (determined browserside), onto a set
 we could keep a constant running total of voters which allowed us to 
 calculate aggregated percentages.
 
-And one EcmaScript 7 method: [`Object.observe`][]
+And one EcmaScript 7 method: [`Object.observe`][].
 
 `Object.observe` was fundamental to model management. 
 
@@ -168,6 +168,34 @@ the change was both broadcast to all open sockets and persisted to disk.
 
 
 ### Backend platform
+
+Whilst we considered peer to peer connections using WebRTC,
+it wasn't practical. For one thing, iOS Safari does not support
+WebRTC, even if it did there would need to be a time consuming
+network architecture about the best way to transmit data among 300 devices. 
+
+We settled instead on creating a mediator server that would
+count incoming votes and broadcasting totals. We chose Node
+for this task.
+
+Node is excellent at high concurrency real-time connections,
+and the language is JavaScript. 
+
+Working in multiple language isn't just about switching syntax, it's 
+about approach, the flow of logic is different.
+Writing everything in one language sped up full-stack prototyping,
+by eliminating the need to context switch between languages. It also
+made sharing code and configuration trivial.
+
+We built the backend against Node 0.12 and iojs 2.3 - this allowed
+us to compare reliability and speed of platforms. `Object.observe` 
+is natively implemented in Node 0.12 and iojs 2.3 which means
+our server wont run on Node 0.10 (polyfilling `Object.observe`
+is expensive, so that's not an option, it's also why it wasn't
+used in the browser).
+
+Node's ecosystem was also leveraged for the build process, 
+we talk more about this as we go.
 
 
 ### Choosing a frontend framework
@@ -470,12 +498,17 @@ There's a little more boilerplate than the standard CSS file, however the
 advantage of having the base tag in the styles file reinforces which view
 the styles apply to.
 
+The styles for each component are pulled into one JavaScript file
+on compilation, which means we're sharing a single HTTP connection 
+for all of the JavaScript and most of the styles.
 
 
 ## Shared Configuration
 
 
 ## Realtime Connections
+
+streams, websockets, channels - fallback preparedness
 
 
 ## StandardJS
