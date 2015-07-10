@@ -28,8 +28,15 @@ anyone wanting to build a scalable (both in project scope and
 deployment) realtime application using some of the latest tools and 
 techniques available.
 
-```
-git clone --branch v1 http://github.com/costacruise/atmos
+# Setting up
+
+To run Atmos locally, you'll need Node 0.12+ or iojs 2+.
+
+Clone from the v1 branch:
+
+```sh
+$ git clone --branch v1 http://github.com/costacruise/atmos
+$ cd atmos && npm run setup
 ```
 
 ## Considerations
@@ -103,20 +110,25 @@ We stuck with micro-syntax extensions such as
 * [spread operator][]
 * [const][]
 
-These little pieces of sugar helped keep code cleaner and lighter.
+These little pieces of sugar helped keep code clean, light and 
+descriptive.
 
 In particular we used destructuring to emulate configuration based
 enums which were then used to establish light-weight multiplexor 
 (more on this later).
 
 Another gem is the lamdas, the removal of noise around a function 
-accelerates readability. However there is a potential debugging 
-issue there (a similar issue to using anonymous functions). The code
+enhances readability. However there is a potential debugging 
+issue there (a similar problem to [using anonymous functions][]). The code
 base was small enough in our case to let that go on this occasion.
 
-Usage of const was more of a mental assist, it prevented the (generally)
+Since `const` keywords are transpiled to `var` keywords usage of 
+`const` was more of a mental assist. It prevented the (generally)
 bad habit of reassignment, and made us think about what exactly
-constitutes an actual variable reference.
+constitutes an actual variable reference. Whilst there wouldn't
+be a direct performance benefit from using `const` in a transpiled
+environment we're still keeping the road clear for the JavaScript
+engine by enforcing non-reassigned variables. 
 
 Adopting ES6 syntax resulted in less code being written than using ES5, 
 without obfuscating the intent of the code (in some cases, quite the opposite).
@@ -128,9 +140,9 @@ For one thing, whilst learning the syntax of these language additions
 is straightforward understanding the implications of their usage is a 
 longer journey than we had time for. 
 
-Further, there's the issue of code bloat during transpilation, 
-plus runtime inefficiency (generators being the prime candidate slow 
-execution when transpiled). 
+Further, there's the issue of code bloat during transpilation of 
+macro-syntax extensiojns, plus runtime inefficiency (generators 
+being the prime candidate for slow execution when transpiled). 
 
 Finally, it was important to keep the project simple.
 [Classes][] aren't the right paradigm for linear/cyclical data 
@@ -502,8 +514,126 @@ The styles for each component are pulled into one JavaScript file
 on compilation, which means we're sharing a single HTTP connection 
 for all of the JavaScript and most of the styles.
 
+## Scoped Package Names
 
-## Shared Configuration
+Let's take a look at the `package.json` file in the `config` folder:
+
+```js
+{
+  "name": "@atmos/config",
+  "version": "1.0.0"
+}
+```
+
+The `name` is using a fairly new npm feature: [scoped package names][].
+
+Using scoped names prevents us from accidental public publishing, 
+whilst leaving the door open for private publishing.
+
+If we don't have a paid npm account called `atmos` and we accidentally run
+`npm publish`, it will fail. If we have an unpaid account called atmos
+it will still fail unless we run `npm publish --access public` - which
+is much less likely to happen by accident. 
+
+The `app`, `config`, `inliner` and `srv` all have names scoped to `@atmos`.
+
+Using scopes also makes it easy for us to self host modules on our
+own repo, let's take a look at `.npmrc`
+
+```js
+@atmos:registry = "http://localhost:4873"
+```
+
+The `.npmrc` alters the settings of npm for that folder only,
+and in this case we associated the @atmos scope namespace with
+`localhost` port `4873`. So if we tried to `npm publish` 
+(with or without the `--access`) flag it won't publish to 
+the public npm repository, will attempt to publish to `localhost:4873`.
+
+We can run a local repository with the excellent [`sinopia`][] module.
+
+However, whilst Sinopia was setup and left in for future use, 
+we ended up using `npm link` because it eliminates the need to
+reinstall updated packages and only two of the packages
+(inliner and config) were subdependencies of `app` and/or `srv`
+
+
+## Shared Configurtion
+
+Dependency resolution in Browserify and Node is generally equivalent,
+so we can also require package-modules as opposed to just referencing
+files by path. 
+
+The `npm link` command creates a softlink to a package. If we
+`sudo npm link` in a folder containing a package.json file, the module
+will be linked from the global npm installs directory (type `npm get prefix`
+to see where that's located on your system). We can then link
+to the global link by running `npm link <package name>` in a 
+folder which requires the linked package as a subdependency. 
+
+With `npm link` we can share our configuration with both the frontend
+and backend code:
+
+```sh
+pushd config
+sudo npm link
+popd
+pushd app
+npm link @atmos/config
+popd
+pushd src
+npm link @atmos/srv
+```
+
+With `npm link` it's live configuration no need to reinstall when
+we make changes.
+
+In the [`config`][] folder we have four files
+
+* package.json
+* .npmrc
+* menu.json
+* chans.json
+
+We've examined package.json and .npmrc already, let's take a look at menu.json
+
+```js
+[
+  {"href": "#mood", "name": "Mood"},
+  {"href": "#results", "name": "Results"}
+]
+```
+
+This is only used on the frontend, we've seen it already in the `app/views/tabs/view.js`
+file. 
+
+The final (and most interesting) file is `chans.json`:
+
+```js
+{
+  "excitement": {
+    "EXCITED": 0,
+    "NEUTRAL": 1,
+    "BORED": 2
+  },
+  "pace": {
+    "FAST": 3,
+    "PERFECT": 4,
+    "SLOW": 5
+  },
+  "topic": {
+    "TOPIC_A": 6,
+    "TOPIC_B": 7,
+    "TOPIC_C": 8,
+    "TOPIC_D": 9,
+    "TOPIC_E": 10
+  }
+}
+```
+
+The `chans.json` file is used in both the client and server, it provides
+a shared contract allowing us to segregate data sent accross the
+wire into channels. We use it to multiplex realtime streams.
 
 
 ## Realtime Connections
@@ -585,6 +715,10 @@ packages prevents accidental publishing.
 We take an additional measure by adding an `.npmrc` file to
 the  
 
+
+[`sinopia`]: http://npmjs.com/sinopia
+
+[`config`]: https://github.com/costacruise/atmos/blob/master/config
 [app/main.js]: https://github.com/costacruise/atmos/blob/master/app/main.js
 [app/logic/uid.js]: https://github.com/costacruise/atmos/blob/master/app/logic/uid.js
 [app/logic/sync.js]: https://github.com/costacruise/atmos/blob/master/app/logic/sync.js
@@ -593,6 +727,9 @@ the
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
 [app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
+
+[using anonymous functions]: http://nearform.com/nodecrunch/TODO
+
 [There's a direct correlation]: http://www.coverity.com/press-releases/coverity-scan-report-finds-open-source-software-quality-outpaces-proprietary-code-for-the-first-time/
 
 [lambdas (arrow functions)]: https://github.com/lukehoban/es6features#arrows
