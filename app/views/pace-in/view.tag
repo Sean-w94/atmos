@@ -16,7 +16,6 @@
   </div>
   <script> 
     require('./view')(this)
-    require('./style.tag')
   </script>
 
 </pace-in>

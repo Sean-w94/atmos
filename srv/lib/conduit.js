@@ -42,9 +42,10 @@ function channel (chan) {
 const sink = () => through((msg, _, cb) => {
   msg = Array.from(msg)
 
-  var stat = msg.pop()
-  var uid = msg.map(c => String.fromCharCode(c)).join('')
-  var area = areaOf(stat)
+  const stat = msg.pop()
+  const uid = msg.map(c => String.fromCharCode(c)).join('')
+  const area = areaOf(stat)
+  
   registerVoter(uid, stat, area)
 
   Object.keys(stats[area])

@@ -18,7 +18,6 @@
       require('./view')(this)
       require('./style.tag')
     </script>
-
 </excitement-in>
 
 
