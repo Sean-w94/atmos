@@ -302,7 +302,7 @@ var Msg = React.createClass({
 
 To insert the React element into the DOM:
 
-``js
+```js
 React.render(<Message/>, document.getElementById('message-mount-element'));
 ```
 
@@ -743,6 +743,10 @@ also, have global e2e tests for general realtime func
 overall pretty good - but, EPIPE (find out why)
 
 ## Future
+
+
+
+
 
 
 [`sinopia`]: http://npmjs.com/sinopia
