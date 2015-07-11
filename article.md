@@ -267,13 +267,76 @@ inline among HTML.
 For instance here's how a react component might be written
 
 ```js
- react comp 
- ```
+var Msg = React.createClass({
+
+  save: function () {
+    sendToServer('msg', this.state.editText)
+  },
+
+  handleChange: function (event) {
+    this.setState({editText: event.target.value});
+  },
+
+  render: function () {
+    return (
+      <div className={React.addons.classSet({
+        reviewed: this.props.msg.reviewed
+      })}>
+        <div>
+          <input
+            type="checkbox"
+            checked={this.props.msg.reviewed}
+          />
+          <label> {this.props.msg.title} </label>
+        </div>
+        <input
+          value={this.state.editText}
+          onChange={this.handleChange}
+          onBlur={this.save}
+        />
+      </div>
+    );
+  }
+});
+```
+
+To insert the React element into the DOM:
+
+``js
+React.render(<Message/>, document.getElementById('message-mount-element'));
+```
 
 Here's the equivalent in RiotJS
 
 ```js
- riot comp 
+<msg>
+  <div class={reviewed: reviewed)}>
+    <div>
+      <input
+        type="checkbox"
+        checked={reviewed}
+      />
+      <label> {opts.title} </label>
+    </div>
+    <input value={editText} onBlur={save} />
+  </div>
+
+
+  this.editText = opts.title
+  this.save = function () {
+    sendToServer('todo' this.editText);
+  }
+
+</msg>
+```
+
+Notice how HTML and JavaScript live in harmony,
+with no need for a `script` tag.
+
+Then to inject in the DOM:
+
+```js
+riot.mount('msg', {title: 'To Santa'})
 ```
 
 In some ways this looks like the return of the 90's but there is a 
@@ -282,12 +345,6 @@ can only reference methods that exist in their scope, whereas vanilla HTML
 handler attributes can only reference methods on the global scope - 
 which we know is a recipe for disaster.
 
-The scope is defined by the outer tag, which is initialized via 
-`riot.mount`
-
-```js 
-riot.mount('... 
-```
 
 ## Application Structure
 
@@ -638,19 +695,44 @@ wire into channels. We use it to multiplex realtime streams.
 
 ## Realtime Connections
 
-streams, websockets, channels - fallback preparedness
+### Transport
+not socket.io, not websocket-stream (not even websocket-pull-stream)
+
+### Streams
+
+### Channels
 
 
-## StandardJS
+## UI
+
+### PureCSS
+
+### Visual Scaling
 
 
-## Development Environment
+## Preprocessing
 
-## Polyfills
+already mentioned browserify, but here are some of others
+
+### npm: The Task Runner
+
+### Babel
+
+### StandardJS
+
+### Uncss & Inliner
+
+### Minifify and html-minify
 
 
+## Behaviour Consistency
 
 ## Deployment
+digital ocean
+git pull
+nginx
+
+future: docker containers, hyperfs?
 
 ## Testing
 
@@ -658,62 +740,9 @@ streams, websockets, channels - fallback preparedness
 also, have global e2e tests for general realtime func
 
 ## How did it go?
+overall pretty good - but, EPIPE (find out why)
 
 ## Future
-
-
----
-
-# Scratch Pad
-
-* Time - we had to have rapid prototyping, along with structural 
-choices that avoid time wasting bugs like global collisions yet provide 
-good performance. We also saved time by writing one codebase that 
-served as both the presentation app and the mobile/tablet/laptop ap
-
-
-
-## Setting up
-
-Thanks to Browserify our frontend application can take on the same form 
-as our backend application and use the same package manager (npm).
-
-To setup our app we simply created a folder and ran `npm init` in the folder.
-
-```sh
-mkdir app
-cd app
-npm init
-npm install browserify --save-dev
-```
-
-After answering the questions, we get a `package.json` file.
-
-```js
-initial package.json file...
-
-```
-
-
-
-
-Notice we named our app `@atmos/app` instead of just `app`. 
-
-This is known as a scoped package name. npm has a paid option 
-that allows us to push to a private repo, it's also possible
-to publish scoped packages to public by setting the `access`
-flag
-
-```
-npm publish --access public
-```
-
-The fact that `npm` needs to be explitly told to publish
-scoped packages publically, we've found that scoping our
-packages prevents accidental publishing. 
-
-We take an additional measure by adding an `.npmrc` file to
-the  
 
 
 [`sinopia`]: http://npmjs.com/sinopia
