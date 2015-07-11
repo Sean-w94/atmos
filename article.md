@@ -114,7 +114,7 @@ These little pieces of sugar helped keep code clean, light and
 descriptive.
 
 In particular we used destructuring to emulate configuration based
-enums which were then used to establish light-weight multiplexor 
+enums which were then used to establish light-weight multiplexing
 (more on this later).
 
 Another gem is the lamdas, the removal of noise around a function 
