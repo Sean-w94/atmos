@@ -633,14 +633,14 @@ With `npm link` we can share our configuration with both the frontend
 and backend code:
 
 ```sh
-pushd config
-sudo npm link
-popd
-pushd app
-npm link @atmos/config
-popd
-pushd src
-npm link @atmos/srv
+$ pushd config
+$ sudo npm link
+$ popd
+$ pushd app
+$ npm link @atmos/config
+$ popd
+$ pushd src
+$ npm link @atmos/srv
 ```
 
 With `npm link` it's live configuration no need to reinstall when
