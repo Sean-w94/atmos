@@ -341,9 +341,10 @@ riot.mount('msg', {title: 'To Santa'})
 
 In some ways this looks like the return of the 90's but there is a 
 vital difference. The event handler attributes in a Riot component 
-can only reference methods that exist in their scope, whereas vanilla HTML 
-handler attributes can only reference methods on the global scope - 
-which we know is a recipe for disaster.
+can only reference methods that exist in their scope (which is determined
+by the base element, e.g. the element which gets mounted, `<msg>` in the
+example). Whereas vanilla HTML handler attributes can only reference 
+methods on the global scope - which we know is a recipe for disaster.
 
 
 ## Application Structure
@@ -399,7 +400,7 @@ Standardizing a paradigm across environments by using the same module
 system for server and client implementations yields similar cognitive 
 benefits to writing the entire stack in the same language.
 
-## View Components
+### View Components
 
 Browserify can be augmented with transforms. Riotify is a browserify
 transform that allows us to `require` a riot view (a `.tag` file).
@@ -480,7 +481,7 @@ Passing the asterisk to `riot.mount` essentially tells `riot` to mount all
 required tags.
 
 
-## Scoped Styles
+### Scoped Styles
 
 Modularizing CSS seems to be the final frontier of frontend development. 
 It's all too easy for web app styles to become entangled and confusing
@@ -507,7 +508,7 @@ applies to the `my-tag` tag.
 Scoped styles were proposed as a native spec for browsers, 
 but sadly may never be implemented across all browsers.
 
-## Style Modules
+### Style Modules
 
 It's possible to compose a tag from several sources
 by redeclaring the tag and compiling each declaration 
@@ -615,7 +616,7 @@ reinstall updated packages and only two of the packages
 (inliner and config) were subdependencies of `app` and/or `srv`
 
 
-## Shared Configurtion
+### Shared Configurtion
 
 Dependency resolution in Browserify and Node is generally equivalent,
 so we can also require package-modules as opposed to just referencing
