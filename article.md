@@ -697,11 +697,357 @@ wire into channels. We use it to multiplex realtime streams.
 ## Realtime Connections
 
 ### Transport
-not socket.io, not websocket-stream (not even websocket-pull-stream)
+
+We decided to use WebSockets, this is supported in all current major browsers, 
+and on iOS Safari, all modern Android webKit browsers and even Blackberry 10 OS. 
+
+Sticking with WebSockets kept the JavaScript payload small. For instance the
+engine.io library (which provides transport progressive enhancement),
+is an additional XXkb.
+
+We also chose to build our own very light abstraction around the transport
+on the server side ([app/logic/sync.js][]) which again meant avoiding
+extra weight that socket.io (XXkb) or websocket-stream (200kb) would add
+on the client side. This tiny abstraction isolates transport communication
+logic, making it easy for us to dynamically switch out the transport in the 
+future (in order to provide support for old browsers, 
+implement a new paradigm like peer to peer, or interact with a third-party
+data service like Firebase).
+
+We did use `websocket-stream` on the server side so we could easily attach
+our data pipeline to each connection.
 
 ### Streams
 
+For any server task that involves shuffling data around, Node streams are generally
+the right way to go. They're essentially an implementation of asynchronous
+functional programming, where the immutable data is actually chunks of a larger
+piece of data. They've been called "arrays in time", and that's a great way to
+think about them. 
+
+With streams we can process data in a memory-controlled way, in this particular
+project that's of no major benefit because we're only taking in 8 bytes per 
+vote, and sending out floating point numbers to every connection when a percentage
+changes. The size of the pipeline is not a problem in our case, the amount of
+pipelines might have been a problem if it wasn't for Node's high-concurrency 
+capacity.
+
+The main benefit of streams in this case is the ability to architect data-flow
+as a pipeline.
+
+Let's take a look at the [srv/server.es][] file, on line 9 we call
+the `transport` function and pass it a callback. The `transport`
+function can be found in [srv/lib/transport.js][], all it does is
+accept an incoming WebSocket and wrap it in a stream. 
+
+In the callback we use that stream:
+
+```js
+transport(stream => {
+  // register incoming votes
+  stream.pipe(sink())
+
+  // send votes out to all clients
+  broadcast(stream)
+})
+```
+
+The data flow for incoming is extremely simple. We pipe incoming data to 
+a `sink` stream. The `sink` function can be found in [srv/lib/conduit.js][],
+and it looks like this:
+
+```js
+const sink = () => through((msg, _, cb) => {
+  msg = Array.from(msg)
+
+  const stat = msg.pop() //grab the channel
+  const uid = msg.map(c => String.fromCharCode(c)).join('')
+  const area = areaOf(stat)
+
+  registerVoter(uid, stat, area)
+
+  Object.keys(stats[area])
+    .forEach(n => {
+      n = +n
+      if (isNaN(n)) return
+      //undefined instead of false, so that 
+      //properties are stripped when stringified
+      //(deleting is bad for perf)
+      stats[area][n][uid] = (n === stat) || undefined
+    })
+
+  cb()
+})
+```
+
+The `through` function is the imported from the [through2][] module, 
+it provides a minimal way to create a stream. This stream processes
+each incoming msg from the client, registers new voters and records
+their votes, changing old votes if necessary.
+
+Using streams allows us to describe a birds eye view (the pipeline),
+that can be zoomed into at each processing point (the stream implementation).
+
+
 ### Channels
+
+HTTP connections are expensive, realtime connections are resource intensive,
+which is particularly impacting on mobile (battery, CPU, memory).
+
+A WebSocket connection is essentially a long-lived HTTP connection. 
+
+We wanted a way to segregate and identify incoming and outgoing data,
+without using multiple transports. This is called multiplexing, where
+multiple signals can be sent through one transport (or in the case
+of electrical engineering where the term originates, multiple wires
+can be wrapped into one larger wire).
+
+Let's take a look at the `transport` call at [line 9 of server.es][]
+again:
+
+```js
+transport(stream => {
+  // register incoming votes
+  stream.pipe(sink())
+
+  // send votes out to all clients
+  broadcast(stream)
+})
+```
+
+We've already discussed incoming data, let's see how we send data out by
+taking a look at the `broadcast` function on [line 17 of server.es][]:
+
+```js
+function broadcast (stream) {
+  stream.setMaxListeners(12)
+  // declarative ftw.
+  source(EXCITED).pipe(channel(EXCITED)).pipe(stream)
+  source(NEUTRAL).pipe(channel(NEUTRAL)).pipe(stream)
+  source(BORED).pipe(channel(BORED)).pipe(stream)
+  source(FAST).pipe(channel(FAST)).pipe(stream)
+  source(PERFECT).pipe(channel(PERFECT)).pipe(stream)
+  source(SLOW).pipe(channel(SLOW)).pipe(stream)
+  source(TOPIC_A).pipe(channel(TOPIC_A)).pipe(stream)
+  source(TOPIC_B).pipe(channel(TOPIC_B)).pipe(stream)
+  source(TOPIC_C).pipe(channel(TOPIC_C)).pipe(stream)
+  source(TOPIC_D).pipe(channel(TOPIC_D)).pipe(stream)
+  source(TOPIC_E).pipe(channel(TOPIC_E)).pipe(stream)
+}
+```
+The astute may note that this could have been written in about
+three lines of code. This code is repetitive **on purpose**. 
+
+Whilst it's true that in many cases Don't Repeat Yourself is
+an axiom to observe, there are times when a declarative approach
+has more value. In this case, we're describing data flow at the
+top level, we want to be explicit.
+
+Our channels are represented by constants that refer to an integer,
+these constants are set in [config/chans.json][] and are shared between
+the server and the client. In [srv/lib/enums.js][] we load the `chans.json`
+file and flatten out the object structure, leaving us with a shallow object
+containing the channel names and numbers. Essentially `enums.js` processes
+`chan.json` into an object that looks like this:
+
+```js
+{
+ EXCITED: 0, NEUTRAL: 1, BORED: 2, FAST: 3, PERFECT: 4, SLOW: 5
+ TOPIC_A: 6, TOPIC_B: 7, TOPIC_C: 8, TOPIC_D: 9, TOPIC_E: 10
+}
+```
+
+At the top of `server.es` we load these as constants:
+
+```js
+const {
+  EXCITED, NEUTRAL, BORED,
+  FAST, PERFECT, SLOW,
+  TOPIC_A, TOPIC_B, TOPIC_C, TOPIC_D, TOPIC_E
+} = require('./lib/enums')
+```
+
+This is where EcmaScript 6 destructuring really shines. It doesn't matter
+what order we specify the constants, as long as they match the properties
+of the object. This means as long as we keep the names the same in `chans.json`
+we can change the number of each channel and add new channels without
+disrupting anything. 
+
+Streams are built on EventEmitters, which have a default soft limit
+of 11 listeners. Nothing breaks if this limit is met, however 
+a warning of a potential memory leak is displayed. We happen to be
+creating eleven pipelines and attaching them all to the same stream,
+which causes an `end` event listener to be added to the `stream` object
+eleven times (plus one that's already there). 
+Since we know it's not a memory leak, we call `stream.setMaxListeners`
+and bump the limit from 11 to 12 to avoid outputting the warning.
+If we wanted to added hundreds of channels, we could pass an object 
+as the second argument to each of the `.pipe(stream)` calls, the object
+would contain an `end` property with value false, e.g.
+
+```js
+source(TOPIC_A).pipe(channel(TOPIC_A)).pipe(stream, {end: false})
+```
+
+This would stop the listener from being added, we could then, 
+if necessary, add a single listener for cleanup. However, since we're
+only exceeding by one, we just bumped maximum listeners.
+
+Let's take a look at the `channel` stream, at [line 33 of srv/lib/conduit.js][].
+
+```js
+const channel = chan => {
+  return through((data, enc, cb) => {
+    const b = Buffer(1)
+    b[0] = chan
+    this.push(Buffer.concat([b, data]))
+    cb()
+  })
+}
+```
+
+Each time a chunk passes through the stream, we prefix the channel 
+number to it. This gives us a maximum of 256 channels, if we wanted
+more than that we would consider using the [`varint`][] module which
+can create and recognize variable byte-length integers in a chunk of 
+binary data. We only needed 12 channels, so we stuck with a one byte limit.
+
+Finally we'll take a look at the `source` stream on [line 4 of srv/lib/conduit.js][].
+
+```js
+const source = stat => {
+  var init
+  var stream = through()
+
+  const area = areaOf(stat)
+  const voters = stats[area].voters
+  const subject = stats[area][stat]
+
+  if (!init) {
+    init = true
+    stream.push(percentages[stat] + '')
+  }
+
+  Object.observe(subject, () => {
+    const votes = Object.keys(subject)
+      .map(uid => subject[uid])
+      .filter(Boolean).length
+
+    percentages[stat] = (votes / voters.size || 0)
+
+    stream.push(percentages[stat] + '')
+
+  })
+
+  return stream
+}
+```
+
+Here, we refer to the channel as the `stat` - on the code base
+these terms are interchangeable depending on context. 
+In srv/lib/data.js we take advantage of the ES6 computed properties
+to set up clean and clear models. For example here's the `stats` object
+
+```js
+const stats = fs.existsSync(at('stats')) ?
+  Object.seal(require(at('stats'))) :
+  Object.seal({
+    excitement: {
+      voters: new Set(),
+      [EXCITED]: hash(),
+      [NEUTRAL]: hash(),
+      [BORED]: hash()
+    },
+    pace: {
+      voters: new Set(),
+      [FAST]: hash(),
+      [PERFECT]: hash(),
+      [SLOW]: hash()
+    },
+    topic: {
+      voters: new Set(),
+      [TOPIC_A]: hash(),
+      [TOPIC_B]: hash(),
+      [TOPIC_C]: hash(),
+      [TOPIC_D]: hash(),
+      [TOPIC_E]: hash()
+    }
+  })
+```
+
+Again we're being purposefully declarative (and therefore somewhat repetitive).
+
+Whenever we set up a `source` stream in `server.es` we begin to 
+observe the object that exists at the property corresponding to the
+channel number in the `stats` object (the `subject`).
+
+Any time the `subject` changes, we recalculate the vote percentages
+for that particular subject area, then we push the new percentage 
+along the stream (where it gets the channel number added and is
+sent out across the WebSocket transport).
+
+We also use EcmaScript 6 destructuring to manage channels on the browser side. 
+For instance, in [app/views/topic-out/view.js]:
+
+```js
+const sync = require('../../logic/sync')
+const chans = require('@atmos/config/chans.json')
+
+const {TOPIC_A, TOPIC_B, TOPIC_C, TOPIC_D, TOPIC_E} = chans.topic
+
+const map = (name) => (n) => {
+  return {
+    [name]: parseInt(n * 100, 10) + '%',
+    ['_' + name]: n
+  }
+}
+
+module.exports = (scope) => {
+  sync(TOPIC_A, scope, map('topicA'))
+  sync(TOPIC_B, scope, map('topicB'))
+  sync(TOPIC_C, scope, map('topicC'))
+  sync(TOPIC_D, scope, map('topicD'))
+  sync(TOPIC_E, scope, map('topicE'))
+}
+```
+
+We're only interested in the topic channels, each of these channel 
+numbers are passed to the `sync` function which listens for any
+data on the transport that is prefixed with that channel number.
+It then pops the channel number off the chunk, and converts the
+byte array into floating point number, runs it through the supplied
+`map` function and mixes the resulting object into the `scope`, 
+calling `scope.update` to ensure the UI reflects the updated object.
+See [app/logic/sync.js][] for implementation details. 
+
+Channels are used in the same way when sending data to the server, 
+for instance [app/views/pace-in/view.js]:
+
+```js
+const sync = require('../../logic/sync')
+const chans = require('@atmos/config/chans.json')
+
+const {FAST, PERFECT, SLOW} = chans.pace
+
+module.exports = (scope) => {
+  scope.fast = () => sync.vote(FAST)
+
+  scope.perfect = () => sync.vote(PERFECT)
+
+  scope.slow = () => sync.vote(SLOW)
+}
+```
+
+Each of the channels are passed to `sync.vote`, which in similar
+fashion the `channel` through stream on the server side, adds
+the channel number to the outgoing byte-array (the outgoing
+byte-array in this case is the 7 byte `uid` we created for the device).
+
+We don't use streams on the client-side, once the core `stream`
+module is required it adds `100kb` to the payload when browserified. 
+There is the very light weight implementation of streams called `pull-stream` 
+by Dominic Tarr, but on this project simple callbacks on the browser 
+side was sufficient.
 
 
 ## UI
@@ -753,6 +1099,7 @@ overall pretty good - but, EPIPE (find out why)
 [`sinopia`]: http://npmjs.com/sinopia
 
 [`config`]: https://github.com/costacruise/atmos/blob/master/config
+[config/chans.json]: https://github.com/costacruise/atmos/blob/master/config/chans.json
 [app/main.js]: https://github.com/costacruise/atmos/blob/master/app/main.js
 [app/logic/uid.js]: https://github.com/costacruise/atmos/blob/master/app/logic/uid.js
 [app/logic/sync.js]: https://github.com/costacruise/atmos/blob/master/app/logic/sync.js
@@ -761,6 +1108,10 @@ overall pretty good - but, EPIPE (find out why)
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
 [app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
+
+[srv/server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es
+[srv/lib/transport.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/transport.js
+[srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js
 
 [using anonymous functions]: http://nearform.com/nodecrunch/TODO
 
