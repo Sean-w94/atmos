@@ -1090,6 +1090,20 @@ and works well with streaming interfaces - we simply use the pipe (`|`)
 to connect outputs. We can also use `&&` to create task chains, `&` to run 
 tasks in parallel and `||` for fallback tasks.
 
+We run a task with `npm run`, for instance the `dev` task in [app/package.json][]
+`scripts` object looks like this:
+
+```js
+    "dev": "light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app'"
+```
+
+This starts a server on http://localhost:4000, and watches files, rebuilding when they change.
+
+To run this we execute:
+
+```sh
+npm run dev
+```
 
 ### EcmaScript 6
 
@@ -1140,14 +1154,115 @@ Note, however, if it offends sensibilities there's also
 [semistandard][] (..of course there is).
 
 
-### Uncss & Inliner
+### Uncss, Inliner & HTML Minify
+We didn't use a CSS preprocessor like Sass, LESS, or Stylus. 
+The benefits of scoped styles combined with pure.css was enough for our needs. 
+We did however use [uncss][], an awesome utility that loads the page
+in a headless browser and cross references stylesheets with actual styles
+used in the DOM. It then outputs the net CSS.
 
-### Minifify and html-minify
+Let's take a look at the `build:compress` task in [app/package.json][] `scripts`
+field.
+
+```js
+    "build:compress": "uncss http://localhost:4000/index.dev.html | cleancss --s0 --skip-import --skip-aggressive-merging | ./node_modules/.bin/@atmos/inliner index.dev.html | html-minifier --collapse-whitespace --remove-attribute-quotes --collapse-boolean-attributes > index.html",
+``` 
+
+For this to work, we have to also be running the `dev` task so we have a server on `localhost:4000`.
+
+Notice how we load the index.dev.html page (rather than index.html page).
+
+Each of the executables in this task pipeline are project dependencies. 
+Once we have the CSS subset, we pass it through the [`cleancss`][] utility reducing it further. 
+
+Then we pipe it through `@atmos/inliner`, which was written for the project.
+
+Unfortunately, `npm` currently [has a bug][] with scoped package executables, the relative
+path has to be specified, which is why we couldn't simply write `inliner` or `@atmos/inliner`.
+
+The `inliner` takes an HTML file, and parses it using JSDOM, removing all `link` tags 
+(it leaves inlined `style` tags alone). Then it creates a new `style` tag and writes
+the CSS that is piped to the process (our minified CSS subset). Finally the `inliner`
+outputs HTML file when done.
+
+On both mobile networks (which participants ended up using due to slow WiFi), and
+strained WiFi networks the major issue is not broadband speed, but connection latency. 
+
+In other words, making the connection is the bottleneck - this is why watching
+video over 3G isn't always terrible, but it generally takes longer for the video
+to start playing than on a typical, functioning WiFi connection.
+
+The `link` tag blocks page rendering until it has down loaded, which means
+in unoptimized form rendering is reliant on three (probably low-latency) HTTP connections.
+
+By inlining the CSS we reduce render blocking connections down to zero, avoiding
+potential sluggish page loading. Of course the script tag and font import are also
+placed at the bottom of the page, allowing visuals to load almost instantly even
+on a slow connection.
+
+Finally we pass it through `html-minifier` to squeeze all the slack we can out of
+the load time.
+
+
+### Task Composition, Flag Delegation & Minifify
+
+Let's take a look at the `build:dist` and `build` tasks in `package.json` `script` field:
+
+```js
+"build:dist": "npm run build:assets; npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
+"build": "npm run build:compress && npm run build:app && npm run build:dist",
+```
+
+Because `npm run` is just another shell command, we can execute other tasks by their
+`script` alias, which grants us the ability to compose tasks from other tasks, which
+is what our `build` task does. 
+
+We can also pass flags by proxy to the executables that are called within another task.
+In the `build:dist` we use a double dash (`--`) to instruct the task runner that the following
+flags apply to the last executable in the `build:app` tasks (which is the `browserify` executable). 
+
+We specify the `-d` flag which tells browserify to retain data for creating [sourcemaps][],
+then we add the `-p` flag to load the minifyify plugin (minifyify is a browserify plugin, 
+not a browserify transform). 
+
+Long story short, by the end of the build process we have minified JavaScript (with a sourcemap). 
 
 
 ## Behaviour Consistency
 
+Near the top of [app/main.js][] (the entry point the client-side), 
+several libraries are required to ensure cross-platform consistency. 
+
+[Line 5-11 of main.js][]:
+
+```js
+// polyfills/behaviour consistency
+require('core-js/fn/set');
+require('core-js/fn/array/from');
+require('core-js/fn/object/assign')
+
+require('fastclick')(document.body)
+require('./logic/support').blackberry()
+```
+
+The [core-js][] module is divided up by feature, so we can
+only require what we use. 
+
+The [fastclick][] module removes the 300ms delay before a touch
+is registerd as a click on mobile devices. Without this, mobile
+interaction seems lethargic.
+
+Finally our purpose written [app/logic/support.js][] library is
+used to customize the display by adding a `blackberry` class
+to the `html` element if the device is a blackberry. The `support`
+library is used elsewhere to detect svg support, and load PNG
+faces instead of SVG faces (again this primarily for blackberry).
+
+
 ## Deployment
+
+
+
 digital ocean
 git pull
 nginx
@@ -1207,3 +1322,6 @@ overall pretty good - but, EPIPE (find out why)
 [`Array.from`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 
 [Pure.css]: purecss.io
+
+[has a bug]: https://github.com/npm/npm/issues/8640
+[sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
