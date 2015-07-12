@@ -32,6 +32,6 @@
     "build:dist": "npm run build:assets; npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
     "build": "npm run build:compress && npm run build:app && npm run build:dist",
     "repo": "sinopia",
-    "dev": "light-server -s . -w 'app/**, app.js' -c 'npm run build:app'"
+    "dev": "light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app'"
   }
 }
