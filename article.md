@@ -1282,8 +1282,6 @@ Moving forward, the testing strategy will mostly be at the component level.
 We could also do with a stress-testing suite to see how much activity
 the server can take before it comes under strain.
 
-## How did it go?
-overall pretty good - but, EPIPE (find out why)
 
 ## Future
 
