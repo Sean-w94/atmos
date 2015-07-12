@@ -267,67 +267,41 @@ inline among HTML.
 For instance here's how a react component might be written
 
 ```js
-var Msg = React.createClass({
-
-  save: function () {
-    sendToServer('msg', this.state.editText)
+var Hello = React.createClass({
+  change: function (e) {
+    this.setState({msg: e.target.value})
   },
-
-  handleChange: function (event) {
-    this.setState({editText: event.target.value});
+  getInitialState: function () {
+    return {msg: this.props.msg}
   },
-
-  render: function () {
-    return (
-      <div className={React.addons.classSet({
-        reviewed: this.props.msg.reviewed
-      })}>
-        <div>
-          <input
-            type="checkbox"
-            checked={this.props.msg.reviewed}
-          />
-          <label> {this.props.msg.title} </label>
-        </div>
-        <input
-          value={this.state.editText}
-          onChange={this.handleChange}
-          onBlur={this.save}
-        />
-      </div>
-    );
+  render: function() {
+    return (<div>
+      <div>Hello {this.state.msg}</div>
+      <input onBlur={this.change}/>
+    </div>)
   }
 });
+
+React.render(<Hello msg="World" />, document.body)
 ```
 
-To insert the React element into the DOM:
-
-```js
-React.render(<Message/>, document.getElementById('message-mount-element'));
-```
+We can view the results [here](http://jsfiddle.net/hkpx3qwh/)
 
 Here's the equivalent in RiotJS
 
 ```js
-<msg>
-  <div class={reviewed: reviewed)}>
-    <div>
-      <input
-        type="checkbox"
-        checked={reviewed}
-      />
-      <label> {opts.title} </label>
-    </div>
-    <input value={editText} onBlur={save} />
-  </div>
+<hello msg=World></hello>
 
-
-  this.editText = opts.title
-  this.save = function () {
-    sendToServer('todo' this.editText);
-  }
-
-</msg>
+<script type="riot/tag">
+  <hello>
+    <div> Hello {msg} </div>
+    <input onchange={change} />
+    this.msg = opts.msg;
+    this.change = function (e) {
+      this.msg = e.target.value
+    }
+  </hello>
+</script>
 ```
 
 Notice how HTML and JavaScript live in harmony,
@@ -336,15 +310,18 @@ with no need for a `script` tag.
 Then to inject in the DOM:
 
 ```js
-riot.mount('msg', {title: 'To Santa'})
+riot.mount('msg')
 ```
+
+See this in action [here](http://jsfiddle.net/vr91n6j1/).
 
 In some ways this looks like the return of the 90's but there is a 
 vital difference. The event handler attributes in a Riot component 
 can only reference methods that exist in their scope (which is determined
-by the base element, e.g. the element which gets mounted, `<msg>` in the
+by the base element, e.g. the element which gets mounted, `<hello>` in the
 example). Whereas vanilla HTML handler attributes can only reference 
 methods on the global scope - which we know is a recipe for disaster.
+
 
 
 ## Application Structure
@@ -703,11 +680,11 @@ and on iOS Safari, all modern Android webKit browsers and even Blackberry 10 OS.
 
 Sticking with WebSockets kept the JavaScript payload small. For instance the
 engine.io library (which provides transport progressive enhancement),
-is an additional XXkb.
+is an additional 54kb when browserified and minified.
 
 We also chose to build our own very light abstraction around the transport
 on the server side ([app/logic/sync.js][]) which again meant avoiding
-extra weight that socket.io (XXkb) or websocket-stream (200kb) would add
+extra weight that socket.io (91kb) or websocket-stream (200kb) would add
 on the client side. This tiny abstraction isolates transport communication
 logic, making it easy for us to dynamically switch out the transport in the 
 future (in order to provide support for old browsers, 
@@ -1051,6 +1028,8 @@ side was sufficient.
 
 
 ## UI
+
+
 
 ### PureCSS
 
