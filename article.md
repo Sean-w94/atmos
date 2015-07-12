@@ -1340,3 +1340,12 @@ an easy zero-config deployment strategy (possibly with docker containers).
 
 [has a bug]: https://github.com/npm/npm/issues/8640
 [sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
+
+[scoped package names]: https://docs.npmjs.com/misc/scope
+[through2]: http://npmjs.com/through2
+[line 9 of server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es#L9
+[line 17 of server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es#L17
+[srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/enums.js
+[line 33 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js#L33
+[line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js#L4
+[varint]: http://npmjs.com/varint
