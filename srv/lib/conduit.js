@@ -1,7 +1,7 @@
 const through = require('through2')
 const {areaOf, stats, percentages} = require('./data')()
 
-const source = (stat) => {
+const source = stat => {
   var init
   var stream = through()
 
@@ -14,10 +14,8 @@ const source = (stat) => {
     stream.push(percentages[stat] + '')
   }
 
-  Object.observe(subject, changes => {
-    if (!changes.length) return
-
-    var votes = Object.keys(subject)
+  Object.observe(subject, () => {
+    const votes = Object.keys(subject)
       .map(uid => subject[uid])
       .filter(Boolean).length
 
@@ -30,8 +28,8 @@ const source = (stat) => {
   return stream
 }
 
-function channel (chan) {
-  return through(function (data, enc, cb) {
+const channel = chan => {
+  return through((data, enc, cb) => {
     const b = Buffer(1)
     b[0] = chan
     this.push(Buffer.concat([b, data]))
@@ -42,10 +40,10 @@ function channel (chan) {
 const sink = () => through((msg, _, cb) => {
   msg = Array.from(msg)
 
-  const stat = msg.pop()
+  const stat = msg.pop() //grab the channel
   const uid = msg.map(c => String.fromCharCode(c)).join('')
   const area = areaOf(stat)
-  
+
   registerVoter(uid, stat, area)
 
   Object.keys(stats[area])
