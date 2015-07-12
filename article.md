@@ -304,8 +304,11 @@ Here's the equivalent in RiotJS
 </script>
 ```
 
-Notice how HTML and JavaScript live in harmony,
-with no need for a `script` tag.
+The `script` tag of type `riot/tag` is for
+creating riot tags inline. We don't use it 
+on the Atmos codebase as we compile the tag 
+files separately (which also means we don't need
+to load the riot compiler to the client).
 
 Then to inject in the DOM:
 
@@ -1029,22 +1032,113 @@ side was sufficient.
 
 ## UI
 
+As with every other part of the project, we wanted to create the UI
+quickly, and with minimal resource impact.
 
+### Pure.css
 
-### PureCSS
+For styling the application, we used [Pure.css][], 
+mostly for it's responsive grids. 
+
+This was our first time using Pure.css, but we found it was
+easy to get moving quickly, and it made responsive design
+a effortless. 
+
+Whilst Pure.css already has a small footprint we used
+an optimization process only pull out the styles we needed
+(see Preprocessing). 
 
 ### Visual Scaling
+
+The app needed to work on small mobile screens, up to
+a 1080p resolution large projector screen. To allow
+limitless scaling without pixelation, everything had to 
+be created with vectors - which means all graphics had
+to be created with HTML and CSS or with SVG. The smiley
+faces are SVG images, with small PNG fallback images 
+on blackberry. 
+
+We used `em` units (instead of pixels or percentages),
+(including for media queries). This means we could 
+scale all elements by changing the base font-size,
+however with time running out we simply used browser
+zoom at the venue to get the right size for the projector
+screen. Whereas we used responsive grids to reflow the layout
+on smaller devices. 
 
 
 ## Preprocessing
 
-already mentioned browserify, but here are some of others
+All of our code needed to be processed prior to deployment, 
+both on the server side and client side. On the server
+we needed ES6 to ES5 transpilation and linting. On the client
+we needed browserification, riotification (.. if those are words),
+and ES6 transpilation, CSS, JavaScript and HTML minification.
 
 ### npm: The Task Runner
 
-### Babel
+There's a couple of strong task runners with great ecosystem out there.
 
-### StandardJS
+Well known task runners include Grunt, Gulp and Broccoli. However, unless
+the project is a massive application, we prefer to use `package.json` `scripts` field.
+
+The `scripts` field in `package.json` allows us to define shell tasks that run in a
+context-specific environment - in that the path of these shell tasks includes the
+`node_modules/bin` folder. This allow us to reference project dependencies that 
+have command line executables without the path. The shell is extremely powerful,
+and works well with streaming interfaces - we simply use the pipe (`|`) 
+to connect outputs. We can also use `&&` to create task chains, `&` to run 
+tasks in parallel and `||` for fallback tasks.
+
+
+### EcmaScript 6
+
+To transpile our ES6 code for the client side we included the following in [`app/package.json`][]
+`scripts` field:
+
+```js
+  "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
+```
+
+We already know about browserify and the riotify transform. Babelify is another
+browserify transform, that uses the [babel][] library to convert our ES6 code
+into ES5 code. 
+
+On the server, `babel` itself is listed as dependency. 
+
+In [srv/index.js][] we do the following:
+
+```js
+require('babel/register')
+require('./server.es')
+```
+
+Requiring babel/register alters the requiring process itself, so any modules 
+required after that will be transpiled (if necessary). In effect, we transpile
+on initialization.
+
+### Standard
+
+During rapid development code discipline is not a primary focus, but ultimately 
+we want neat, readable code to come back to. 
+
+[Standard][] is a type of linter that enforces a non-configurable code style.
+The idea behind this is philosophical, the premise being let's stop bike-shedding
+and just go with something. This seemed to have cohesion with project priorities
+so we used it to determine code discipline for this project.
+
+Standard has a `--format` mode, that will rewrite code according to the rules
+of standard. This was perfect as we were able to partially automate (it's not perfect)
+the tidy up process, thus saving time for more thought-intensive tasks. 
+
+The notable thing about standard, is it **restricts** semi-colon usage to the
+rare edge cases. This is why there are no semi-colons in the code examples. 
+
+It's difficult to talk about semi-colons without bikes-shedding, so we won't.
+
+Note, however, if it offends sensibilities there's also 
+[semistandard][] (..of course there is).
+
 
 ### Uncss & Inliner
 
@@ -1111,3 +1205,5 @@ overall pretty good - but, EPIPE (find out why)
 [`Set`]: https://github.com/lukehoban/es6features#map--set--weakmap--weakset
 [`Object.assign`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 [`Array.from`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
+
+[Pure.css]: purecss.io
