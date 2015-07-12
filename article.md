@@ -1111,7 +1111,7 @@ To transpile our ES6 code for the client side we included the following in [app/
 `scripts` field:
 
 ```js
-  "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
+"build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
 ```
 
 We already know about browserify and the riotify transform. Babelify is another
@@ -1165,7 +1165,7 @@ Let's take a look at the `build:compress` task in [app/package.json][] `scripts`
 field.
 
 ```js
-    "build:compress": "uncss http://localhost:4000/index.dev.html | cleancss --s0 --skip-import --skip-aggressive-merging | ./node_modules/.bin/@atmos/inliner index.dev.html | html-minifier --collapse-whitespace --remove-attribute-quotes --collapse-boolean-attributes > index.html",
+"build:compress": "uncss http://localhost:4000/index.dev.html | cleancss --s0 --skip-import --skip-aggressive-merging | ./node_modules/.bin/@atmos/inliner index.dev.html | html-minifier --collapse-whitespace --remove-attribute-quotes --collapse-boolean-attributes > index.html",
 ``` 
 
 For this to work, we have to also be running the `dev` task so we have a server on `localhost:4000`.
