@@ -1261,23 +1261,40 @@ faces instead of SVG faces (again this primarily for blackberry).
 
 ## Deployment
 
+We kept deployment very simple. We used an Ubuntu digital ocean instance, 
+with `node` and `git` installed on it. We pulled in changes onto the server
+with git, and ran the server with `nohup node srv`. 
 
+Due to it's high performance and aggressive caching policy 
+we used nginx to serve static files, simply creating softlinks to the 
+local atmos git repo from the nginx serving folder.
 
-digital ocean
-git pull
-nginx
-
-future: docker containers, hyperfs?
 
 ## Testing
 
-- test at a view level - include test descripting inside the view - 
-also, have global e2e tests for general realtime func
+Unfortunately, like most time-constrained projects we didn't set up any automated tests.
+
+TDD is awesome when there's time and forethought, however we we're prototyping and
+exploring possibilities as we went. 
+
+Moving forward, the testing strategy will mostly be at the component level. 
+
+We could also do with a stress-testing suite to see how much activity
+the server can take before it comes under strain.
 
 ## How did it go?
 overall pretty good - but, EPIPE (find out why)
 
 ## Future
+
+We'd like to break Atmos up more, decouple the view components
+and make them interchangeable. We'd like to make it very easy
+to create custom components so Atmos can be repurposed yet
+rely on the realtime infrastructure. We'll also look into
+an easy zero-config deployment strategy (possibly with docker containers).
+
+
+
 
 
 
