@@ -1107,7 +1107,7 @@ npm run dev
 
 ### EcmaScript 6
 
-To transpile our ES6 code for the client side we included the following in [`app/package.json`][]
+To transpile our ES6 code for the client side we included the following in [app/package.json][]
 `scripts` field:
 
 ```js
@@ -1157,7 +1157,7 @@ Note, however, if it offends sensibilities there's also
 ### Uncss, Inliner & HTML Minify
 We didn't use a CSS preprocessor like Sass, LESS, or Stylus. 
 The benefits of scoped styles combined with pure.css was enough for our needs. 
-We did however use [uncss][], an awesome utility that loads the page
+We did however use [`uncss`][], an awesome utility that loads the page
 in a headless browser and cross references stylesheets with actual styles
 used in the DOM. It then outputs the net CSS.
 
@@ -1245,10 +1245,10 @@ require('fastclick')(document.body)
 require('./logic/support').blackberry()
 ```
 
-The [core-js][] module is divided up by feature, so we can
+The [`core-js`][] module is divided up by feature, so we can
 only require what we use. 
 
-The [fastclick][] module removes the 300ms delay before a touch
+The [`fastclick`][] module removes the 300ms delay before a touch
 is registerd as a click on mobile devices. Without this, mobile
 interaction seems lethargic.
 
@@ -1348,4 +1348,18 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/enums.js
 [line 33 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js#L33
 [line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js#L4
-[varint]: http://npmjs.com/varint
+[`varint`]: http://npmjs.com/varint
+[app/package.json]: https://github.com/costacruise/atmos/blob/master/app/package.json
+[babel]: http://npmjs.org/babel
+[srv/index.js]: https://github.com/costacruise/atmos/blob/master/srv/index.js
+[Standard]: https://npmjs.com/standard 
+[standard]: https://npmjs.com/standard
+[semistandard]: http://npmjs.com/semistandard
+[`uncss`]: http://npmjs.com/uncss
+[`cleancss`]: http://npmjs.com/cleancss
+[`core-js`]: http://npmjs.com/core-js
+[`fastclick`]: http://npmjs.com/fastclick
+[app/logic/support.js]: https://github.com/costacruise/atmos/blob/master/app/logic/support.js
+[Line 5-11 of main.js]: https://github.com/costacruise/atmos/blob/master/app/main.js#L5-L11
+
+
