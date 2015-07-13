@@ -27,7 +27,7 @@ back-end to the front-end, Atmos was completed in around five days.
 # Viewing the Source
 
 Atmos can be found on github 
-[here](http://github.com/costacruise/atmos). The code is intended both 
+[here](https://github.com/costacruise/atmos/tree/v1). The code is intended both 
 as a reference for this article and as a potential starting point for 
 anyone wanting to build a scalable (both in project scope and 
 deployment) realtime application using some of the latest tools and 
@@ -43,6 +43,9 @@ Clone from the v1 branch:
 $ git clone --branch v1 http://github.com/costacruise/atmos
 $ cd atmos && npm run setup
 ```
+
+There's a large amount of development dependencies, setup takes
+approximately 3-5 minutes to complete. 
 
 ## Considerations
 
@@ -1021,8 +1024,7 @@ module.exports = (scope) => {
 }
 ```
 
-Each of the channels are passed to `sync.vote`, which in similar
-fashion to the `channel` through stream on the server side, adds
+Each of the channels are passed to `sync.vote` adds
 the channel number to the outgoing byte-array (the outgoing
 byte-array in this case is the 7 byte `uid` we created for the device).
 
