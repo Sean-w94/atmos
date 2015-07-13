@@ -25,7 +25,7 @@ const recon = (attempt = 0) => {
   setTimeout(() => {
     ws = wsab('ws://' + location.hostname + ':4001')
     ws.addEventListener('error', () => recon(attempt + 1))
-    wsRdy(ws, timedout => timedout ? recon(attempt + 1) : attach())
+    ws.addEventListener('open', attach);
   }, t)
 }
 
@@ -33,13 +33,6 @@ const attach = () => {
   ws.addEventListener('close', () => recon())
   ws.addEventListener('message', e => update(e.data))
   reg = true
-}
-
-function wsRdy (sock, cb, max = 10000, interval = 15) {
-  setTimeout(max => sock.readyState === 1 ? 
-    cb() : 
-    max > 0 ? wsRdy(sock, cb, max - 1) : cb(Error('timed out'))
-  , interval, max)
 }
 
 function wsab (uri) {
