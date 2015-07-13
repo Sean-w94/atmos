@@ -1289,8 +1289,24 @@ Long story short, by the end of the build process we have minified JavaScript (w
 
 ## Reliability and Recovery
 
-* persistence
-* reconnection
+There were some significant unknowns. We didn't know whether 
+a bug in our code, or in a sub-dependency might be triggered 
+by interactions between ~300 active WebSocket
+connection and we didn't have time to stress test (and even
+if we had time to stress test, there's no guarantee that we
+would perfectly emulate a live environment).
+
+So if the server crashed, we needed to fail gracefully
+(or rather, fail in a way that nobody notices). 
+
+### Persistence
+
+
+### Reconnection
+
+### Supervisor
+
+
 
 
 ## Behaviour Consistency
@@ -1328,11 +1344,18 @@ faces instead of SVG faces (again this primarily for blackberry).
 
 We kept deployment very simple. We used an Ubuntu digital ocean instance, 
 with `node` and `git` installed on it. We pulled in changes onto the server
-with git, and ran the server with `nohup node srv`. 
+with git, and ran the server with `nohup` (the "no hangup command", it allows
+us to start a process over SSH and terminate the client session without killing
+the process). 
+
+```sh
+cd /atmos
+nohup supervisor srv
+```
 
 Due to it's high performance and aggressive caching policy 
-we used nginx to serve static files, simply creating symlinks to the 
-local atmos git repo from the nginx serving folder.
+we used [nginx][] to serve static files, simply creating symlinks to the 
+local atmos git repository from the nginx serving folder.
 
 
 ## Testing
@@ -1356,10 +1379,12 @@ to create custom components so Atmos can be repurposed yet
 rely on the realtime infrastructure. We'll also look into
 an easy zero-config deployment strategy (possibly with docker containers).
 
+We should probably also fix the layout in Internet Explorer, but that's
+for another time.
 
+## Fin
 
-
-
+Thanks for reading, see you next time!
 
 
 
@@ -1431,3 +1456,4 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [`fastclick`]: http://npmjs.com/fastclick
 
 [Pure.css]: http://purecss.io
+[nginx]: http://nginx.org/en/
