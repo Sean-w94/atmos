@@ -13,7 +13,7 @@ goal was to engender excitement for technology among stakeholders.
 
 We decided to build a real-time conference voting application that 
 allowed for input via personal devices (mobile, tablet, laptop) 
-immediately displaying results on the presenters screen. 
+immediately displaying results on the presenters screen.
 
 We called our concept "Atmos".
 
@@ -601,7 +601,7 @@ reinstall updated packages and only two of the packages
 (inliner and config) were subdependencies of `app` and/or `srv`
 
 
-### Shared Configurtion
+### Shared Configuration
 
 Dependency resolution in Browserify and Node is generally equivalent,
 so we can also require package-modules as opposed to just referencing
@@ -1209,7 +1209,7 @@ Finally we pass it through `html-minifier` to squeeze all the slack we can out o
 the load time.
 
 
-### Task Composition, Flag Delegation & Minifify
+### Task Composition, Flag Delegation & Minifyify
 
 Let's take a look at the `build:dist` and `build` tasks in `package.json` `script` field:
 
