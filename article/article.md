@@ -42,6 +42,7 @@ Clone from the v1 branch:
 ```sh
 $ git clone --branch v1 http://github.com/costacruise/atmos
 $ cd atmos && npm run setup
+$ npm run start:dev
 ```
 
 There's a large amount of development dependencies, setup takes
@@ -1149,6 +1150,26 @@ Standard has a `--format` mode, that will rewrite code according to the rules
 of standard. This was perfect as we were able to partially automate (it's not perfect)
 the tidy up process, thus saving time for more thought-intensive tasks. 
 
+Standard uses [eslint][] as the parser. We're able to change the parser to [babel-eslint][]
+to apply standard linting and formatting to EcmaScript 6 code by installing [babel-eslint][]
+as a dependency and adding `standard.parser` property set to `babel-eslint` 
+in the `package.json` files.
+
+For instance in the [srv/package.json][] file we have:
+```js
+...
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "scripts": {
+    "lint": "standard"
+  },
+  "dependencies": {
+    "babel": "^5.6.14",
+    "babel-eslint": "^3.1.20",
+...
+```
+
 The notable thing about standard, is it **restricts** semi-colon usage to the
 rare edge cases. This is why there are no semi-colons in the code examples. 
 
@@ -1308,8 +1329,10 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [`config`]: https://github.com/costacruise/atmos/blob/v1/config
 [config/chans.json]: https://github.com/costacruise/atmos/blob/v1/config/chans.json
 [app/main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js
+[app/package.json]: https://github.com/costacruise/atmos/blob/v1/app/package.json
 [app/logic/uid.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/uid.js
 [app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js
+[app/logic/support.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/support.js
 [app/views/tabs/package.json]: https://github.com/costacruise/atmos/blob/v1/app/views/tabs/package.json
 [app/views/tabs/view.tag]: https://github.com/costacruise/atmos/blob/v1/app/views/tabs/view.tag
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/v1/app/views/tabs/view.js
@@ -1318,13 +1341,11 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [app/views/pace-in/view.js]: https://github.com/costacruise/atmos/blob/v1/app/views/pace-in/view.js
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/v1/app/views/excitement-in/style.tag
 
+[srv/index.js]: https://github.com/costacruise/atmos/blob/v1/srv/index.js
 [srv/server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es
+[srv/package.json]: https://github.com/costacruise/atmos/blob/v1/srv/package.json
 [srv/lib/transport.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/transport.js
 [srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js
-
-[using anonymous functions]: http://nearform.com/nodecrunch/TODO
-
-[There's a direct correlation]: http://www.coverity.com/press-releases/coverity-scan-report-finds-open-source-software-quality-outpaces-proprietary-code-for-the-first-time/
 
 [lambdas (arrow functions)]: https://github.com/lukehoban/es6features#arrows
 [destructuring]: https://github.com/lukehoban/es6features#destructuring
@@ -1342,22 +1363,25 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [`Object.assign`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 [`Array.from`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 
-[Pure.css]: http://purecss.io
 
-[has a bug]: https://github.com/npm/npm/issues/8640
-[sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
-
-[scoped package names]: https://docs.npmjs.com/misc/scope
-[through2]: http://npmjs.com/through2
 [line 9 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L9
 [line 17 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L17
 [srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/enums.js
 [line 33 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L33
 [line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L4
+[Line 5-11 of main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js#L5-L11
+
+[has a bug]: https://github.com/npm/npm/issues/8640
+[sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
+[scoped package names]: https://docs.npmjs.com/misc/scope
+[using anonymous functions]: http://nearform.com/nodecrunch/TODO
+[There's a direct correlation]: http://www.coverity.com/press-releases/coverity-scan-report-finds-open-source-software-quality-outpaces-proprietary-code-for-the-first-time/
+
 [`varint`]: http://npmjs.com/varint
-[app/package.json]: https://github.com/costacruise/atmos/blob/v1/app/package.json
 [babel]: http://npmjs.org/babel
-[srv/index.js]: https://github.com/costacruise/atmos/blob/v1/srv/index.js
+[through2]: http://npmjs.com/through2
+[eslint]: http://npmjs.com/eslint
+[babel-eslint]: http://npmjs.com/babel-eslint
 [Standard]: https://npmjs.com/standard 
 [standard]: https://npmjs.com/standard
 [semistandard]: http://npmjs.com/semistandard
@@ -1365,7 +1389,5 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [`cleancss`]: http://npmjs.com/cleancss
 [`core-js`]: http://npmjs.com/core-js
 [`fastclick`]: http://npmjs.com/fastclick
-[app/logic/support.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/support.js
-[Line 5-11 of main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js#L5-L11
 
-
+[Pure.css]: http://purecss.io
