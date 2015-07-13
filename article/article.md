@@ -607,7 +607,7 @@ Dependency resolution in Browserify and Node is generally equivalent,
 so we can also require package-modules as opposed to just referencing
 files by path. 
 
-The `npm link` command creates a softlink to a package. If we
+The `npm link` command creates a symbolic link to a package. If we
 `sudo npm link` in a folder containing a package.json file, the module
 will be linked from the global npm installs directory (type `npm get prefix`
 to see where that's located on your system). We can then link
@@ -636,7 +636,7 @@ In the [`config`][] folder we have four files
 * menu.json
 * chans.json
 
-We've examined package.json and .npmrc already, let's take a look at menu.json
+We've examined `package.json` and `.npmrc` already, let's take a look at `menu.json`:
 
 ```js
 [
@@ -1269,7 +1269,7 @@ with `node` and `git` installed on it. We pulled in changes onto the server
 with git, and ran the server with `nohup node srv`. 
 
 Due to it's high performance and aggressive caching policy 
-we used nginx to serve static files, simply creating softlinks to the 
+we used nginx to serve static files, simply creating symlinks to the 
 local atmos git repo from the nginx serving folder.
 
 
