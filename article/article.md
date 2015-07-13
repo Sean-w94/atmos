@@ -1022,7 +1022,7 @@ module.exports = (scope) => {
 ```
 
 Each of the channels are passed to `sync.vote`, which in similar
-fashion the `channel` through stream on the server side, adds
+fashion to the `channel` through stream on the server side, adds
 the channel number to the outgoing byte-array (the outgoing
 byte-array in this case is the 7 byte `uid` we created for the device).
 
