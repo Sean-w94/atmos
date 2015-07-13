@@ -1044,8 +1044,7 @@ For styling the application, we used [Pure.css][],
 mostly for it's responsive grids. 
 
 This was our first time using Pure.css, but we found it was
-easy to get moving quickly, and it made responsive design
-a effortless. 
+easy to get moving quickly, and it made responsive design effortless. 
 
 Whilst Pure.css already has a small footprint we used
 an optimization process only pull out the styles we needed
