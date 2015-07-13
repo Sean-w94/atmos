@@ -281,9 +281,10 @@ When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb.
 Other alternatives were also deemed too large: Ember clocks in at a whopping 493kb,
 almost half a megabyte before we write a single line of application code!
 Whilst Ember is between 126kb and 155kb gzipped, mobile browsers, 
-(Safari in particular) have low cache sizes (both in-memory and
-persistent). Ember will still decompress in the browser to take up 
-half a megabyte prior any code initialization, taking up a significant portion
+(Safari in particular) have low cache sizes. E
+
+mber will still decompress in the browser to take up half a megabyte prior 
+to any initialization, taking up a significant portion
 of the cache (increasing the likelihood of a reload after switching tabs).
 
 In fairness, Ember isn't primarily a view layer like React and Riot, it's an entire
