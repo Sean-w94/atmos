@@ -1006,7 +1006,7 @@ calling `scope.update` to ensure the UI reflects the updated object.
 See [app/logic/sync.js][] for implementation details. 
 
 Channels are used in the same way when sending data to the server, 
-for instance [app/views/pace-in/view.js]:
+for instance [app/views/pace-in/view.js][]:
 
 ```js
 const sync = require('../../logic/sync')
@@ -1316,6 +1316,7 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
 [app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
 [app/views/topic-out/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/topic-out/view.js
+[app/views/pace-in/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/pace-in/view.js
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
 
 [srv/server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es
