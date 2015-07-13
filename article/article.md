@@ -126,11 +126,6 @@ In particular we used destructuring to emulate configuration based
 enums which were then used to establish light-weight multiplexing
 (more on this later).
 
-Another gem is the lamdas, the removal of noise around a function 
-enhances readability. However there is a potential debugging 
-issue there (a similar problem to [using anonymous functions][]). The code
-base was small enough in our case to let that go on this occasion.
-
 Since `const` keywords are transpiled to `var` keywords usage of 
 `const` was more of a mental assist. It prevented the (generally)
 bad habit of reassignment, and made us think about what exactly
@@ -138,6 +133,43 @@ constitutes an actual variable reference. Whilst there wouldn't
 be a direct performance benefit from using `const` in a transpiled
 environment we're still keeping the road clear for the JavaScript
 engine by enforcing non-reassigned variables. 
+
+Another gem is the lambdas. The removal of noise around a function 
+enhances readability. However there is a couple of caveats that come
+along with lambdas. 
+
+First there's a potential debugging issue (a similar problem to [using anonymous functions][]). 
+The code base was small enough in our case to let that go on this occasion.
+Secondly the lexical treatment of `this` differs from standard functions.
+The `this` context in an arrow function takes on the context of the surrounding
+closure. If the surrounding closure isn't called with `new`, or given a context
+via `call`, `apply` or `bind` then `this` in a lambda function defaults to 
+the global or object, or `undefined` when in strict mode. All of that is fine, 
+the gotcha comes in when this rule **supercedes* context binding methods (e.g. 
+`call`, `bind`, `apply`). 
+
+```js
+function f(fn) { fn.call({some: 'instance'}) }
+(function () { 
+  'use strict';
+  f(function () { console.log('ƒ this: ', this) })
+  f(() => console.log('λ this: ', this) )
+}())
+
+// logs:
+//   ƒ this:  Object {some: "instance"}
+//   λ this:  undefined
+```
+
+It's important to know this difference. Some libraries 
+do set callback function context. For instance the [through2][] module
+allows us to call `this.push` inside the function which is
+supplied as the first parameter - this will fail is the 
+function is an arrow function, `this` will be the global object
+or `undefined` (depending on mode). In this case we either
+have to supply a normal function, or pass values through the
+second parameter of the `cb` argument (we'll talk more
+about `through2` later).
 
 Adopting ES6 syntax resulted in less code being written than using ES5, 
 without obfuscating the intent of the code (in some cases, quite the opposite).
@@ -883,14 +915,9 @@ only exceeding by one, we just bumped maximum listeners.
 Let's take a look at the `channel` stream, at [line 33 of srv/lib/conduit.js][].
 
 ```js
-const channel = chan => {
-  return through((data, enc, cb) => {
-    const b = Buffer(1)
-    b[0] = chan
-    this.push(Buffer.concat([b, data]))
-    cb()
-  })
-}
+const channel = chan => through((data, enc, cb) => {
+  cb(null, Buffer.concat([Buffer([chan]), data]))
+})
 ```
 
 Each time a chunk passes through the stream, we prefix the channel 
@@ -1253,6 +1280,12 @@ not a browserify transform).
 Long story short, by the end of the build process we have minified JavaScript (with a sourcemap). 
 
 
+## Reliability and Recovery
+
+* persistence
+* reconnection
+
+
 ## Behaviour Consistency
 
 Near the top of [app/main.js][] (the entry point the client-side), 
@@ -1374,7 +1407,7 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [has a bug]: https://github.com/npm/npm/issues/8640
 [sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
 [scoped package names]: https://docs.npmjs.com/misc/scope
-[using anonymous functions]: http://nearform.com/nodecrunch/TODO
+[using anonymous functions]: http://www.nearform.com/nodecrunch/node-js-develop-debugging-techniques
 [There's a direct correlation]: http://www.coverity.com/press-releases/coverity-scan-report-finds-open-source-software-quality-outpaces-proprietary-code-for-the-first-time/
 
 [`varint`]: http://npmjs.com/varint
