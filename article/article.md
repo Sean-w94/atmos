@@ -972,7 +972,7 @@ along the stream (where it gets the channel number added and is
 sent out across the WebSocket transport).
 
 We also use EcmaScript 6 destructuring to manage channels on the browser side. 
-For instance, in [app/views/topic-out/view.js]:
+For instance, in [app/views/topic-out/view.js][]:
 
 ```js
 const sync = require('../../logic/sync')
@@ -1315,6 +1315,7 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [app/views/tabs/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.tag
 [app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
 [app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
+[app/views/topic-out/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/topic-out/view.js
 [app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
 
 [srv/server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es
