@@ -42,11 +42,16 @@ Clone from the v1 branch:
 ```sh
 $ git clone --branch v1 http://github.com/costacruise/atmos
 $ cd atmos && npm run setup
-$ npm run start:dev
+$ npm run start:dev # start dev and realtime servers
+$ npm run stop:dev # power down servers
 ```
 
 There's a large amount of development dependencies, setup takes
 approximately 3-5 minutes to complete. 
+
+Several of the `npm run` scripts will likely fail on Windows, 
+however examining `package.json` contents should reveal how to 
+get going on a Windows machine.
 
 ## Considerations
 
@@ -919,7 +924,7 @@ This would stop the listener from being added, we could then,
 if necessary, add a single listener for cleanup. However, since we're
 only exceeding by one, we just bumped maximum listeners.
 
-Let's take a look at the `channel` stream, at [line 33 of srv/lib/conduit.js][].
+Let's take a look at the `channel` stream, at [line 31 of srv/lib/conduit.js][].
 
 ```js
 const channel = chan => through((data, enc, cb) => {
@@ -1229,10 +1234,11 @@ field.
 
 For this to work, we have to also be running the `dev` task so we have a server on `localhost:4000`.
 
-Notice how we load the index.dev.html page (rather than index.html page).
+Notice how we load the [index.dev.html][] page (rather than the [index.html][] page).
 
-Each of the executables in this task pipeline are project dependencies. 
-Once we have the CSS subset, we pass it through the [`cleancss`][] utility reducing it further. 
+Each of the executables in this tasks pipeline are project dependencies. 
+
+Once we have the CSS subset, we pass it through the [`cleancss`][] utility cutting further bytes. 
 
 Then we pipe it through `@atmos/inliner`, which was written for the project.
 
@@ -1255,9 +1261,15 @@ The `link` tag blocks page rendering until it has down loaded, which means
 in unoptimized form rendering is reliant on three (probably low-latency) HTTP connections.
 
 By inlining the CSS we reduce render blocking connections down to zero, avoiding
-potential sluggish page loading. Of course the script tag and font import are also
-placed at the bottom of the page, allowing visuals to load almost instantly even
-on a slow connection.
+potential sluggish page loading. 
+
+Each views CSS is actually compiled by Riot into JavaScript. The script tag is 
+placed at the bottom of the page, which allows styles for
+page structure to load close to instantly even on a slow connection, while
+component styles load alongside component functionality.
+
+The only other connection on the page is font import, again placed at the bottom
+to avoid render blocking.
 
 Finally we pass it through `html-minifier` to squeeze all the slack we can out of
 the load time.
@@ -1300,9 +1312,73 @@ So if the server crashed, we needed to fail gracefully
 (or rather, fail in a way that nobody notices). 
 
 ### Persistence
-
+If the server crashed we needed to retain state and reload on server restart
+so the statistics stayed consistent. Various database options we're considered, but
+this meant another process to deploy and monitor. LevelDB was also
+considered (which runs in-process with the [leveldown][]/[levelup][] modules).
+However, since our deployment environment ([Digital Ocean][]) ran on solid state
+disks we decided to keep it simple and persist directly to disk. As this was one
+of the last things we added, with time running out, it meant we avoided learning
+another API. 
 
 ### Reconnection
+If the server crashed, the client would lose their connection. The clients needed
+to be able to reconnect when the server came back online, without the user noticing.
+
+In addition the ability to reconnect would smooth over any short-term intermittent 
+connectivity issues the mobile or WiFi networks at the venue might have.
+
+Thanks to closure scope and asynchronous mutual recursion we were able to implement
+a reconnection strategy in `sync.js` quickly and with a small amount of code.
+
+On [line 3 of app/logic/sync.js][] we create out WebSocket connection:
+
+```js
+var ws = wsab('ws://' + location.hostname + ':4001')
+```
+
+`wsab` is a small function near the bottom of sync, it simply creates a
+binary WebSocket that uses ArrayBuffers. This is one of the few places
+where we use `var` to declare a reference. The `ws` token is a variable
+because if the client should disconnect for any reason we point `ws` to
+a new WebSocket instance holding the new (hopefully live) connection.
+
+[Lines 22-36 of app/logic/sync.js] contain most of the rest of the magic:
+
+```js
+const recon = (attempt = 0) => {
+  const factor = (attempt + 1) / 3
+  const t = ~~(Math.random() * (2e3 * factor)) + 1e3 * factor
+  setTimeout(() => {
+    ws = wsab('ws://' + location.hostname + ':4001')
+    ws.addEventListener('error', () => recon(attempt + 1))
+    ws.addEventListener('open', attach);
+  }, t)
+}
+
+const attach = () => {
+  ws.addEventListener('close', () => recon())
+  ws.addEventListener('message', e => update(e.data))
+  reg = true
+}
+```
+
+Whilst the WebSocket connection is created as soon as `app/logic/sync.js`
+is required, the `attach` function is invoked the first time its
+exported function is called. The `attach` function has two roles.
+It routes incoming messages to the `update` function 
+(which parses incoming messages then populates and updates a relevant 
+components scope accordingly). It also attaches a `close` listener
+to the WebSocket. This is where the `recon` function comes in. 
+
+The `recon` function returns a function that will repeatedly attempt
+to establish a new connection to the server. There is no limit to the 
+amount of attempts, however each attempt will take longer than the last.
+
+Whilst the server could probably handle 300 simultaneous connection 
+requests, time for proving this assertion was lacking. So we introduced
+pseudo-randomness to the exponential backoff strategy to prevent such
+a scenario. 
 
 ### Supervisor
 
@@ -1314,7 +1390,7 @@ So if the server crashed, we needed to fail gracefully
 Near the top of [app/main.js][] (the entry point the client-side), 
 several libraries are required to ensure cross-platform consistency. 
 
-[Line 5-11 of main.js][]:
+[Lines 5-11 of app/main.js][]:
 
 ```js
 // polyfills/behaviour consistency
@@ -1362,7 +1438,7 @@ local atmos git repository from the nginx serving folder.
 
 Unfortunately, like most time-constrained projects we didn't set up any automated tests.
 
-TDD is awesome when there's time and forethought, however we we're prototyping and
+TDD is awesome when there's time and forethought, however we were prototyping and
 exploring possibilities as we went. 
 
 Moving forward, the testing strategy will mostly be at the component level. 
@@ -1411,6 +1487,7 @@ Thanks for reading, see you next time!
 [srv/package.json]: https://github.com/costacruise/atmos/blob/v1/srv/package.json
 [srv/lib/transport.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/transport.js
 [srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js
+[srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/enums.js
 
 [lambdas (arrow functions)]: https://github.com/lukehoban/es6features#arrows
 [destructuring]: https://github.com/lukehoban/es6features#destructuring
@@ -1431,10 +1508,13 @@ Thanks for reading, see you next time!
 
 [line 9 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L9
 [line 17 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L17
-[srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/enums.js
-[line 33 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L33
+[line 31 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L31
 [line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L4
-[Line 5-11 of main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js#L5-L11
+[Lines 5-11 of app/main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js#L5-L11
+[line 3 of app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js#L3
+[Lines 22-36 of app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js#L22-L36
+
+
 
 [has a bug]: https://github.com/npm/npm/issues/8640
 [sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
