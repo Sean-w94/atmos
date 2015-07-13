@@ -1378,12 +1378,27 @@ amount of attempts, however each attempt will take longer than the last.
 Whilst the server could probably handle 300 simultaneous connection 
 requests, time for proving this assertion was lacking. So we introduced
 pseudo-randomness to the exponential backoff strategy to prevent such
-a scenario. 
+a scenario.
+
+Time-allowing, we could have made a completely seamless offline-first
+experience by recording current selections in `localStorage` and sending
+the selections back to the server upon reconnection.
 
 ### Supervisor
+Finally we used the [supervisor][] utility to secure minimal downtime
+in the event of a server crash. 
 
+```sh
+npm install -g supervisor
+```
 
+Supervisor watches a process and restarts it if the process dies. 
 
+This was the command we ran from the `atmos` directory to start our server
+
+```sh
+nohup supervisor srv &
+```
 
 ## Behaviour Consistency
 
@@ -1424,11 +1439,6 @@ with git, and ran the server with `nohup` (the "no hangup command", it allows
 us to start a process over SSH and terminate the client session without killing
 the process). 
 
-```sh
-cd /atmos
-nohup supervisor srv
-```
-
 Due to it's high performance and aggressive caching policy 
 we used [nginx][] to serve static files, simply creating symlinks to the 
 local atmos git repository from the nginx serving folder.
@@ -1455,14 +1465,25 @@ to create custom components so Atmos can be repurposed yet
 rely on the realtime infrastructure. We'll also look into
 an easy zero-config deployment strategy (possibly with docker containers).
 
-We should probably also fix the layout in Internet Explorer, but that's
-for another time.
+Offline vote recording as discussed in the **Reconnection** section 
+would also be a nice feature.
+
+We could look into using nginx to round-robin multiple WebSocket servers
+as well as server static files. This would further protect us in the 
+event of a server crash: disconnected clients would quickly reconnect
+to the another WebSocket server that's still alive while the crashed
+server restarts. We would at this point either switch to a database
+to manage persistence across processes (LevelDB looks like a good choice)
+or implement a lateral transport layer (e.g. TCP or maybe a message bus)
+that realizes eventual consistency across the WebSocket services (maybe
+we'd use [SenecaJS][] to abstract away the details).
+
+We should probably also fix the layout issue in Internet Explorer, 
+but that's for another time.
 
 ## Fin
 
 Thanks for reading, see you next time!
-
-
 
 
 [`sinopia`]: http://npmjs.com/sinopia
@@ -1534,6 +1555,7 @@ Thanks for reading, see you next time!
 [`cleancss`]: http://npmjs.com/cleancss
 [`core-js`]: http://npmjs.com/core-js
 [`fastclick`]: http://npmjs.com/fastclick
+[SenecaJS]: https://www.npmjs.com/package/seneca
 
 [Pure.css]: http://purecss.io
 [nginx]: http://nginx.org/en/
