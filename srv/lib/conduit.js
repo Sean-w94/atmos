@@ -3,7 +3,7 @@ const {areaOf, stats, percentages} = require('./data')()
 
 const source = stat => {
   var init
-  
+
   const stream = through()
   const area = areaOf(stat)
   const voters = stats[area].voters
@@ -28,13 +28,10 @@ const source = stat => {
   return stream
 }
 
-const channel = chan => {
-  return through((data, enc, cb) => {
-    const b = Buffer(1)
-    b[0] = chan
-    cb(null, Buffer.concat([b, data]))
-  })
-}
+const channel = chan => through((data, enc, cb) => {
+  cb(null, Buffer.concat([Buffer([chan]), data]))
+})
+
 
 const sink = () => through((msg, _, cb) => {
   msg = Array.from(msg)
