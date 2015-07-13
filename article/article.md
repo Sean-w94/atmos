@@ -1314,7 +1314,7 @@ So if the server crashed, we needed to fail gracefully
 ### Persistence
 If the server crashed we needed to retain state and reload on server restart
 so the statistics stayed consistent. Various database options we're considered, but
-this meant another process to deploy and monitor. LevelDB was also
+this meant another process to deploy and monitor. [LevelDB][] was also
 considered (which runs in-process with the [leveldown][]/[levelup][] modules).
 However, since our deployment environment ([Digital Ocean][]) ran on solid state
 disks we decided to keep it simple and persist directly to disk. As this was one
@@ -1486,11 +1486,13 @@ but that's for another time.
 Thanks for reading, see you next time!
 
 
-[`sinopia`]: http://npmjs.com/sinopia
 
 [`config`]: https://github.com/costacruise/atmos/blob/v1/config
 [config/chans.json]: https://github.com/costacruise/atmos/blob/v1/config/chans.json
 [app/main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js
+[index.dev.html]: https://github.com/costacruise/atmos/blob/v1/app/index.dev.html
+[index.html]: https://github.com/costacruise/atmos/blob/v1/app/index.html
+
 [app/package.json]: https://github.com/costacruise/atmos/blob/v1/app/package.json
 [app/logic/uid.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/uid.js
 [app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js
@@ -1556,6 +1558,12 @@ Thanks for reading, see you next time!
 [`core-js`]: http://npmjs.com/core-js
 [`fastclick`]: http://npmjs.com/fastclick
 [SenecaJS]: https://www.npmjs.com/package/seneca
+[`sinopia`]: http://npmjs.com/sinopia
+[levelup]: http://npmjs.com/levelup
+[leveldown]: http://npmjs.com/leveldown
+
 
 [Pure.css]: http://purecss.io
+[Digital Ocean]: http://digitalocean.com
 [nginx]: http://nginx.org/en/
+[LevelDB]: http://leveldb.org/
