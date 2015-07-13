@@ -198,7 +198,7 @@ for this task.
 Node is excellent at high concurrency real-time connections,
 and the language is JavaScript. 
 
-Working in multiple language isn't just about switching syntax, it's 
+Working in multiple languages isn't just about switching syntax, it's 
 about approach, the flow of logic is different.
 Writing everything in one language sped up full-stack prototyping,
 by eliminating the need to context switch between languages. It also
