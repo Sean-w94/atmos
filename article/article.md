@@ -11,8 +11,13 @@ goal was to engender excitement for technology among stakeholders.
 
 We decided to build a real-time conference voting application that 
 allowed for input via personal devices (mobile, tablet, laptop) 
-immediately displaying results on the presenters screen. We called our 
-concept "Atmos".
+immediately displaying results on the presenters screen. 
+
+We called our concept "Atmos".
+
+![](mood.png)
+
+![](results.png)
 
 We had one developer (myself) and two and a half days to have a working 
 proof of concept, followed by the weekend and Monday for tidy-up, 
