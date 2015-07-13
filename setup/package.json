@@ -1,0 +1,31 @@
+{
+  "name": "@atmos/setup",
+  "//": "non-publishable, dir structure coupled setup",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "clean:config:app": "rimraf ../app/node_modules/\\@atmos/config",
+    "clean:config:srv": "rimraf ../srv/node_modules/\\@atmos/config",
+    "clean:config": "npm run clean:config:app; npm run clean:config:srv;",
+    "clean:inliner:app": "rimraf ../app/node_modules/\\@atmos/inliner",
+    "clean:inliner": "npm run clean:inliner:app",
+    "clean": "npm run clean:config; npm run clean:inliner",
+    "create:@atmos": "mkdirp ../app/node_modules/\\@atmos",
+    "link:config:app": "lnk -f -s ../config ../app/node_modules/\\@atmos/",
+    "link:config:srv": "lnk -f -s ../config ../srv/node_modules/\\@atmos/",
+    "link:config": "npm run link:config:app; npm run link:config:srv",
+    "link:inliner": "lnk -f -s ../inliner ../app/node_modules/\\@atmos/",
+    "deps:app": "cd ../app; npm install --no-optional",
+    "deps:srv": "cd ../srv; npm install --no-optional",
+    "deps:inliner": "cd ../inliner; npm install",
+    "deps": "npm run deps:inliner; npm run deps:srv; npm run deps:app",
+    "link": "npm run link:config; npm run link:inliner",
+    "setup": "npm run deps; npm run clean; npm run link"
+  },
+  "author": "David Mark Clements",
+  "dependencies": {
+    "lnk": "^0.4.4",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.4.1"
+  }
+}

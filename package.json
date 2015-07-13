@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "setup": "cd setup; npm run setup", 
+    "start:dev": "npm start & cd app && npm run dev",
+    "start": "node srv"
+  }
+}
