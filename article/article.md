@@ -146,7 +146,7 @@ is straightforward understanding the implications of their usage is a
 longer journey than we had time for. 
 
 Further, there's the issue of code bloat during transpilation of 
-macro-syntax extensiojns, plus runtime inefficiency (generators 
+macro-syntax extensions, plus runtime inefficiency (generators 
 being the prime candidate for slow execution when transpiled). 
 
 Finally, it was important to keep the project simple.
@@ -198,7 +198,7 @@ for this task.
 Node is excellent at high concurrency real-time connections,
 and the language is JavaScript. 
 
-Working in multiple language isn't just about switching syntax, it's 
+Working in multiple languages isn't just about switching syntax, it's 
 about approach, the flow of logic is different.
 Writing everything in one language sped up full-stack prototyping,
 by eliminating the need to context switch between languages. It also
