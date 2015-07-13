@@ -1,6 +1,8 @@
 # Travelling Light
 ## Combining RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant realtime application
 
+![](mood.png)
+
 Business demands change and fluctuate constantly, there are occasions 
 that require a quick turn around with a hard deadline.
 
@@ -14,8 +16,6 @@ allowed for input via personal devices (mobile, tablet, laptop)
 immediately displaying results on the presenters screen. 
 
 We called our concept "Atmos".
-
-![](mood.png)
 
 ![](results.png)
 
