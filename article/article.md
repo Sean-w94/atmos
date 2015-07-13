@@ -146,7 +146,7 @@ is straightforward understanding the implications of their usage is a
 longer journey than we had time for. 
 
 Further, there's the issue of code bloat during transpilation of 
-macro-syntax extensiojns, plus runtime inefficiency (generators 
+macro-syntax extensions, plus runtime inefficiency (generators 
 being the prime candidate for slow execution when transpiled). 
 
 Finally, it was important to keep the project simple.
