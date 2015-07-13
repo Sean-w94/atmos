@@ -626,8 +626,8 @@ $ pushd srv
 $ npm link @atmos/config
 ```
 
-With `npm link` it's live configuration no need to reinstall when
-we make changes.
+The `npm link` command removes the need reinstall every time we 
+change configuration settings.
 
 In the [`config`][] folder we have four files
 
