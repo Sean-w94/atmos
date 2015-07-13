@@ -1306,22 +1306,22 @@ an easy zero-config deployment strategy (possibly with docker containers).
 
 [`sinopia`]: http://npmjs.com/sinopia
 
-[`config`]: https://github.com/costacruise/atmos/blob/master/config
-[config/chans.json]: https://github.com/costacruise/atmos/blob/master/config/chans.json
-[app/main.js]: https://github.com/costacruise/atmos/blob/master/app/main.js
-[app/logic/uid.js]: https://github.com/costacruise/atmos/blob/master/app/logic/uid.js
-[app/logic/sync.js]: https://github.com/costacruise/atmos/blob/master/app/logic/sync.js
-[app/views/tabs/package.json]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/package.json
-[app/views/tabs/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.tag
-[app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/tabs/view.js
-[app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/view.tag
-[app/views/topic-out/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/topic-out/view.js
-[app/views/pace-in/view.js]: https://github.com/costacruise/atmos/blob/master/app/views/pace-in/view.js
-[app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/master/app/views/excitement-in/style.tag
+[`config`]: https://github.com/costacruise/atmos/blob/v1/config
+[config/chans.json]: https://github.com/costacruise/atmos/blob/v1/config/chans.json
+[app/main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js
+[app/logic/uid.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/uid.js
+[app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js
+[app/views/tabs/package.json]: https://github.com/costacruise/atmos/blob/v1/app/views/tabs/package.json
+[app/views/tabs/view.tag]: https://github.com/costacruise/atmos/blob/v1/app/views/tabs/view.tag
+[app/views/tabs/view.js]: https://github.com/costacruise/atmos/blob/v1/app/views/tabs/view.js
+[app/views/excitement-in/view.tag]: https://github.com/costacruise/atmos/blob/v1/app/views/excitement-in/view.tag
+[app/views/topic-out/view.js]: https://github.com/costacruise/atmos/blob/v1/app/views/topic-out/view.js
+[app/views/pace-in/view.js]: https://github.com/costacruise/atmos/blob/v1/app/views/pace-in/view.js
+[app/views/excitement-in/style.tag]: https://github.com/costacruise/atmos/blob/v1/app/views/excitement-in/style.tag
 
-[srv/server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es
-[srv/lib/transport.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/transport.js
-[srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js
+[srv/server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es
+[srv/lib/transport.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/transport.js
+[srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js
 
 [using anonymous functions]: http://nearform.com/nodecrunch/TODO
 
@@ -1350,15 +1350,15 @@ an easy zero-config deployment strategy (possibly with docker containers).
 
 [scoped package names]: https://docs.npmjs.com/misc/scope
 [through2]: http://npmjs.com/through2
-[line 9 of server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es#L9
-[line 17 of server.es]: https://github.com/costacruise/atmos/blob/master/srv/server.es#L17
-[srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/enums.js
-[line 33 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js#L33
-[line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/master/srv/lib/conduit.js#L4
+[line 9 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L9
+[line 17 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L17
+[srv/lib/enums.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/enums.js
+[line 33 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L33
+[line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L4
 [`varint`]: http://npmjs.com/varint
-[app/package.json]: https://github.com/costacruise/atmos/blob/master/app/package.json
+[app/package.json]: https://github.com/costacruise/atmos/blob/v1/app/package.json
 [babel]: http://npmjs.org/babel
-[srv/index.js]: https://github.com/costacruise/atmos/blob/master/srv/index.js
+[srv/index.js]: https://github.com/costacruise/atmos/blob/v1/srv/index.js
 [Standard]: https://npmjs.com/standard 
 [standard]: https://npmjs.com/standard
 [semistandard]: http://npmjs.com/semistandard
@@ -1366,7 +1366,7 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [`cleancss`]: http://npmjs.com/cleancss
 [`core-js`]: http://npmjs.com/core-js
 [`fastclick`]: http://npmjs.com/fastclick
-[app/logic/support.js]: https://github.com/costacruise/atmos/blob/master/app/logic/support.js
-[Line 5-11 of main.js]: https://github.com/costacruise/atmos/blob/master/app/main.js#L5-L11
+[app/logic/support.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/support.js
+[Line 5-11 of main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js#L5-L11
 
 
