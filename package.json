@@ -1,7 +1,11 @@
 {
   "scripts": {
-    "setup": "cd setup; npm run setup", 
-    "start:dev": "npm start & cd app && npm run dev",
-    "start": "node srv"
+    "setup": "cd setup; npm run setup",
+    "build": "cd app && npm run build",
+    "start:dev": "npm run kill:srv; npm start; cd app && npm run dev",
+    "kill:srv": "kill -9 $(npm get ATMOS_SRV_PID); npm config delete ATMOS_SRV_PID;",
+    "kill:dev-srv": "cd app && npm run dev:kill",
+    "stop:dev": "npm run kill:srv; npm run kill:dev-srv",
+    "start": "node srv & npm set ATMOS_SRV_PID $!;"
   }
 }

@@ -32,8 +32,9 @@
     "build:assets": "rm -fr build/assets && cp -fr assets build/assets; cp index.html build/index.html",
     "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
     "build:dist": "npm run build:assets; npm run build:app -- -d -p [minifyify --map app.js.map --output build/app.js.map]",
-    "build": "npm run build:compress && npm run build:app && npm run build:dist",
+    "build": "npm run dev; npm run build:compress && npm run build:app && npm run build:dist;",
     "repo": "sinopia",
-    "dev": "light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app'"
+    "dev": "npm run dev:kill; light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app' & npm set ATMOS_DEV_PID $!",
+    "dev:kill": "kill -9 $(npm get ATMOS_DEV_PID);npm config delete ATMOS_DEV_PID"
   }
 }
