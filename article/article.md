@@ -373,7 +373,7 @@ sudo npm install -g browserify
 browserify <(echo "require('"$PWD"/logic/uid')") 
 ```
 
----screenshot of code run---
+![][browserify-eg.png]
 
 
 Standardizing a paradigm across environments by using the same module 
