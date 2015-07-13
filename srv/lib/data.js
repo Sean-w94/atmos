@@ -4,6 +4,8 @@ const {prim, hash} = require('./o')
 const data = path.resolve(__dirname, '..', 'data')
 const at = name => path.join(data, name + '.json')
 
+if (!fs.existsSync(data)) fs.mkdirSync(data)
+
 const {
   EXCITED, NEUTRAL, BORED,
   FAST, PERFECT, SLOW,
