@@ -1341,7 +1341,7 @@ an easy zero-config deployment strategy (possibly with docker containers).
 [`Object.assign`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 [`Array.from`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 
-[Pure.css]: purecss.io
+[Pure.css]: http://purecss.io
 
 [has a bug]: https://github.com/npm/npm/issues/8640
 [sourcemaps]: http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
