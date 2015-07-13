@@ -1561,6 +1561,7 @@ Thanks for reading, see you next time!
 [`sinopia`]: http://npmjs.com/sinopia
 [levelup]: http://npmjs.com/levelup
 [leveldown]: http://npmjs.com/leveldown
+[supervisor]: http://npmjs.com/supervisor
 
 
 [Pure.css]: http://purecss.io
