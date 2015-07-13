@@ -1331,7 +1331,7 @@ connectivity issues the mobile or WiFi networks at the venue might have.
 Thanks to closure scope and asynchronous mutual recursion we were able to implement
 a reconnection strategy in `sync.js` quickly and with a small amount of code.
 
-On [line 3 of app/logic/sync.js][] we create out WebSocket connection:
+On [line 5 of app/logic/sync.js][] we create out WebSocket connection:
 
 ```js
 var ws = wsab('ws://' + location.hostname + ':4001')
@@ -1511,7 +1511,7 @@ Thanks for reading, see you next time!
 [line 31 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L31
 [line 4 of srv/lib/conduit.js]: https://github.com/costacruise/atmos/blob/v1/srv/lib/conduit.js#L4
 [Lines 5-11 of app/main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js#L5-L11
-[line 3 of app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js#L3
+[line 5 of app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js#L5
 [Lines 22-36 of app/logic/sync.js]: https://github.com/costacruise/atmos/blob/v1/app/logic/sync.js#L22-L36
 
 
