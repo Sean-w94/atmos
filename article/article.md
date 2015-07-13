@@ -1252,7 +1252,7 @@ The [`core-js`][] module is divided up by feature, so we can
 only require what we use. 
 
 The [`fastclick`][] module removes the 300ms delay before a touch
-is registerd as a click on mobile devices. Without this, mobile
+is registered as a click on mobile devices. Without this, mobile
 interaction seems lethargic.
 
 Finally our purpose written [app/logic/support.js][] library is
