@@ -1099,7 +1099,7 @@ We run a task with `npm run`, for instance the `dev` task in [app/package.json][
 `scripts` object looks like this:
 
 ```js
-    "dev": "light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app'"
+"dev": "light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app'"
 ```
 
 This starts a server on http://localhost:4000, and watches files, rebuilding when they change.
