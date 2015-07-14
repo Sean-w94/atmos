@@ -385,7 +385,7 @@ Scoped styles were proposed as a [native specification][], but sadly [may never 
 
 It's possible to compose a tag from several sources by redeclaring the tag and compiling each declaration separately. Browserify in conjunction with Riotify automatically compiles the tags via the `require` statement. 
 
-This means we can decouple style from structure whilst also isolating it's domain of influence
+This means we can decouple style from structure whilst also isolating its domain of influence
 to a particular view.
 
 Let's take a look at the `excitement-in` view (this is the view that uses emoticons for user input)
@@ -1081,7 +1081,7 @@ Finally our purpose written [app/logic/support.js][] library is used to customiz
 
 We kept deployment very simple. We used an Ubuntu digital ocean instance,  with `node` and `git` installed on it. We pulled in changes onto the server with git, and ran the server with `nohup`. The `nohup` ("no hangup") command allows us to start a process over SSH and terminate the client session without killing the process. 
 
-Due to it's high performance and aggressive caching policy  we used [nginx][] to serve static files, simply creating symlinks to the local atmos git repository from the nginx serving folder.
+Due to its high performance and aggressive caching policy  we used [nginx][] to serve static files, simply creating symlinks to the local atmos git repository from the nginx serving folder.
 
 
 ## Testing
