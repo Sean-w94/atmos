@@ -472,7 +472,7 @@ An `.npmrc` file alters npm settings for that folder only. In this case we assoc
 
 We can run a local repository with the excellent [`sinopia`][] module (which defaults to running on localhost:4873).
 
-Whilst Sinopia was setup and left for future use (see the `scripts.repo` field in [app/package.json][]), we ended up using `npm link` because it eliminates the need to reinstall updated packages. Additionally, only two of the packages (inliner and config) were subdependencies of `app` and/or `srv` so it didn't seem worth it.
+Whilst Sinopia was setup and left for future use (see the `scripts.repo` field in [app/package.json][]), we ended up using `npm link` because it eliminates the need to reinstall updated packages. Additionally, only two of the packages (inliner and config) were sub-dependencies of `app` and/or `srv` so it didn't seem worth it.
 
 
 ### Shared Configuration
