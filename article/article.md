@@ -365,7 +365,7 @@ Modularizing CSS seems to be the final frontier of frontend development. Due to 
 
 But when it comes to protecting the sanity of a code-base, tools are better than convention.
 
-RiotJS supports scoped style tags, for instance
+RiotJS supports scoped style tags. For instance:
 
 ```html
 <my-tag>
