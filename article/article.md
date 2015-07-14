@@ -468,7 +468,7 @@ Let's take a look at `.npmrc`
 @atmos:registry = "http://localhost:4873"
 ```
 
-The `.npmrc` alters the settings of npm for that folder only. In this case we associated the @atmos namespace with `localhost` port `4873`. So if we tried to `npm publish` (with or without the `--access`) flag npm won't publish to the public npm repository, but instead will attempt to publish to `localhost:4873`.
+An `.npmrc` file alters the settings of npm for that folder only. In this case we associated the @atmos namespace with `localhost` port `4873`. So if we tried to `npm publish` (with or without the `--access`) flag npm won't publish to the public npm repository, but instead will attempt to publish to `localhost:4873`.
 
 We can run a local repository with the excellent [`sinopia`][] module (which defaults to running on localhost:4873).
 
