@@ -611,6 +611,7 @@ Using streams allows us to describe a birds eye view (the pipeline), that can be
 ### Channels
 
 HTTP connections are expensive: they take time and resources to establish. 
+
 WebSockets are effectively bidirectional long lived HTTP connections (once established, more like TCP connections).
 
 WebSocket connections are resource intensive: constantly using a devices antenna, requiring power, CPU and memory. This affects mobile devices in particular.
