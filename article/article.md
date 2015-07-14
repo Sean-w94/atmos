@@ -559,7 +559,7 @@ We did use [websocket-stream][] on the server side so we could easily attach our
 
 For any server task that involves shuffling data around, [Node streams][] are almost always the right way to go. They're essentially an implementation of asynchronous functional programming, where the immutable objects are binary chunks of a data set (or actual objects in the case of object streams). They've been called "arrays in time", and that's a great way to think about them. 
 
-With streams we can process data in a memory-controlled way. In this particular project that's of no major benefit because we're only taking in 8 bytes per vote, and sending out floating point numbers to every connection when a percentage changes. The size of the pipeline is not a problem in our case.
+With streams we can process data in a memory-controlled way. In this particular project that's of no major benefit because we're only taking in 8 bytes per vote, and sending out floating point numbers to every connection when a percentage changes. Pipeline capacity is not a problem in our case.
 
 The main benefit of streams in this project is the ability to architect data-flow as a pipeline.
 
