@@ -610,7 +610,10 @@ Using streams allows us to describe a birds eye view (the pipeline), that can be
 
 ### Channels
 
-HTTP connections are expensive. WebSocket connections are resource intensive: we're constantly using a devices antenna which requires power, CPU and memory. This affects mobile devices in particular.
+HTTP connections are expensive: they take time and resources to establish. 
+WebSockets are effectively bidirectional long lived HTTP connections (once established, more like TCP connections).
+
+WebSocket connections are resource intensive: constantly using a devices antenna, requiring power, CPU and memory. This affects mobile devices in particular.
 
 We wanted a way to segregate and identify incoming and outgoing data, without using multiple transports. This is called multiplexing, where multiple signals can be sent through one transport.
 
