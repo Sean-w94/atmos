@@ -98,7 +98,7 @@ Another gem is the lambdas. The removal of noise around a function enhances read
 
 First there's a potential debugging issue (a similar problem to [using anonymous functions][]). The code base was small enough in our case to let that go on this occasion. Secondly the lexical treatment of `this` differs from standard functions. 
 
-The context (represented by `this`) in an arrow function takes on the context of the surrounding closure. If the surrounding closure isn't called with `new`, or given a context via `call`, `apply` or `bind` then `this` in a lambda function defaults to either the global object or `undefined` when in strict mode. All of that is fine, what may be unexpected though, is that the lexical lambda context rule **supercedes* the context binding methods (e.g. `call`, `bind`, `apply`). 
+The context (represented by `this`) in an arrow function takes on the context of the surrounding closure. If the surrounding closure isn't called with `new`, or given a context via `call`, `apply` or `bind` then `this` in a lambda function defaults to either the global object or `undefined` when in strict mode. All of that is fine, what may be unexpected though, is that the lexical lambda context rule **supercedes** the context binding methods (e.g. `call`, `bind`, `apply`). 
 
 ```js
 function f(fn) { fn.call({some: 'instance'}) }
@@ -117,7 +117,7 @@ It's important to know this difference. Some libraries do set callback function 
 
 In such cases we either have to supply a normal function, or pass values via the second parameter of the `cb` argument (we'll talk more about `through2` later).
 
-Adopting ES6 syntax resulted in less code being written than using ES5,  without obfuscating the intent of the code (in some cases, quite the opposite).
+Adopting ES6 syntax resulted in less code being written than using ES5, without obfuscating the intent of the code (in some cases, quite the opposite).
 
 For this project we steered clear of macro-syntax extensions such as classes, modules and generators. 
 
