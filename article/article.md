@@ -1,7 +1,5 @@
 # How to quickly build a social realtime application
-## How we combined RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
-
-![](mood.png)
+## Combining RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
 
 Business demands change and fluctuate constantly, there are occasions 
 that require a quick turn around with a hard deadline.
@@ -16,13 +14,18 @@ allowed for input via personal devices (mobile, tablet, laptop)
 immediately displaying results on the presenters screen.
 
 We called our concept "Atmos".
-
 ![](results.png)
-
 We had one developer (myself) and two and a half days to have a working 
 proof of concept, followed by the weekend and Monday for tidy-up, 
 polishing, cross browser and performance testing. All told, from the 
 back-end to the front-end, Atmos was completed in around five days.
+
+# Live Demo
+A running demo of atmos can be found at <http://atmos.costadigital.io>
+
+![](mood.png)
+
+Try using the demo in a browser and on an tablet or mobile device at the same time. 
 
 # Viewing the Source
 
@@ -275,13 +278,14 @@ implementation sans-framework.
 
 When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb. 
 
-| Framework               | Version    | Minified Size | gzip -1 | gzip -6 |
-|-------------------------|------------|---------------|---------|---------|
-| Angular                 | 1.4.2      | 145.5kb       | 59.4kb  | 51.7kb  |
-| Ember                   | 1.13.3     | 493.3kb       | 155.8kb | 126.3kb |
-| React                   | 0.13.3     | 121.7kb       | 42.9kb  | 36.2kb  |
-| Riot                    | 2.2.2-beta | 12.75kb       | 5.8kb   | 5.3kb   |
-| Web Components Polyfill | 0.7.5      | 117.1kb       | 39.8kb  | 33.4kb  |
+<table><thead><tr>
+<th>Framework</th><th>Version</th><th>Minified</th><th>gzip -1</th><th>gzip -6</th></tr></thead><tbody>
+<tr><td>Angular</td><td>1.4.2</td><td>145.5kb</td><td>59.4kb</td><td>51.7kb</td></tr>
+<tr><td>Ember</td><td>1.13.3</td><td>493.3kb</td><td>155.8kb</td><td>126.3kb</td></tr>
+<tr><td>React</td><td>0.13.3</td><td>121.7kb</td><td>42.9kb</td><td>36.2kb</td></tr>
+<tr><td>Riot</td><td>2.2.2-beta</td><td>12.75kb</td><td>5.8kb</td><td>5.3kb</td></tr>
+<tr><td>Web Components Polyfill</td><td>0.7.5</td><td>117.1kb</td><td>39.8kb</td><td>33.4kb</td></tr>
+</tbody></table>
 
 Other alternatives were also deemed too large: Ember clocks in at a whopping 493kb,
 almost half a megabyte before we write a single line of application code!
@@ -426,7 +430,7 @@ sudo npm install -g browserify
 browserify <(echo "require('"$PWD"/logic/uid')") 
 ```
 
-![](browserify-eg.png)
+![](/content/images/2015/07/browserify-eg.png)
 
 
 Standardizing a paradigm across environments by using the same module 
