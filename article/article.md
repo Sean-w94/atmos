@@ -18,7 +18,7 @@ A running demo of atmos can be found at <http://atmos.costadigital.io>
 
 ![](mood.png)
 
-Try using the demo in a browser and on an tablet or mobile device at the same time. 
+Try using the demo in a browser and on a tablet or mobile device at the same time. 
 
 # Viewing the Source
 
@@ -64,13 +64,13 @@ Given the time constraints we opted to support modern browsers and modern device
 
 As a trade-off we supported touch screen blackberries, but did not implement support for key-only blackberries (adjusting the user interface alone would demand a significant time investment that we could not afford). 
 
-We also didn't pay much attention to IE, even IE11 can be a time hog when it comes to compatibility and ~99% of our audience would be on mobile devices anyway.
+We also didn't pay much attention to IE. Even IE11 can be a time hog when it comes to compatibility and ~99% of our audience would be on (non-windows) mobile devices anyway.
 
-Progressive enhancement for SEO and accessibility was not followed on this project, however our design and tool choices have made it easy to retrofit progressive enhancement with server side rendering. 
+Progressive enhancement for SEO and accessibility was not followed on this project. However our design and tool choices have made it easy to retrofit progressive enhancement with server side rendering. 
 
 ### EcmaScript 6
 
-[There's a direct correlation][] between code size and product quality. Defect density can be measured in bugs per 1000 lines of code and averages around 0.59 bugs per line for open source projects or .72 bugs per line on proprietary code bases. Either way, there will always be a ratio of bugs to code size, thus the more boilerplate we can shed the better. 
+[There's a direct correlation][] between code size and product quality. Defect density can be measured in bugs per 1000 lines of code and averages around .59 bugs per line for open source projects or .72 bugs per line on proprietary code bases. Either way, there will always be a ratio of bugs to code size.The more boilerplate we can shed the better. 
 
 EcmaScript 6 (a.k.a EcmaScript 2015) was finalized in June 2015. Parts of it have already been implemented in modern browsers and in Node. However for cross-browser consistency and to run Node
 without additional flags we transpiled the ES6 code into ES5 code as part of the build process (see the Build Process section for details).
@@ -91,11 +91,14 @@ These little pieces of sugar helped keep code clean, light and descriptive.
 
 In particular we used destructuring to emulate configuration based enums which were then used to establish light-weight multiplexing (more on this later).
 
-Since `const` keywords are transpiled to `var` keywords usage of `const` was more of a mental assist. It prevented the (generally) bad habit of reassignment, and made us think about what exactly constitutes an actual variable reference. Whilst there wouldn't be a direct performance benefit from using `const` in a transpile denvironment we're still keeping the road clear for the JavaScriptengine by enforcing non-reassigned variables. 
+Since `const` keywords are transpiled to `var` keywords usage of `const` was more of a mental assist. It prevented the (generally) bad habit of reassignment, and made us think about what exactly constitutes an actual variable reference. Whilst there wouldn't be a direct performance benefit from using `const` in a transpilation context, we're still facilitating the JavaScript engine by using variables that won't be reassigned. In other words the interpreter has to jump through hoops when a reference keeps changing. Employing an enforceable practice of non-reassignment should make runtime
+optimizations more likely.
 
-Another gem is the lambdas. The removal of noise around a function enhances readability. However there is a couple of caveats that come along with lambdas. 
+Another gem is the lambdas. The removal of noise around a function enhances readability. However there are a couple of caveats.
 
-First there's a potential debugging issue (a similar problem to [using anonymous functions][]). The code base was small enough in our case to let that go on this occasion. Secondly the lexical treatment of `this` differs from standard functions. The `this` context in an arrow function takes on the context of the surroundingclosure. If the surrounding closure isn't called with `new`, or given a context via `call`, `apply` or `bind` then `this` in a lambda function defaults to the global or object, or `undefined` when in strict mode. All of that is fine, the gotcha comes in when this rule **supercedes* context binding methods (e.g. `call`, `bind`, `apply`). 
+First there's a potential debugging issue (a similar problem to [using anonymous functions][]). The code base was small enough in our case to let that go on this occasion. Secondly the lexical treatment of `this` differs from standard functions. 
+
+The context (represented by `this`) in an arrow function takes on the context of the surrounding closure. If the surrounding closure isn't called with `new`, or given a context via `call`, `apply` or `bind` then `this` in a lambda function defaults to either the global object or `undefined` when in strict mode. All of that is fine, what may be unexpected though, is that the lexical lambda context rule **supercedes* the context binding methods (e.g. `call`, `bind`, `apply`). 
 
 ```js
 function f(fn) { fn.call({some: 'instance'}) }
@@ -110,8 +113,9 @@ function f(fn) { fn.call({some: 'instance'}) }
 //   λ this:  undefined
 ```
 
-It's important to know this difference. Some libraries do set callback function context. For instance the [through2][] module allows us to call `this.push` inside the function which is
-supplied as the first parameter - this will fail is the function is an arrow function, `this` will be the global object or `undefined` (depending on mode). In this case we either have to supply a normal function, or pass values through the second parameter of the `cb` argument (we'll talk more about `through2` later).
+It's important to know this difference. Some libraries do set callback function context. For instance the [through2][] module allows us to call `this.push` inside the user supplied callback. If the supplied callback is an arrow function, calling `push` will fail (or worse, do something else). Instead of the object which `through2` attempted to supply as the context for the callback function the `this` keyword will refer to the global object or `undefined` (depending on the mode). 
+
+In such cases we either have to supply a normal function, or pass values via the second parameter of the `cb` argument (we'll talk more about `through2` later).
 
 Adopting ES6 syntax resulted in less code being written than using ES5,  without obfuscating the intent of the code (in some cases, quite the opposite).
 
@@ -657,6 +661,11 @@ const channel = chan => through((data, enc, cb) => {
 ```
 
 Each time a chunk passes through the stream, we prefix the channel number to it. This gives us a maximum of 256 channels, if we wanted more than that we would consider using the [`varint`][] module which can create and recognize variable byte-length integers in a chunk of binary data. We only needed 12 channels, so we stuck with a one byte limit.
+
+Notice how we us `cb` instead of `this.push` to pass data down-stream. As we discussed
+in the **EcmaScript 6** section, this is because we're using a lambda function as
+the callback to through so in the above case `this` would refer to `undefined` instead
+of our stream instance.
 
 Finally we'll take a look at the `source` stream on [line 4 of srv/lib/conduit.js][].
 
