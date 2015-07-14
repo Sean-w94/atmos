@@ -460,7 +460,7 @@ If we have an unpaid account called "atmos" it will still fail unless we run `np
 
 The `app`, `config`, `inliner` and `srv` packages all have names scoped to `@atmos`.
 
-Using scopes also makes it easy for us to self-host modules on our own repository
+Using scopes also makes it easy for us to self-host modules on our own repository.
 
 Let's take a look at `.npmrc`
 
