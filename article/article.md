@@ -651,7 +651,7 @@ function broadcast (stream) {
   source(TOPIC_E).pipe(channel(TOPIC_E)).pipe(stream)
 }
 ```
-The astute may note that this could have been written in about three lines of code. This code is repetitive **on purpose**. 
+The astute may note that this could have been written in about three lines of code. This code is repetitive *on purpose*.
 
 Whilst it's true that in many cases Don't Repeat Yourself is an axiom to observe, there are times when a declarative approach has more value. In this case, we're describing data flow at the top level, we want to be explicit.
 
