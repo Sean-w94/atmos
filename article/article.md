@@ -561,7 +561,7 @@ For any server task that involves shuffling data around, [Node streams][] are al
 
 With streams we can process data in a memory-controlled way. In this particular project that's of no major benefit because we're only taking in 8 bytes per vote, and sending out floating point numbers to every connection when a percentage changes. The size of the pipeline is not a problem in our case.
 
-The main benefit of streams for us is the ability to architect data-flow as a pipeline.
+The main benefit of streams in this project is the ability to architect data-flow as a pipeline.
 
 Let's take a look at the [srv/server.es][] file, on line 9 we call the `transport` function and pass it a callback. The `transport` function can be found in [srv/lib/transport.js][], all it does is accept an incoming WebSocket and wrap it in a stream. 
 
