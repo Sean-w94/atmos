@@ -125,7 +125,7 @@ For one thing, whilst learning the syntax of these language additions is straigh
 
 Further, there's the issue of code bloat during transpilation of macro-syntax extensions, plus runtime inefficiency (generators being the prime candidate for slow execution when transpiled). 
 
-Finally, it was important to keep the project simple. [Classes][] aren't the right paradigm for linear/cyclical data flow management (actually.. they aren't the right paradigm for a prototypal language but that's another story!). [Iterators][] (counterpart to generators) encourage a procedural approach (which is somewhat backwards). Finally the [ES6 module][] system isn't a good fit for current tooling. Also it may only be opinion but CommonJS modules are cleaner.
+Finally, it was important to keep the project simple. [Classes][] aren't the right paradigm for linear/cyclical data flow management (actually.. they aren't the right paradigm for a prototypal language but that's another story!). [Iterators][] (counterpart to generators) encourage a procedural approach (which is somewhat backwards). Finally the [ES6 module][] system isn't a good fit for current tooling. Also it may only be opinion, but CommonJS modules are cleaner.
 
 We also used some ES6 language additions
 
@@ -133,7 +133,7 @@ We also used some ES6 language additions
 * [`Object.assign`][]
 * [`Array.from`][]
 
-The `Object.assign` and `Array.from` methods simply afforded a nice way to do mixins and convert array like objects to arrays-proper (no more `Array.prototype.slice.call(ThingThatsLikeAnArray)`, hooray!).
+The `Object.assign` and `Array.from` methods simply afforded a nice way to do mixins and convert array like objects to arrays-proper (no more `Array.prototype.slice.call(ArrayLikeThing)`, hooray!).
 
 The `Set` constructor returns a unique list object. By pushing unique id's (determined browserside), onto a set we could keep a constant running total of voters which allowed us to calculate aggregated percentages.
 
@@ -141,7 +141,7 @@ And one EcmaScript 7 method: [`Object.observe`][].
 
 `Object.observe` was fundamental to model management. 
 
-Using `Object.observe` meant that we could store data in a plain JavaScript object and react to changes in that object. This drove the data flow: when a vote for an item came into the server, the appropriate observed object was modified. When the object was changed, the change was both broadcast to all open sockets and persisted to disk.
+Using `Object.observe` meant that we could store data in a plain JavaScript object and react to changes in that object. This drove the data flow: when a vote for an item came into the server, the relevant corresponding object was modified. When the object was changed, the change was both broadcast to all open sockets and persisted to disk.
 
 
 ### Backend platform
