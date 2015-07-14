@@ -129,15 +129,15 @@ Finally, it was important to keep the project simple. [Classes][] aren't the rig
 
 We also used some ES6 language additions
 
-* [`Set`][]
-* [`Object.assign`][]
-* [`Array.from`][]
+* [Set][]
+* [Object.assign][]
+* [Array.from][]
 
 The `Object.assign` and `Array.from` methods simply afforded a nice way to do mixins and convert array like objects to arrays-proper (no more `Array.prototype.slice.call(ArrayLikeThing)`, hooray!).
 
 The `Set` constructor returns a unique list object. By pushing unique id's (determined browserside), onto a set we could keep a constant running total of voters which allowed us to calculate aggregated percentages.
 
-And one EcmaScript 7 method: [`Object.observe`][].
+And one EcmaScript 7 method: [Object.observe][].
 
 `Object.observe` was fundamental to model management. 
 
@@ -470,7 +470,7 @@ Let's take a look at `.npmrc`
 
 An `.npmrc` file alters npm settings for that folder only. In this case we associated the @atmos namespace with `localhost` port `4873`. So if we tried to `npm publish` (with or without the `--access`) flag npm won't publish to the public npm repository, but instead will attempt to publish to `localhost:4873`.
 
-We can run a local repository with the excellent [`sinopia`][] module (which defaults to running on localhost:4873).
+We can run a local repository with the excellent [sinopia][] module (which defaults to running on localhost:4873).
 
 Whilst Sinopia was setup and left for future use (see the `scripts.repo` field in [app/package.json][]), we ended up using `npm link` because it eliminates the need to reinstall updated packages. Additionally, only two of the packages (inliner and config) were sub-dependencies of `app` and/or `srv` so it didn't seem worth it.
 
@@ -497,7 +497,7 @@ The `npm link` command removes the need reinstall every time we change configura
 This was the process we used during most of the development, however for convenience the
 linking process has been automated. Simply execute `npm run setup` in the `atmos` directory.
 
-In the [`config`][] folder we have four files
+In the [config][] folder we have four files
 
 * package.json
 * .npmrc
@@ -696,7 +696,7 @@ const channel = chan => through((data, enc, cb) => {
 })
 ```
 
-Each time a chunk passes through the stream, we prefix the channel number to it. This gives us a maximum of 256 channels. If we wanted more than that we would consider using the [`varint`][] module which can create and recognize variable byte-length integers in a chunk of binary data. We only needed 12 channels, so we stuck with a one byte limit.
+Each time a chunk passes through the stream, we prefix the channel number to it. This gives us a maximum of 256 channels. If we wanted more than that we would consider using the [varint][] module which can create and recognize variable byte-length integers in a chunk of binary data. We only needed 12 channels, so we stuck with a one byte limit.
 
 Notice how we us `cb` instead of `this.push` to pass data down-stream. As discussed
 in the **EcmaScript 6** section, this is because we're using a lambda function as
@@ -933,7 +933,7 @@ If Standard offends sensibilities there's also [Semistandard][] (..of course the
 
 We didn't use a CSS preprocessor like Sass, LESS, or Stylus. The benefits of scoped styles combined with Pure.css was sufficient for our purposes. 
 
-We did use [`uncss`][], an awesome utility that loads the page in a headless browser and cross references stylesheets DOM selector matches. Then it outputs the net CSS.
+We did use [uncss][], an awesome utility that loads the page in a headless browser and cross references stylesheets DOM selector matches. Then it outputs the net CSS.
 
 Let's take a look at the `build:compress` task in [app/package.json][] `scripts` field.
 
@@ -947,7 +947,7 @@ Notice how we load the [index.dev.html][] page (rather than the [index.html][] p
 
 Each of the executables in this tasks pipeline are project dependencies. 
 
-Once we have the CSS subset, we pass it through the [`cleancss`][] utility cutting further bytes. 
+Once we have the CSS subset, we pass it through the [cleancss][] utility cutting further bytes. 
 
 Then we pipe it through `@atmos/inliner`, which was written for the project.
 
@@ -1011,7 +1011,7 @@ On [line 5 of app/logic/sync.js][] we create out WebSocket connection:
 var ws = wsab('ws://' + location.hostname + ':4001')
 ```
 
-`wsab` is a small function near the bottom of `sync.js`. It simply creates a binary WebSocket that uses [`ArrayBuffers`][] instead of the default [`Blobs`][].
+`wsab` is a small function near the bottom of `sync.js`. It simply creates a binary WebSocket that uses [ArrayBuffers][] instead of the default [Blobs][].
 
  This is one of the few places where we use `var` to declare a reference. The `ws` token is a variable because if the client should disconnect for any reason we point `ws` to a new `WebSocket` instance holding the new (hopefully live) connection.
 
@@ -1076,9 +1076,9 @@ require('fastclick')(document.body)
 require('./logic/support').blackberry()
 ```
 
-The [`core-js`][] module is divided up by feature. So we get to load only what we need.
+The [core-js][] module is divided up by feature. So we get to load only what we need.
 
-The [`fastclick`][] module removes the 300ms delay before a touch is registered on mobile devices. Without this, mobile interaction seems lethargic.
+The [fastclick][] module removes the 300ms delay before a touch is registered on mobile devices. Without this, mobile interaction seems lethargic.
 
 Finally our purpose written [app/logic/support.js][] library is used to customize the display by adding a `blackberry` class to the `html` element if the device is a blackberry. The `support` library is used elsewhere to detect SVG support, and load PNG faces instead of SVG faces (again this primarily for blackberry).
 
@@ -1117,7 +1117,7 @@ Thanks for reading, see you next time!
 
 
 
-[`config`]: https://github.com/costacruise/atmos/blob/v1/config
+[config]: https://github.com/costacruise/atmos/blob/v1/config
 [config/chans.json]: https://github.com/costacruise/atmos/blob/v1/config/chans.json
 [app/main.js]: https://github.com/costacruise/atmos/blob/v1/app/main.js
 [index.dev.html]: https://github.com/costacruise/atmos/blob/v1/app/index.dev.html
@@ -1154,14 +1154,14 @@ Thanks for reading, see you next time!
 [Iterators]: https://github.com/lukehoban/es6features#iterators--forof
 [ES6 module]: https://github.com/lukehoban/es6features#modules
 [Set]: https://github.com/lukehoban/es6features#map--set--weakmap--weakset
-[`Object.observe`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
-[`Set`]: https://github.com/lukehoban/es6features#map--set--weakmap--weakset
-[`Object.assign`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
-[`Array.from`]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
+[Object.observe]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
+[Set]: https://github.com/lukehoban/es6features#map--set--weakmap--weakset
+[Object.assign]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
+[Array.from]: https://github.com/lukehoban/es6features#math--number--string--array--object-apis
 [EventEmitters]: http://nodejs.org/api/events.html
 [Node streams]: http://nodejs.org/api/stream.html
-[`ArrayBuffers`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
-[`Blobs`]: https://developer.mozilla.org/en/docs/Web/API/Blob
+[ArrayBuffers]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[Blobs]: https://developer.mozilla.org/en/docs/Web/API/Blob
 
 
 [line 9 of server.es]: https://github.com/costacruise/atmos/blob/v1/srv/server.es#L9
@@ -1185,7 +1185,7 @@ Thanks for reading, see you next time!
 [across all browsers]: https://status.modern.ie/scopedstyles
 
 
-[`varint`]: http://npmjs.com/varint
+[varint]: http://npmjs.com/varint
 [babel]: http://npmjs.org/babel
 [through2]: http://npmjs.com/through2
 [eslint]: http://npmjs.com/eslint
@@ -1193,12 +1193,12 @@ Thanks for reading, see you next time!
 [Standard]: https://npmjs.com/standard 
 [standard]: https://npmjs.com/standard
 [semistandard]: http://npmjs.com/semistandard
-[`uncss`]: http://npmjs.com/uncss
-[`cleancss`]: http://npmjs.com/cleancss
-[`core-js`]: http://npmjs.com/core-js
-[`fastclick`]: http://npmjs.com/fastclick
+[uncss]: http://npmjs.com/uncss
+[cleancss]: http://npmjs.com/cleancss
+[core-js]: http://npmjs.com/core-js
+[fastclick]: http://npmjs.com/fastclick
 [SenecaJS]: https://www.npmjs.com/package/seneca
-[`sinopia`]: http://npmjs.com/sinopia
+[sinopia]: http://npmjs.com/sinopia
 [levelup]: http://npmjs.com/levelup
 [leveldown]: http://npmjs.com/leveldown
 [supervisor]: http://npmjs.com/supervisor
