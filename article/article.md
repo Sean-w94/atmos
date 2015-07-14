@@ -1,24 +1,17 @@
 # How to quickly build a social realtime application
 ## Combining RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
 
-Business demands change and fluctuate constantly, there are occasions 
-that require a quick turn around with a hard deadline.
+Business demands change and fluctuate constantly, there are occasions that require a quick turn around with a hard deadline.
 
 This was one of those occasions.
 
-The hard deadline in this case was an internal conference where our 
-goal was to engender excitement for technology among stakeholders.
+The hard deadline in this case was an internal conference where our goal was to engender excitement for technology among stakeholders.
 
-We decided to build a real-time conference voting application that 
-allowed for input via personal devices (mobile, tablet, laptop) 
-immediately displaying results on the presenters screen.
+We decided to build a real-time conference voting application that allowed for input via personal devices (mobile, tablet, laptop) immediately displaying results on the presenters screen.
 
 We called our concept "Atmos".
 ![](results.png)
-We had one developer (myself) and two and a half days to have a working 
-proof of concept, followed by the weekend and Monday for tidy-up, 
-polishing, cross browser and performance testing. All told, from the 
-back-end to the front-end, Atmos was completed in around five days.
+We had one developer (myself) and two and a half days to have a working proof of concept, followed by the weekend and Monday for tidy-up, polishing, cross browser and performance testing. All told, from the back-end to the front-end, Atmos was completed in around five days.
 
 # Live Demo
 A running demo of atmos can be found at <http://atmos.costadigital.io>
@@ -29,12 +22,7 @@ Try using the demo in a browser and on an tablet or mobile device at the same ti
 
 # Viewing the Source
 
-Atmos can be found on github 
-[here](https://github.com/costacruise/atmos/tree/v1). The code is intended both 
-as a reference for this article and as a potential starting point for 
-anyone wanting to build a scalable (both in project scope and 
-deployment) realtime application using some of the latest tools and 
-techniques available.
+Atmos can be found on github [here](https://github.com/costacruise/atmos/tree/v1). The code is intended both as a reference for this article and as a potential starting point for anyone wanting to build a scalable (both in project scope and deployment) realtime application using some of the latest tools and techniques available.
 
 # Setting up
 
@@ -49,73 +37,45 @@ $ npm run start:dev # start dev and realtime servers
 $ npm run stop:dev # power down servers
 ```
 
-There's a large amount of development dependencies, setup takes
-approximately 3-5 minutes to complete. 
+There's a large amount of development dependencies, setup takes approximately 3-5 minutes to complete. 
 
-Several of the `npm run` scripts will likely fail on Windows, 
-however examining `package.json` contents should reveal how to 
-get going on a Windows machine.
+Several of the `npm run` scripts will likely fail on Windows, however examining `package.json` contents should reveal how to get going on a Windows machine.
 
 ## Considerations
 
-Interestingly the primary constraints for our scenario match those of 
-many other projects, though for different reasons and at difference 
-scales.
+Interestingly the primary constraints for our scenario match those of many other projects, though for different reasons and at difference scales.
 
 ### Time
-As mentioned, we had 5 days and there was no room for deadline 
-extension.
+As mentioned, we had 5 days and there was no room for deadline extension.
 
 ### Network
-There's no such thing as a reliable network. In particular though, 
-conference WiFi is typically poor at handling high load, and there was 
-potential for esoteric firewall or proxy setups at the venue to cause 
-issues.
+There's no such thing as a reliable network. In particular though, conference WiFi is typically poor at handling high load, and there was potential for esoteric firewall or proxy setups at the venue to cause issues.
 
 ### Robustness
-This was a live demo to demonstrate the virtues of technology to 
-non-developers. Noticeable failure could significantly hinder our 
-message.
+This was a live demo to demonstrate the virtues of technology to non-developers. Noticeable failure could significantly hinder our message.
 
 ## Process
 
-With little time for bike shedding, the top considerations had to 
-influence our tools, priorities and workflow.
+With little time for bike shedding, the top considerations had to influence our tools, priorities and workflow.
 
 ### Device Support
 
-Given the time constraints we opted to support modern browsers and modern
-devices only. All conference participants had received iPhones and iPads, 
-however there was still an inclination towards blackberry devices. 
+Given the time constraints we opted to support modern browsers and modern devices only. All conference participants had received iPhones and iPads, however there was still an inclination towards blackberry devices. 
 
-As a trade-off we supported touch screen blackberries, but did not implement 
-support for key-only blackberries (adjusting the user interface alone would 
-demand a significant time investment that we could not afford). 
+As a trade-off we supported touch screen blackberries, but did not implement support for key-only blackberries (adjusting the user interface alone would demand a significant time investment that we could not afford). 
 
-We also didn't pay much attention to IE, even IE11 can be a time hog when 
-it comes to compatibility and ~99% of our audience would be on mobile 
-devices anyway.
+We also didn't pay much attention to IE, even IE11 can be a time hog when it comes to compatibility and ~99% of our audience would be on mobile devices anyway.
 
-Progressive enhancement for SEO and accessibility was not followed on this 
-project, however our design and tool choices have made it easy to retrofit
-progressive enhancement with server side rendering. 
+Progressive enhancement for SEO and accessibility was not followed on this project, however our design and tool choices have made it easy to retrofit progressive enhancement with server side rendering. 
 
 ### EcmaScript 6
 
-[There's a direct correlation][] between code size and product quality.
-Defect density can be measured in bugs per 1000 lines of code and averages
-around 0.59 bugs per line for open source projects or .72 bugs per line
-on proprietary code bases. Either way, there will always be a ratio of 
-bugs to code size, thus the more boilerplate we can shed the better. 
+[There's a direct correlation][] between code size and product quality. Defect density can be measured in bugs per 1000 lines of code and averages around 0.59 bugs per line for open source projects or .72 bugs per line on proprietary code bases. Either way, there will always be a ratio of bugs to code size, thus the more boilerplate we can shed the better. 
 
-EcmaScript 6 (a.k.a EcmaScript 2015) was finalized in June 2015. 
-Parts of it have already been implemented in modern browsers and
-in Node. However for cross-browser consistency and to run Node
-without additional flags we transpiled the ES6 code into ES5 code
-as part of the build process (see the Build Process section for details).
+EcmaScript 6 (a.k.a EcmaScript 2015) was finalized in June 2015. Parts of it have already been implemented in modern browsers and in Node. However for cross-browser consistency and to run Node
+without additional flags we transpiled the ES6 code into ES5 code as part of the build process (see the Build Process section for details).
 
-There was only a subset of ES6 features we wanted to use
-for this project to help keep the code clean and readable. 
+There was only a subset of ES6 features we wanted to use for this project to help keep the code clean and readable. 
 
 We stuck with micro-syntax extensions such as
 
@@ -127,34 +87,15 @@ We stuck with micro-syntax extensions such as
 * [spread operator][]
 * [const][]
 
-These little pieces of sugar helped keep code clean, light and 
-descriptive.
+These little pieces of sugar helped keep code clean, light and descriptive.
 
-In particular we used destructuring to emulate configuration based
-enums which were then used to establish light-weight multiplexing
-(more on this later).
+In particular we used destructuring to emulate configuration based enums which were then used to establish light-weight multiplexing (more on this later).
 
-Since `const` keywords are transpiled to `var` keywords usage of 
-`const` was more of a mental assist. It prevented the (generally)
-bad habit of reassignment, and made us think about what exactly
-constitutes an actual variable reference. Whilst there wouldn't
-be a direct performance benefit from using `const` in a transpiled
-environment we're still keeping the road clear for the JavaScript
-engine by enforcing non-reassigned variables. 
+Since `const` keywords are transpiled to `var` keywords usage of `const` was more of a mental assist. It prevented the (generally) bad habit of reassignment, and made us think about what exactly constitutes an actual variable reference. Whilst there wouldn't be a direct performance benefit from using `const` in a transpile denvironment we're still keeping the road clear for the JavaScriptengine by enforcing non-reassigned variables. 
 
-Another gem is the lambdas. The removal of noise around a function 
-enhances readability. However there is a couple of caveats that come
-along with lambdas. 
+Another gem is the lambdas. The removal of noise around a function enhances readability. However there is a couple of caveats that come along with lambdas. 
 
-First there's a potential debugging issue (a similar problem to [using anonymous functions][]). 
-The code base was small enough in our case to let that go on this occasion.
-Secondly the lexical treatment of `this` differs from standard functions.
-The `this` context in an arrow function takes on the context of the surrounding
-closure. If the surrounding closure isn't called with `new`, or given a context
-via `call`, `apply` or `bind` then `this` in a lambda function defaults to 
-the global or object, or `undefined` when in strict mode. All of that is fine, 
-the gotcha comes in when this rule **supercedes* context binding methods (e.g. 
-`call`, `bind`, `apply`). 
+First there's a potential debugging issue (a similar problem to [using anonymous functions][]). The code base was small enough in our case to let that go on this occasion. Secondly the lexical treatment of `this` differs from standard functions. The `this` context in an arrow function takes on the context of the surroundingclosure. If the surrounding closure isn't called with `new`, or given a context via `call`, `apply` or `bind` then `this` in a lambda function defaults to the global or object, or `undefined` when in strict mode. All of that is fine, the gotcha comes in when this rule **supercedes* context binding methods (e.g. `call`, `bind`, `apply`). 
 
 ```js
 function f(fn) { fn.call({some: 'instance'}) }
@@ -169,38 +110,18 @@ function f(fn) { fn.call({some: 'instance'}) }
 //   λ this:  undefined
 ```
 
-It's important to know this difference. Some libraries 
-do set callback function context. For instance the [through2][] module
-allows us to call `this.push` inside the function which is
-supplied as the first parameter - this will fail is the 
-function is an arrow function, `this` will be the global object
-or `undefined` (depending on mode). In this case we either
-have to supply a normal function, or pass values through the
-second parameter of the `cb` argument (we'll talk more
-about `through2` later).
+It's important to know this difference. Some libraries do set callback function context. For instance the [through2][] module allows us to call `this.push` inside the function which is
+supplied as the first parameter - this will fail is the function is an arrow function, `this` will be the global object or `undefined` (depending on mode). In this case we either have to supply a normal function, or pass values through the second parameter of the `cb` argument (we'll talk more about `through2` later).
 
-Adopting ES6 syntax resulted in less code being written than using ES5, 
-without obfuscating the intent of the code (in some cases, quite the opposite).
+Adopting ES6 syntax resulted in less code being written than using ES5,  without obfuscating the intent of the code (in some cases, quite the opposite).
 
-For this project we steered clear of macro-syntax extensions 
-such as classes, modules and generators. 
+For this project we steered clear of macro-syntax extensions such as classes, modules and generators. 
 
-For one thing, whilst learning the syntax of these language additions
-is straightforward understanding the implications of their usage is a 
-longer journey than we had time for. 
+For one thing, whilst learning the syntax of these language additions is straightforward understanding the implications of their usage is a longer journey than we had time for. 
 
-Further, there's the issue of code bloat during transpilation of 
-macro-syntax extensions, plus runtime inefficiency (generators 
-being the prime candidate for slow execution when transpiled). 
+Further, there's the issue of code bloat during transpilation of macro-syntax extensions, plus runtime inefficiency (generators being the prime candidate for slow execution when transpiled). 
 
-Finally, it was important to keep the project simple.
-[Classes][] aren't the right paradigm for linear/cyclical data 
-flow management (actually.. they aren't the right paradigm for
-a prototypal language but that's another story!).
-[Iterators][] (counterpart to generators) encourage a procedural approach 
-(which is somewhat backwards). Finally the [ES6 module][] system isn't
-a good fit for current tooling. Also it may only be 
-opinion but CommonJS modules are cleaner.
+Finally, it was important to keep the project simple. [Classes][] aren't the right paradigm for linear/cyclical data flow management (actually.. they aren't the right paradigm for a prototypal language but that's another story!). [Iterators][] (counterpart to generators) encourage a procedural approach (which is somewhat backwards). Finally the [ES6 module][] system isn't a good fit for current tooling. Also it may only be opinion but CommonJS modules are cleaner.
 
 We also used some ES6 language additions
 
@@ -208,123 +129,63 @@ We also used some ES6 language additions
 * [`Object.assign`][]
 * [`Array.from`][]
 
-The `Object.assign` and `Array.from` methods simply afforded a nice way
-to do mixins and convert array like objects to arrays-proper (no more
-`Array.prototype.slice.call(ThingThatsLikeAnArray)`, hooray!).
+The `Object.assign` and `Array.from` methods simply afforded a nice way to do mixins and convert array like objects to arrays-proper (no more `Array.prototype.slice.call(ThingThatsLikeAnArray)`, hooray!).
 
-The `Set` constructor returns a unique list object. 
-By pushing unique id's (determined browserside), onto a set 
-we could keep a constant running total of voters which allowed us to 
-calculate aggregated percentages.
+The `Set` constructor returns a unique list object. By pushing unique id's (determined browserside), onto a set we could keep a constant running total of voters which allowed us to calculate aggregated percentages.
 
 And one EcmaScript 7 method: [`Object.observe`][].
 
 `Object.observe` was fundamental to model management. 
 
-Using `Object.observe` meant that we could store data in a plain 
-JavaScript object and react to changes in that object. This drove
-the data flow: when a vote for an item came into the server, the
-appropriate observed object was modified. When the object was changed,
-the change was both broadcast to all open sockets and persisted to disk.
+Using `Object.observe` meant that we could store data in a plain JavaScript object and react to changes in that object. This drove the data flow: when a vote for an item came into the server, the appropriate observed object was modified. When the object was changed, the change was both broadcast to all open sockets and persisted to disk.
 
 
 ### Backend platform
 
-Whilst we considered peer to peer connections using WebRTC,
-it wasn't practical. For one thing, iOS Safari does not support
-WebRTC, even if it did there would need to be a time consuming
-network architecture about the best way to transmit data among 300 devices. 
+Whilst we considered peer to peer connections using WebRTC, it wasn't practical. For one thing, iOS Safari does not support WebRTC, even if it did there would need to be a time consuming network architecture about the best way to transmit data among 300 devices. 
 
-We settled instead on creating a mediator server that would
-count incoming votes and broadcasting totals. We chose Node
-for this task.
+We settled instead on creating a mediator server that would count incoming votes and broadcasting totals. We chose Node for this task.
 
-Node is excellent at high concurrency real-time connections,
-and the language is JavaScript. 
+Node is excellent at high concurrency real-time connections, and the language is JavaScript. 
 
-Working in multiple languages isn't just about switching syntax, it's 
-about approach, the flow of logic is different.
-Writing everything in one language sped up full-stack prototyping,
-by eliminating the need to context switch between languages. It also
-made sharing code and configuration trivial.
+Working in multiple languages isn't just about switching syntax, it's about approach, the flow of logic is different. Writing everything in one language sped up full-stack prototyping, by eliminating the need to context switch between languages. It also made sharing code and configuration trivial.
 
-We built the backend against Node 0.12 and iojs 2.3 - this allowed
-us to compare reliability and speed of platforms. `Object.observe` 
-is natively implemented in Node 0.12 and iojs 2.3 which means
-our server wont run on Node 0.10 (polyfilling `Object.observe`
-is expensive, so that's not an option, it's also why it wasn't
-used in the browser).
+We built the backend against Node 0.12 and iojs 2.3 - this allowed us to compare reliability and speed of platforms. `Object.observe` is natively implemented in Node 0.12 and iojs 2.3 which means our server wont run on Node 0.10 (polyfilling `Object.observe` is expensive, so that's not an option, it's also why it wasn't used in the browser).
 
-Node's ecosystem was also leveraged for the build process, 
-we talk more about this as we go.
+Node's ecosystem was also leveraged for the build process, we talk more about this as we go.
 
 
 ### Choosing a frontend framework
 
-To speed up development time we ideally wanted some form of view-layer
-that provides data-binding capabilities. We also wanted to be able to
-isolate features into components in order to reduce time-wasting bugs
-that result from global collisions and general state confusion.
+To speed up development time we ideally wanted some form of view-layer that provides data-binding capabilities. We also wanted to be able to isolate features into components in order to reduce time-wasting bugs that result from global collisions and general state confusion.
 
-Angular is the predominant framework in use at Costa Digital. Whilst
-componentization is a little muddied in Angular, it is nevertheless an 
-excellent framework with a strong ecosystem. However, for this project 
-we chose RiotJS. The driving factor in this decision was file size.
+Angular is the predominant framework in use at Costa Digital. Whilst componentization is a little muddied in Angular, it is nevertheless an excellent framework with a strong ecosystem. However, for this project we chose RiotJS. The driving factor in this decision was file size.
 
-The less data we have to send across the wire, the faster the app will 
-load and establish a realtime connection. Ideally, use of a 
-framework should result in less code than writing an equivalent 
-implementation sans-framework.
+The less data we have to send across the wire, the faster the app will load and establish a realtime connection. Ideally, use of a framework should result in less code than writing an equivalent implementation sans-framework.
 
 When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb. 
 
-<table><thead><tr>
-<th>Framework</th><th>Version</th><th>Minified</th><th>gzip -1</th><th>gzip -6</th></tr></thead><tbody>
-<tr><td>Angular</td><td>1.4.2</td><td>145.5kb</td><td>59.4kb</td><td>51.7kb</td></tr>
-<tr><td>Ember</td><td>1.13.3</td><td>493.3kb</td><td>155.8kb</td><td>126.3kb</td></tr>
-<tr><td>React</td><td>0.13.3</td><td>121.7kb</td><td>42.9kb</td><td>36.2kb</td></tr>
-<tr><td>Riot</td><td>2.2.2-beta</td><td>12.75kb</td><td>5.8kb</td><td>5.3kb</td></tr>
-<tr><td>Web Components Polyfill</td><td>0.7.5</td><td>117.1kb</td><td>39.8kb</td><td>33.4kb</td></tr>
-</tbody></table>
+<table><thead><tr> <th>Framework</th><th>Version</th><th>Minified</th><th>gzip -1</th><th>gzip -6</th></tr></thead><tbody> <tr><td>Angular</td><td>1.4.2</td><td>145.5kb</td><td>59.4kb</td><td>51.7kb</td></tr> <tr><td>Ember</td><td>1.13.3</td><td>493.3kb</td><td>155.8kb</td><td>126.3kb</td></tr> <tr><td>React</td><td>0.13.3</td><td>121.7kb</td><td>42.9kb</td><td>36.2kb</td></tr> <tr><td>Riot</td><td>2.2.2-beta</td><td>12.75kb</td><td>5.8kb</td><td>5.3kb</td></tr> <tr><td>Web Components Polyfill</td><td>0.7.5</td><td>117.1kb</td><td>39.8kb</td><td>33.4kb</td></tr> </tbody></table>
 
-Other alternatives were also deemed too large: Ember clocks in at a whopping 493kb,
-almost half a megabyte before we write a single line of application code!
-Whilst Ember is between 126kb and 155kb gzipped, mobile browsers, 
-(Safari in particular) have low cache sizes.
+Other alternatives were also deemed too large: Ember clocks in at a whopping 493kb, almost half a megabyte before we write a single line of application code! Whilst Ember is between 126kb and 155kb gzipped, mobile browsers, (Safari in particular) have low cache sizes.
 
-Ember will still decompress in the browser to take up half a megabyte prior 
-to any initialization, taking up a significant portion
-of the cache (increasing the likelihood of a reload after switching tabs).
+Ember will still decompress in the browser to take up half a megabyte prior to any initialization, taking up a significant portion of the cache (increasing the likelihood of a reload after switching tabs).
 
-In fairness, Ember isn't primarily a view layer like React and Riot, it's an entire
-MVC suite. But then so is Angular and it's a third of the size of Ember.
+In fairness, Ember isn't primarily a view layer like React and Riot, it's an entire MVC suite. But then so is Angular and it's a third of the size of Ember.
 
 React is 121.7kb and that's before you include a flux implementation.
 
-Another possibility was writing Atmos using future-standards with
-the Web Components Polyfill (which is the basis for Polymer). The 
-promise of this approach, is that over time we'll be able shed pieces
-of the (currently 117kb) polyfill as browser support grows. 
-However, WebComponents haven't been implemented as fast as expected 
-by browser vendors, and anyway we had 5 days not 5 years. 
+Another possibility was writing Atmos using future-standards with the Web Components Polyfill (which is the basis for Polymer). The promise of this approach, is that over time we'll be able shed pieces of the (currently 117kb) polyfill as browser support grows. However, WebComponents haven't been implemented as fast as expected by browser vendors, and anyway we had 5 days not 5 years. 
 
 ### RiotJS
 
-Riot feels like Angular: templates are essentially HTML with a DSL 
-layer. It's also inspired by React's virtual DOM, where changes are 
-measured and executed by diffing an efficient DOM representation. The 
-API surface of Riot is a small yet powerful set of primitives, which 
-makes for a short and shallow learning curve. Perfect for our 
-time-limited needs.
+Riot feels like Angular: templates are essentially HTML with a DSL layer. It's also inspired by React's virtual DOM, where changes are measured and executed by diffing an efficient DOM representation. The API surface of Riot is a small yet powerful set of primitives, which makes for a short and shallow learning curve. Perfect for our time-limited needs.
 
-Unlike React where HTML can be written inline among JavaScript code 
-(the JSX format), the Riot paradigm is to write JavaScript code 
-inline among HTML.
+Unlike React where HTML can be written inline among JavaScript code (the JSX format), the Riot paradigm is to write JavaScript code inline among HTML.
 
 For instance here's how a react component might be written
 
-```js
-var Hello = React.createClass({
+```js var Hello = React.createClass({
   change: function (e) {
     this.setState({msg: e.target.value})
   },
@@ -361,11 +222,7 @@ Here's the equivalent in RiotJS
 </script>
 ```
 
-The `script` tag of type `riot/tag` is for
-creating riot tags inline. We don't use it 
-on the Atmos codebase as we compile the tag 
-files separately (which also means we don't need
-to load the riot compiler to the client).
+The `script` tag of type `riot/tag` is for creating riot tags inline. We don't use it on the Atmos codebase as we compile the tag files separately (which also means we don't need to load the riot compiler to the client).
 
 Then to inject in the DOM:
 
@@ -375,32 +232,19 @@ riot.mount('msg')
 
 See this in action [here](http://jsfiddle.net/vr91n6j1/).
 
-In some ways this looks like the return of the 90's but there is a 
-vital difference. The event handler attributes in a Riot component 
-can only reference methods that exist in their scope (which is determined
-by the base element, e.g. the element which gets mounted, `<hello>` in the
-example). Whereas vanilla HTML handler attributes can only reference 
-methods on the global scope - which we know is a recipe for disaster.
+In some ways this looks like the return of the 90's but there is a vital difference. The event handler attributes in a Riot component can only reference methods that exist in their scope (which is determined by the base element, e.g. the element which gets mounted, `<hello>` in the example). Whereas vanilla HTML handler attributes can only reference methods on the global scope - which we know is a recipe for disaster.
 
 
 
 ## Application Structure
 
-The RiotJS philosophy is one of "tools not policy" which means we 
-needed to define a structural approach for our application. To 
-establish clean code boundaries we wanted a modular structure. Writing 
-small single purpose modules helps to avoid human error.
+The RiotJS philosophy is one of "tools not policy" which means we needed to define a structural approach for our application. To establish clean code boundaries we wanted a modular structure. Writing small single purpose modules helps to avoid human error.
 
 ### Client-side Modularity
 
-For modules in the browser we used Browserify. Browserify allows us to write 
-CommonJS modules for our frontend code. CommonJS is the module system 
-implemented in Node. Use `require` to load a module, use 
-`module.exports` to export a module.
+For modules in the browser we used Browserify. Browserify allows us to write CommonJS modules for our frontend code. CommonJS is the module system implemented in Node. Use `require` to load a module, use `module.exports` to export a module.
 
-For example, Atmos has a front-end local module (located in [app/logic/uid.js][]) 
-which enables us to consistently identify a devices browser between page 
-refreshes or closing and opening the browser. 
+For example, Atmos has a front-end local module (located in [app/logic/uid.js][]) which enables us to consistently identify a devices browser between page refreshes or closing and opening the browser. 
 
 ```js 
 //app/logic/uid.js
@@ -408,20 +252,15 @@ const uid = () => Math.random().toString(35).substr(2, 7)
 module.exports = () => (localStorage.uid = localStorage.uid || uid())
 ```
 
-The `sync.js` module [app/logic/sync.js][] (which provides realtime communication) 
-uses the `uid` module by requiring it (also converting it into an array of integers
-representing byte values, in preparation for sending binary data across the wire):
+The `sync.js` module [app/logic/sync.js][] (which provides realtime communication) uses the `uid` module by requiring it (also converting it into an array of integers representing byte values, in preparation for sending binary data across the wire):
 
 ```js
 const uid = require('./uid')().split('').map(c => c.charCodeAt(0))
 ```
 
-JavaScripters will note that this code uses some of the latest syntax
-from EcmaScript (syntax that isn't supported by default in Node). We'll
-talk more about this later (see EcmaScript 6).
+JavaScripters will note that this code uses some of the latest syntax from EcmaScript (syntax that isn't supported by default in Node). We'll talk more about this later (see EcmaScript 6).
 
-For demonstration purposes, let's see how Browserify processes a require
-statement. 
+For demonstration purposes, let's see how Browserify processes a require statement. 
 
 In the `atmos/app` folder we can run the following:
 
@@ -433,33 +272,22 @@ browserify <(echo "require('"$PWD"/logic/uid')")
 ![](/content/images/2015/07/browserify-eg.png)
 
 
-Standardizing a paradigm across environments by using the same module 
-system for server and client implementations yields similar cognitive 
-benefits to writing the entire stack in the same language.
+Standardizing a paradigm across environments by using the same module system for server and client implementations yields similar cognitive benefits to writing the entire stack in the same language.
 
 ### View Components
 
-Browserify can be augmented with transforms. Riotify is a browserify
-transform that allows us to `require` a riot view (a `.tag` file).
+Browserify can be augmented with transforms. Riotify is a browserify transform that allows us to `require` a riot view (a `.tag` file).
 
-This allows us to create view-packages, where a view is a folder
-that contains `package.json`, `view.tag` and `view.js` files, and
-optionally a `style.tag` file.
+This allows us to create view-packages, where a view is a folder that contains `package.json`, `view.tag` and `view.js` files, and optionally a `style.tag` file.
 
-In Atmos, the `tabs` view is a tiny component that outputs links 
-based on the configuration of a menu array.
+In Atmos, the `tabs` view is a tiny component that outputs links based on the configuration of a menu array.
 
 [app/views/tabs/package.json][]
 ```js
 { "main": "view.tag" }
 ```
 
-The `package.json` file has one purpose: define the entry-point
-for the `tabs` folder as the `view.tag` file instead of the default
-`index.js` file as per Node's module loading algorithm. This allows
-us to require the `tabs` folder (instead of `tabs/view.tag`).
-Requiring a views folder helps to enforce the idea that the view
-is a module that can stand on it's own. 
+The `package.json` file has one purpose: define the entry-point for the `tabs` folder as the `view.tag` file instead of the default `index.js` file as per Node's module loading algorithm. This allows us to require the `tabs` folder (instead of `tabs/view.tag`). Requiring a views folder helps to enforce the idea that the view is a module that can stand on it's own. 
 
 
 [app/views/tabs/view.tag][]
@@ -477,18 +305,11 @@ is a module that can stand on it's own.
 </tabs>
 ```
 
-The `view.tag` file employs the `each` attribute (part of the Riot's DSL), 
-to loop through objects in a `menu`, referencing each object as `item`.
-Then we output the `item.name` linking into to the `item.href` for each item.
+The `view.tag` file employs the `each` attribute (part of the Riot's DSL), to loop through objects in a `menu`, referencing each object as `item`. Then we output the `item.name` linking into to the `item.href` for each item.
 
 At the bottom we `require` the `view.js` file (`.js` is implied when omitted).
 
-It's important to understand that the `tag` file actually represents a sort of
-component object, we're just building that object using HTML syntax. The root
-tag (`<tabs>` in this case) is a declaration of a component. When we pass
-`this` to the function returned by `require('./view')` we are giving the `view.js`' 
-exported function the components *instance*. Another way to think of it, is 
-we're giving `view.js` the components *scope* object.
+It's important to understand that the `tag` file actually represents a sort of component object, we're just building that object using HTML syntax. The root tag (`<tabs>` in this case) is a declaration of a component. When we pass `this` to the function returned by `require('./view')` we are giving the `view.js`' exported function the components *instance*. Another way to think of it, is we're giving `view.js` the components *scope* object.
 
 
 [app/views/tabs/view.js][]
@@ -498,9 +319,7 @@ const menu = require('@atmos/config/menu.json')
 module.exports = (scope) => scope.menu = menu
 ```
 
-The `view.js` is the component controller (or perhaps it's a ViewController...).
-When we attach the menu array to the scope object (e.g. the `this` object from
-the `view.tag` file) we make it available to the component. 
+The `view.js` is the component controller (or perhaps it's a ViewController...). When we attach the menu array to the scope object (e.g. the `this` object from the `view.tag` file) we make it available to the component. 
 
 Finally the apps entry point can load the tab view and mount it.
 
@@ -514,17 +333,12 @@ riot.mount('*')
 /* .. snip ... */
 ```
 
-Passing the asterisk to `riot.mount` essentially tells `riot` to mount all
-required tags.
+Passing the asterisk to `riot.mount` essentially tells `riot` to mount all required tags.
 
 
 ### Scoped Styles
 
-Modularizing CSS seems to be the final frontier of frontend development. 
-It's all too easy for web app styles to become entangled and confusing
-because CSS selectors are global. Disciplines such as OOCSS and SMACSS
-have arisen to tackle this problem. But when it comes to protecting the
-sanity of a code-base, tools are better than convention.
+Modularizing CSS seems to be the final frontier of frontend development. It's all too easy for web app styles to become entangled and confusing because CSS selectors are global. Disciplines such as OOCSS and SMACSS have arisen to tackle this problem. But when it comes to protecting the sanity of a code-base, tools are better than convention.
 
 RiotJS supports scoped style tags, for instance
 
@@ -538,24 +352,15 @@ RiotJS supports scoped style tags, for instance
 </my-tag>
 ```
 
-This won't style **all** `p` tags at size 40em, only `p` tags
-inside `my-tag`. Also the special pseduo-selector `:scope` 
-applies to the `my-tag` tag.
+This won't style **all** `p` tags at size 40em, only `p` tags inside `my-tag`. Also the special pseduo-selector `:scope` applies to the `my-tag` tag.
 
-Scoped styles were proposed as a native spec for browsers, 
-but sadly may never be implemented across all browsers.
+Scoped styles were proposed as a native spec for browsers, but sadly may never be implemented across all browsers.
 
 ### Style Modules
 
-It's possible to compose a tag from several sources
-by redeclaring the tag and compiling each declaration 
-separately. Browserify in conjunction with Riotify 
-automatically compiles the tags via the `require` statement,
-which means we can decouple style from structure whilst 
-keeping it associated and scoped to the view.
+It's possible to compose a tag from several sources by redeclaring the tag and compiling each declaration separately. Browserify in conjunction with Riotify automatically compiles the tags via the `require` statement, which means we can decouple style from structure whilst keeping it associated and scoped to the view.
 
-Let's take a look at the `excitement-in` view
-(this is the view that uses emoticons for user input)
+Let's take a look at the `excitement-in` view (this is the view that uses emoticons for user input)
 
 [app/views/excitement-in/view.tag][]
 
@@ -598,16 +403,11 @@ The views `style.tag` is required in in the `view.tag`.
 </excitement-in>
 ```
 
-In the `style.tag` file, the base element (`<excitement-in>`) is declared again
-and the view components styles are placed inside a scoped style element.
+In the `style.tag` file, the base element (`<excitement-in>`) is declared again and the view components styles are placed inside a scoped style element.
 
-There's a little more boilerplate than the standard CSS file, however the 
-advantage of having the base tag in the styles file reinforces which view
-the styles apply to.
+There's a little more boilerplate than the standard CSS file, however the advantage of having the base tag in the styles file reinforces which view the styles apply to.
 
-The styles for each component are pulled into one JavaScript file
-on compilation, which means we're sharing a single HTTP connection 
-for all of the JavaScript and most of the styles.
+The styles for each component are pulled into one JavaScript file on compilation, which means we're sharing a single HTTP connection for all of the JavaScript and most of the styles.
 
 ## Scoped Package Names
 
@@ -622,52 +422,32 @@ Let's take a look at the `package.json` file in the `config` folder:
 
 The `name` is using a fairly new npm feature: [scoped package names][].
 
-Using scoped names prevents us from accidental public publishing, 
-whilst leaving the door open for private publishing.
+Using scoped names prevents us from accidental public publishing, whilst leaving the door open for private publishing.
 
-If we don't have a paid npm account called `atmos` and we accidentally run
-`npm publish`, it will fail. If we have an unpaid account called atmos
-it will still fail unless we run `npm publish --access public` - which
-is much less likely to happen by accident. 
+If we don't have a paid npm account called `atmos` and we accidentally run `npm publish`, it will fail. If we have an unpaid account called atmos it will still fail unless we run `npm publish --access public` - which is much less likely to happen by accident. 
 
 The `app`, `config`, `inliner` and `srv` all have names scoped to `@atmos`.
 
-Using scopes also makes it easy for us to self host modules on our
-own repo, let's take a look at `.npmrc`
+Using scopes also makes it easy for us to self host modules on our own repo, let's take a look at `.npmrc`
 
 ```js
 @atmos:registry = "http://localhost:4873"
 ```
 
-The `.npmrc` alters the settings of npm for that folder only,
-and in this case we associated the @atmos scope namespace with
-`localhost` port `4873`. So if we tried to `npm publish` 
-(with or without the `--access`) flag it won't publish to 
-the public npm repository, will attempt to publish to `localhost:4873`.
+The `.npmrc` alters the settings of npm for that folder only, and in this case we associated the @atmos scope namespace with `localhost` port `4873`. So if we tried to `npm publish` (with or without the `--access`) flag it won't publish to the public npm repository, will attempt to publish to `localhost:4873`.
 
 We can run a local repository with the excellent [`sinopia`][] module.
 
-However, whilst Sinopia was setup and left in for future use, 
-we ended up using `npm link` because it eliminates the need to
-reinstall updated packages and only two of the packages
-(inliner and config) were subdependencies of `app` and/or `srv`
+However, whilst Sinopia was setup and left in for future use, we ended up using `npm link` because it eliminates the need to reinstall updated packages and only two of the packages (inliner and config) were subdependencies of `app` and/or `srv`
 
 
 ### Shared Configuration
 
-Dependency resolution in Browserify and Node is generally equivalent,
-so we can also require package-modules as opposed to just referencing
-files by path. 
+Dependency resolution in Browserify and Node is generally equivalent, so we can also require package-modules as opposed to just referencing files by path. 
 
-The `npm link` command creates a symbolic link to a package. If we
-`sudo npm link` in a folder containing a package.json file, the module
-will be linked from the global npm installs directory (type `npm get prefix`
-to see where that's located on your system). We can then link
-to the global link by running `npm link <package name>` in a 
-folder which requires the linked package as a subdependency. 
+The `npm link` command creates a symbolic link to a package. If we `sudo npm link` in a folder containing a package.json file, the module will be linked from the global npm installs directory (type `npm get prefix` to see where that's located on your system). We can then link to the global link by running `npm link <package name>` in a folder which requires the linked package as a subdependency. 
 
-With `npm link` we can share our configuration with both the frontend
-and backend code:
+With `npm link` we can share our configuration with both the frontend and backend code:
 
 ```sh
 $ sudo npm link config
@@ -678,8 +458,7 @@ $ pushd srv
 $ npm link @atmos/config
 ```
 
-The `npm link` command removes the need reinstall every time we 
-change configuration settings.
+The `npm link` command removes the need reinstall every time we change configuration settings.
 
 In the [`config`][] folder we have four files
 
@@ -724,56 +503,30 @@ The final (and most interesting) file is `chans.json`:
 }
 ```
 
-The `chans.json` file is used in both the client and server, it provides
-a shared contract allowing us to segregate data sent accross the
-wire into channels. We use it to multiplex realtime streams.
+The `chans.json` file is used in both the client and server, it provides a shared contract allowing us to segregate data sent across the wire into channels. We use it to multiplex realtime streams.
 
 
 ## Realtime Connections
 
 ### Transport
 
-We decided to use WebSockets, this is supported in all current major browsers, 
-and on iOS Safari, all modern Android webKit browsers and even Blackberry 10 OS. 
+We decided to use WebSockets, this is supported in all current major browsers, and on iOS Safari, all modern Android webKit browsers and even Blackberry 10 OS. 
 
-Sticking with WebSockets kept the JavaScript payload small. For instance the
-engine.io library (which provides transport progressive enhancement),
-is an additional 54kb when browserified and minified.
+Sticking with WebSockets kept the JavaScript payload small. For instance the engine.io library (which provides transport progressive enhancement), is an additional 54kb when browserified and minified.
 
-We also chose to build our own very light abstraction around the transport
-on the server side ([app/logic/sync.js][]) which again meant avoiding
-extra weight that socket.io (91kb) or websocket-stream (200kb) would add
-on the client side. This tiny abstraction isolates transport communication
-logic, making it easy for us to dynamically switch out the transport in the 
-future (in order to provide support for old browsers, 
-implement a new paradigm like peer to peer, or interact with a third-party
-data service like Firebase).
+We also chose to build our own very light abstraction around the transport on the server side ([app/logic/sync.js][]) which again meant avoiding extra weight that socket.io (91kb) or websocket-stream (200kb) would add on the client side. This tiny abstraction isolates transport communication logic, making it easy for us to dynamically switch out the transport in the future (in order to provide support for old browsers, implement a new paradigm like peer to peer, or interact with a third-party data service like Firebase).
 
-We did use `websocket-stream` on the server side so we could easily attach
-our data pipeline to each connection.
+We did use `websocket-stream` on the server side so we could easily attach our data pipeline to each connection.
 
 ### Streams
 
-For any server task that involves shuffling data around, Node streams are generally
-the right way to go. They're essentially an implementation of asynchronous
-functional programming, where the immutable data is actually chunks of a larger
-piece of data. They've been called "arrays in time", and that's a great way to
-think about them. 
+For any server task that involves shuffling data around, Node streams are generally the right way to go. They're essentially an implementation of asynchronous functional programming, where the immutable data is actually chunks of a larger piece of data. They've been called "arrays in time", and that's a great way to think about them. 
 
-With streams we can process data in a memory-controlled way, in this particular
-project that's of no major benefit because we're only taking in 8 bytes per 
-vote, and sending out floating point numbers to every connection when a percentage
-changes. The size of the pipeline is not a problem in our case, the amount of
-pipelines might have been a problem if it wasn't for Node's high-concurrency 
-capacity.
+With streams we can process data in a memory-controlled way, in this particular project that's of no major benefit because we're only taking in 8 bytes per vote, and sending out floating point numbers to every connection when a percentage changes. The size of the pipeline is not a problem in our case, the amount of pipelines might have been a problem if it wasn't for Node's high-concurrency capacity.
 
-The main benefit of streams in this case is the ability to architect data-flow
-as a pipeline.
+The main benefit of streams in this case is the ability to architect data-flow as a pipeline.
 
-Let's take a look at the [srv/server.es][] file, on line 9 we call
-the `transport` function and pass it a callback. The `transport`
-function can be found in [srv/lib/transport.js][], all it does is
-accept an incoming WebSocket and wrap it in a stream. 
+Let's take a look at the [srv/server.es][] file, on line 9 we call the `transport` function and pass it a callback. The `transport` function can be found in [srv/lib/transport.js][], all it does is accept an incoming WebSocket and wrap it in a stream. 
 
 In the callback we use that stream:
 
@@ -787,9 +540,7 @@ transport(stream => {
 })
 ```
 
-The data flow for incoming is extremely simple. We pipe incoming data to 
-a `sink` stream. The `sink` function can be found in [srv/lib/conduit.js][],
-and it looks like this:
+The data flow for incoming is extremely simple. We pipe incoming data to a `sink` stream. The `sink` function can be found in [srv/lib/conduit.js][], and it looks like this:
 
 ```js
 const sink = () => through((msg, _, cb) => {
@@ -815,27 +566,18 @@ const sink = () => through((msg, _, cb) => {
 })
 ```
 
-The `through` function is the imported from the [through2][] module, 
-it provides a minimal way to create a stream. This stream processes
-each incoming msg from the client, registers new voters and records
-their votes, changing old votes if necessary.
+The `through` function is the imported from the [through2][] module, it provides a minimal way to create a stream. This stream processes each incoming msg from the client, registers new voters and records their votes, changing old votes if necessary.
 
-Using streams allows us to describe a birds eye view (the pipeline),
-that can be zoomed into at each processing point (the stream implementation).
+Using streams allows us to describe a birds eye view (the pipeline), that can be zoomed into at each processing point (the stream implementation).
 
 
 ### Channels
 
-HTTP connections are expensive, realtime connections are resource intensive,
-which is particularly impacting on mobile (battery, CPU, memory).
+HTTP connections are expensive, realtime connections are resource intensive, which is particularly impacting on mobile (battery, CPU, memory).
 
 A WebSocket connection is essentially a long-lived HTTP connection. 
 
-We wanted a way to segregate and identify incoming and outgoing data,
-without using multiple transports. This is called multiplexing, where
-multiple signals can be sent through one transport (or in the case
-of electrical engineering where the term originates, multiple wires
-can be wrapped into one larger wire).
+We wanted a way to segregate and identify incoming and outgoing data, without using multiple transports. This is called multiplexing, where multiple signals can be sent through one transport (or in the case of electrical engineering where the term originates, multiple wires can be wrapped into one larger wire).
 
 Let's take a look at the `transport` call at [line 9 of server.es][]
 again:
@@ -870,20 +612,11 @@ function broadcast (stream) {
   source(TOPIC_E).pipe(channel(TOPIC_E)).pipe(stream)
 }
 ```
-The astute may note that this could have been written in about
-three lines of code. This code is repetitive **on purpose**. 
+The astute may note that this could have been written in about three lines of code. This code is repetitive **on purpose**. 
 
-Whilst it's true that in many cases Don't Repeat Yourself is
-an axiom to observe, there are times when a declarative approach
-has more value. In this case, we're describing data flow at the
-top level, we want to be explicit.
+Whilst it's true that in many cases Don't Repeat Yourself is an axiom to observe, there are times when a declarative approach has more value. In this case, we're describing data flow at the top level, we want to be explicit.
 
-Our channels are represented by constants that refer to an integer,
-these constants are set in [config/chans.json][] and are shared between
-the server and the client. In [srv/lib/enums.js][] we load the `chans.json`
-file and flatten out the object structure, leaving us with a shallow object
-containing the channel names and numbers. Essentially `enums.js` processes
-`chan.json` into an object that looks like this:
+Our channels are represented by constants that refer to an integer, these constants are set in [config/chans.json][] and are shared between the server and the client. In [srv/lib/enums.js][] we load the `chans.json` file and flatten out the object structure, leaving us with a shallow object containing the channel names and numbers. Essentially `enums.js` processes `chan.json` into an object that looks like this:
 
 ```js
 {
@@ -902,31 +635,15 @@ const {
 } = require('./lib/enums')
 ```
 
-This is where EcmaScript 6 destructuring really shines. It doesn't matter
-what order we specify the constants, as long as they match the properties
-of the object. This means as long as we keep the names the same in `chans.json`
-we can change the number of each channel and add new channels without
-disrupting anything. 
+This is where EcmaScript 6 destructuring really shines. It doesn't matter what order we specify the constants, as long as they match the properties of the object. This means as long as we keep the names the same in `chans.json` we can change the number of each channel and add new channels without disrupting anything. 
 
-Streams are built on EventEmitters, which have a default soft limit
-of 11 listeners. Nothing breaks if this limit is met, however 
-a warning of a potential memory leak is displayed. We happen to be
-creating eleven pipelines and attaching them all to the same stream,
-which causes an `end` event listener to be added to the `stream` object
-eleven times (plus one that's already there). 
-Since we know it's not a memory leak, we call `stream.setMaxListeners`
-and bump the limit from 11 to 12 to avoid outputting the warning.
-If we wanted to added hundreds of channels, we could pass an object 
-as the second argument to each of the `.pipe(stream)` calls, the object
-would contain an `end` property with value false, e.g.
+Streams are built on EventEmitters, which have a default soft limit of 11 listeners. Nothing breaks if this limit is met, however a warning of a potential memory leak is displayed. We happen to be creating eleven pipelines and attaching them all to the same stream, which causes an `end` event listener to be added to the `stream` object eleven times (plus one that's already there). Since we know it's not a memory leak, we call `stream.setMaxListeners` and bump the limit from 11 to 12 to avoid outputting the warning. If we wanted to added hundreds of channels, we could pass an object as the second argument to each of the `.pipe(stream)` calls, the object would contain an `end` property with value false, e.g.
 
 ```js
 source(TOPIC_A).pipe(channel(TOPIC_A)).pipe(stream, {end: false})
 ```
 
-This would stop the listener from being added, we could then, 
-if necessary, add a single listener for cleanup. However, since we're
-only exceeding by one, we just bumped maximum listeners.
+This would stop the listener from being added, we could then, if necessary, add a single listener for cleanup. However, since we're only exceeding by one, we just bumped maximum listeners.
 
 Let's take a look at the `channel` stream, at [line 31 of srv/lib/conduit.js][].
 
@@ -936,11 +653,7 @@ const channel = chan => through((data, enc, cb) => {
 })
 ```
 
-Each time a chunk passes through the stream, we prefix the channel 
-number to it. This gives us a maximum of 256 channels, if we wanted
-more than that we would consider using the [`varint`][] module which
-can create and recognize variable byte-length integers in a chunk of 
-binary data. We only needed 12 channels, so we stuck with a one byte limit.
+Each time a chunk passes through the stream, we prefix the channel number to it. This gives us a maximum of 256 channels, if we wanted more than that we would consider using the [`varint`][] module which can create and recognize variable byte-length integers in a chunk of binary data. We only needed 12 channels, so we stuck with a one byte limit.
 
 Finally we'll take a look at the `source` stream on [line 4 of srv/lib/conduit.js][].
 
@@ -973,10 +686,7 @@ const source = stat => {
 }
 ```
 
-Here, we refer to the channel as the `stat` - on the code base
-these terms are interchangeable depending on context. 
-In srv/lib/data.js we take advantage of the ES6 computed properties
-to set up clean and clear models. For example here's the `stats` object
+Here, we refer to the channel as the `stat` - on the code base these terms are interchangeable depending on context.  In srv/lib/data.js we take advantage of the ES6 computed properties to set up clean and clear models. For example here's the `stats` object
 
 ```js
 const stats = fs.existsSync(at('stats')) ?
@@ -1007,13 +717,9 @@ const stats = fs.existsSync(at('stats')) ?
 
 Again we're being purposefully declarative (and therefore somewhat repetitive).
 
-Whenever we set up a `source` stream in `server.es` we begin to 
-observe the object that exists at the property corresponding to the
-channel number in the `stats` object (the `subject`).
+Whenever we set up a `source` stream in `server.es` we begin to observe the object that exists at the property corresponding to the channel number in the `stats` object (the `subject`).
 
-Any time the `subject` changes, we recalculate the vote percentages
-for that particular subject area, then we push the new percentage 
-along the stream (where it gets the channel number added and is
+Any time the `subject` changes, we recalculate the vote percentages for that particular subject area, then we push the new percentage along the stream (where it gets the channel number added and is
 sent out across the WebSocket transport).
 
 We also use EcmaScript 6 destructuring to manage channels on the browser side. 
@@ -1041,17 +747,11 @@ module.exports = (scope) => {
 }
 ```
 
-We're only interested in the topic channels, each of these channel 
-numbers are passed to the `sync` function which listens for any
-data on the transport that is prefixed with that channel number.
-It then pops the channel number off the chunk, and converts the
-byte array into floating point number, runs it through the supplied
-`map` function and mixes the resulting object into the `scope`, 
-calling `scope.update` to ensure the UI reflects the updated object.
+We're only interested in the topic channels, each of these channel numbers are passed to the `sync` function which listens for any data on the transport that is prefixed with that channel number. It then pops the channel number off the chunk, and converts the byte array into floating point number, runs it through the supplied `map` function and mixes the resulting object into the `scope`, calling `scope.update` to ensure the UI reflects the updated object.
+
 See [app/logic/sync.js][] for implementation details. 
 
-Channels are used in the same way when sending data to the server, 
-for instance [app/views/pace-in/view.js][]:
+Channels are used in the same way when sending data to the server, for instance [app/views/pace-in/view.js][]:
 
 ```js
 const sync = require('../../logic/sync')
@@ -1068,78 +768,43 @@ module.exports = (scope) => {
 }
 ```
 
-Each of the channels are passed to `sync.vote` adds
-the channel number to the outgoing byte-array (the outgoing
-byte-array in this case is the 7 byte `uid` we created for the device).
+Each of the channels are passed to `sync.vote` adds the channel number to the outgoing byte-array (the outgoing byte-array in this case is the 7 byte `uid` we created for the device).
 
-We don't use streams on the client-side, once the core `stream`
-module is required it adds `100kb` to the payload when browserified. 
-There is the very light weight implementation of streams called `pull-stream` 
-by Dominic Tarr, but on this project simple callbacks on the browser 
-side was sufficient.
+We don't use streams on the client-side, once the core `stream` module is required it adds `100kb` to the payload when browserified. There is the very light weight implementation of streams called `pull-stream` by Dominic Tarr, but on this project simple callbacks on the browser side was sufficient.
 
 
 ## UI
 
-As with every other part of the project, we wanted to create the UI
-quickly, and with minimal resource impact.
+As with every other part of the project, we wanted to create the UI quickly, and with minimal resource impact.
 
 ### Pure.css
 
-For styling the application, we used [Pure.css][], 
-mostly for it's responsive grids. 
+For styling the application, we used [Pure.css][], mostly for it's responsive grids. 
 
-This was our first time using Pure.css, but we found it was
-easy to get moving quickly, and it made responsive design effortless. 
+This was our first time using Pure.css, but we found it was easy to get moving quickly, and it made responsive design effortless. 
 
-Whilst Pure.css already has a small footprint we used
-an optimization process only pull out the styles we needed
-(see Preprocessing). 
+Whilst Pure.css already has a small footprint we used an optimization process only pull out the styles we needed (see Preprocessing). 
 
 ### Visual Scaling
 
-The app needed to work on small mobile screens, up to
-a 1080p resolution large projector screen. To allow
-limitless scaling without pixelation, everything had to 
-be created with vectors - which means all graphics had
-to be created with HTML and CSS or with SVG. The smiley
-faces are SVG images, with small PNG fallback images 
-on blackberry. 
+The app needed to work on small mobile screens, up to a 1080p resolution large projector screen. To allow limitless scaling without pixelation, everything had to be created with vectors - which means all graphics had to be created with HTML and CSS or with SVG. The smiley faces are SVG images, with small PNG fallback images on blackberry. 
 
-We used `em` units (instead of pixels or percentages),
-(including for media queries). This means we could 
-scale all elements by changing the base font-size,
-however with time running out we simply used browser
-zoom at the venue to get the right size for the projector
-screen. Whereas we used responsive grids to reflow the layout
-on smaller devices. 
+We used `em` units (instead of pixels or percentages), (including for media queries). This means we could scale all elements by changing the base font-size, however with time running out we simply used browser zoom at the venue to get the right size for the projector screen. Whereas we used responsive grids to reflow the layout on smaller devices. 
 
 
 ## Preprocessing
 
-All of our code needed to be processed prior to deployment, 
-both on the server side and client side. On the server
-we needed ES6 to ES5 transpilation and linting. On the client
-we needed browserification, riotification (.. if those are words),
-and ES6 transpilation, CSS, JavaScript and HTML minification.
+All of our code needed to be processed prior to deployment, both on the server side and client side. On the server we needed ES6 to ES5 transpilation and linting. On the client we needed browserification, riotification (.. if those are words), and ES6 transpilation, CSS, JavaScript and HTML minification.
 
 ### npm: The Task Runner
 
 There's a couple of strong task runners with great ecosystem out there.
 
-Well known task runners include Grunt, Gulp and Broccoli. However, unless
-the project is a massive application, we prefer to use `package.json` `scripts` field.
+Well known task runners include Grunt, Gulp and Broccoli. However, unless the project is a massive application, we prefer to use `package.json` `scripts` field.
 
-The `scripts` field in `package.json` allows us to define shell tasks that run in a
-context-specific environment - in that the path of these shell tasks includes the
-`node_modules/bin` folder. This allow us to reference project dependencies that 
-have command line executables without the path. The shell is extremely powerful,
-and works well with streaming interfaces - we simply use the pipe (`|`) 
-to connect outputs. We can also use `&&` to create task chains, `&` to run 
-tasks in parallel and `||` for fallback tasks.
+The `scripts` field in `package.json` allows us to define shell tasks that run in a context-specific environment - in that the path of these shell tasks includes the `node_modules/bin` folder. This allow us to reference project dependencies that have command line executables without the path. The shell is extremely powerful, and works well with streaming interfaces - we simply use the pipe (`|`) to connect outputs. We can also use `&&` to create task chains, `&` to run tasks in parallel and `||` for fallback tasks.
 
-We run a task with `npm run`, for instance the `dev` task in [app/package.json][]
-`scripts` object looks like this:
+We run a task with `npm run`, for instance the `dev` task in [app/package.json][] `scripts` object looks like this:
 
 ```js
 "dev": "light-server -s . -w 'views/**, logic/**, main.js, index.dev.html' -c 'npm run build:app'"
@@ -1162,9 +827,7 @@ To transpile our ES6 code for the client side we included the following in [app/
 "build:app": "browserify -t babelify -t riotify ./main.js -o build/app.js",
 ```
 
-We already know about browserify and the riotify transform. Babelify is another
-browserify transform, that uses the [babel][] library to convert our ES6 code
-into ES5 code. 
+We already know about browserify and the riotify transform. Babelify is another browserify transform, that uses the [babel][] library to convert our ES6 code into ES5 code. 
 
 On the server, `babel` itself is listed as dependency. 
 
@@ -1175,28 +838,17 @@ require('babel/register')
 require('./server.es')
 ```
 
-Requiring babel/register alters the requiring process itself, so any modules 
-required after that will be transpiled (if necessary). In effect, we transpile
-on initialization.
+Requiring babel/register alters the requiring process itself, so any modules required after that will be transpiled (if necessary). In effect, we transpile on initialization.
 
 ### Standard
 
-During rapid development code discipline is not a primary focus, but ultimately 
-we want neat, readable code to come back to. 
+During rapid development code discipline is not a primary focus, but ultimately we want neat, readable code to come back to. 
 
-[Standard][] is a type of linter that enforces a non-configurable code style.
-The idea behind this is philosophical, the premise being let's stop bike-shedding
-and just go with something. This seemed to have cohesion with project priorities
-so we used it to determine code discipline for this project.
+[Standard][] is a type of linter that enforces a non-configurable code style. The idea behind this is philosophical, the premise being let's stop bike-shedding and just go with something. This seemed to have cohesion with project priorities so we used it to determine code discipline for this project.
 
-Standard has a `--format` mode, that will rewrite code according to the rules
-of standard. This was perfect as we were able to partially automate (it's not perfect)
-the tidy up process, thus saving time for more thought-intensive tasks. 
+Standard has a `--format` mode, that will rewrite code according to the rules of standard. This was perfect as we were able to partially automate (it's not perfect) the tidy up process, thus saving time for more thought-intensive tasks. 
 
-Standard uses [eslint][] as the parser. We're able to change the parser to [babel-eslint][]
-to apply standard linting and formatting to EcmaScript 6 code by installing [babel-eslint][]
-as a dependency and adding `standard.parser` property set to `babel-eslint` 
-in the `package.json` files.
+Standard uses [eslint][] as the parser. We're able to change the parser to [babel-eslint][] to apply standard linting and formatting to EcmaScript 6 code by installing [babel-eslint][] as a dependency and adding `standard.parser` property set to `babel-eslint` in the `package.json` files.
 
 For instance in the [srv/package.json][] file we have:
 ```js
@@ -1213,24 +865,17 @@ For instance in the [srv/package.json][] file we have:
 ...
 ```
 
-The notable thing about standard, is it **restricts** semi-colon usage to the
-rare edge cases. This is why there are no semi-colons in the code examples. 
+The notable thing about standard, is it **restricts** semi-colon usage to the rare edge cases. This is why there are no semi-colons in the code examples. 
 
 It's difficult to talk about semi-colons without bikes-shedding, so we won't.
 
-Note, however, if it offends sensibilities there's also 
-[semistandard][] (..of course there is).
+Note, however, if it offends sensibilities there's also [semistandard][] (..of course there is).
 
 
 ### Uncss, Inliner & HTML Minify
-We didn't use a CSS preprocessor like Sass, LESS, or Stylus. 
-The benefits of scoped styles combined with pure.css was enough for our needs. 
-We did however use [`uncss`][], an awesome utility that loads the page
-in a headless browser and cross references stylesheets with actual styles
-used in the DOM. It then outputs the net CSS.
+We didn't use a CSS preprocessor like Sass, LESS, or Stylus. The benefits of scoped styles combined with pure.css was enough for our needs. We did however use [`uncss`][], an awesome utility that loads the page in a headless browser and cross references stylesheets with actual styles used in the DOM. It then outputs the net CSS.
 
-Let's take a look at the `build:compress` task in [app/package.json][] `scripts`
-field.
+Let's take a look at the `build:compress` task in [app/package.json][] `scripts` field.
 
 ```js
 "build:compress": "uncss http://localhost:4000/index.dev.html | cleancss --s0 --skip-import --skip-aggressive-merging | ./node_modules/.bin/@atmos/inliner index.dev.html | html-minifier --collapse-whitespace --remove-attribute-quotes --collapse-boolean-attributes > index.html",
@@ -1246,37 +891,23 @@ Once we have the CSS subset, we pass it through the [`cleancss`][] utility cutti
 
 Then we pipe it through `@atmos/inliner`, which was written for the project.
 
-Unfortunately, `npm` currently [has a bug][] with scoped package executables, the relative
-path has to be specified, which is why we couldn't simply write `inliner` or `@atmos/inliner`.
+Unfortunately, `npm` currently [has a bug][] with scoped package executables, the relative path has to be specified, which is why we couldn't simply write `inliner` or `@atmos/inliner`.
 
-The `inliner` takes an HTML file, and parses it using JSDOM, removing all `link` tags 
-(it leaves inlined `style` tags alone). Then it creates a new `style` tag and writes
-the CSS that is piped to the process (our minified CSS subset). Finally the `inliner`
-outputs HTML file when done.
+The `inliner` takes an HTML file, and parses it using JSDOM, removing all `link` tags (it leaves inlined `style` tags alone). Then it creates a new `style` tag and writes the CSS that is piped to the process (our minified CSS subset). Finally the `inliner` outputs HTML file when done.
 
-On both mobile networks (which participants ended up using due to slow WiFi), and
-strained WiFi networks the major issue is not broadband speed, but connection latency. 
+On both mobile networks (which participants ended up using due to slow WiFi), and strained WiFi networks the major issue is not broadband speed, but connection latency. 
 
-In other words, making the connection is the bottleneck - this is why watching
-video over 3G isn't always terrible, but it generally takes longer for the video
-to start playing than on a typical, functioning WiFi connection.
+In other words, making the connection is the bottleneck - this is why watching video over 3G isn't always terrible, but it generally takes longer for the video to start playing than on a typical, functioning WiFi connection.
 
-The `link` tag blocks page rendering until it has down loaded, which means
-in unoptimized form rendering is reliant on three (probably low-latency) HTTP connections.
+The `link` tag blocks page rendering until it has down loaded, which means in unoptimized form rendering is reliant on three (probably low-latency) HTTP connections.
 
-By inlining the CSS we reduce render blocking connections down to zero, avoiding
-potential sluggish page loading. 
+By inlining the CSS we reduce render blocking connections down to zero, avoiding potential sluggish page loading. 
 
-Each views CSS is actually compiled by Riot into JavaScript. The script tag is 
-placed at the bottom of the page, which allows styles for
-page structure to load close to instantly even on a slow connection, while
-component styles load alongside component functionality.
+Each views CSS is actually compiled by Riot into JavaScript. The script tag is placed at the bottom of the page, which allows styles for page structure to load close to instantly even on a slow connection, while component styles load alongside component functionality.
 
-The only other connection on the page is font import, again placed at the bottom
-to avoid render blocking.
+The only other connection on the page is font import, again placed at the bottom to avoid render blocking.
 
-Finally we pass it through `html-minifier` to squeeze all the slack we can out of
-the load time.
+Finally we pass it through `html-minifier` to squeeze all the slack we can out of the load time.
 
 
 ### Task Composition, Flag Delegation & Minifyify
@@ -1288,52 +919,30 @@ Let's take a look at the `build:dist` and `build` tasks in `package.json` `scrip
 "build": "npm run build:compress && npm run build:app && npm run build:dist",
 ```
 
-Because `npm run` is just another shell command, we can execute other tasks by their
-`script` alias, which grants us the ability to compose tasks from other tasks, which
-is what our `build` task does. 
+Because `npm run` is just another shell command, we can execute other tasks by their `script` alias, which grants us the ability to compose tasks from other tasks, which is what our `build` task does. 
 
-We can also pass flags by proxy to the executables that are called within another task.
-In the `build:dist` we use a double dash (`--`) to instruct the task runner that the following
-flags apply to the last executable in the `build:app` tasks (which is the `browserify` executable). 
+We can also pass flags by proxy to the executables that are called within another task. In the `build:dist` we use a double dash (`--`) to instruct the task runner that the following flags apply to the last executable in the `build:app` tasks (which is the `browserify` executable). 
 
-We specify the `-d` flag which tells browserify to retain data for creating [sourcemaps][],
-then we add the `-p` flag to load the minifyify plugin (minifyify is a browserify plugin, 
-not a browserify transform). 
+We specify the `-d` flag which tells browserify to retain data for creating [sourcemaps][], then we add the `-p` flag to load the minifyify plugin (minifyify is a browserify plugin, not a browserify transform). 
 
 Long story short, by the end of the build process we have minified JavaScript (with a sourcemap). 
 
 
 ## Reliability and Recovery
 
-There were some significant unknowns. We didn't know whether 
-a bug in our code, or in a sub-dependency might be triggered 
-by interactions between ~300 active WebSocket
-connection and we didn't have time to stress test (and even
-if we had time to stress test, there's no guarantee that we
-would perfectly emulate a live environment).
+There were some significant unknowns. We didn't know whether a bug in our code, or in a sub-dependency might be triggered by interactions between ~300 active WebSocket connection and we didn't have time to stress test (and even if we had time to stress test, there's no guarantee that we would perfectly emulate a live environment).
 
-So if the server crashed, we needed to fail gracefully
-(or rather, fail in a way that nobody notices). 
+So if the server crashed, we needed to fail gracefully (or rather, fail in a way that nobody notices). 
 
 ### Persistence
-If the server crashed we needed to retain state and reload on server restart
-so the statistics stayed consistent. Various database options we're considered, but
-this meant another process to deploy and monitor. [LevelDB][] was also
-considered (which runs in-process with the [leveldown][]/[levelup][] modules).
-However, since our deployment environment ([Digital Ocean][]) ran on solid state
-disks we decided to keep it simple and persist directly to disk. As this was one
-of the last things we added, with time running out, it meant we avoided learning
-another API. 
+If the server crashed we needed to retain state and reload on server restart so the statistics stayed consistent. Various database options we're considered, but this meant another process to deploy and monitor. [LevelDB][] was also considered (which runs in-process with the [leveldown][]/[levelup][] modules). However, since our deployment environment ([Digital Ocean][]) ran on solid state disks we decided to keep it simple and persist directly to disk. As this was one of the last things we added, with time running out, it meant we avoided learning another API. 
 
 ### Reconnection
-If the server crashed, the client would lose their connection. The clients needed
-to be able to reconnect when the server came back online, without the user noticing.
+If the server crashed, the client would lose their connection. The clients needed to be able to reconnect when the server came back online, without the user noticing.
 
-In addition the ability to reconnect would smooth over any short-term intermittent 
-connectivity issues the mobile or WiFi networks at the venue might have.
+In addition the ability to reconnect would smooth over any short-term intermittent connectivity issues the mobile or WiFi networks at the venue might have.
 
-Thanks to closure scope and asynchronous mutual recursion we were able to implement
-a reconnection strategy in `sync.js` quickly and with a small amount of code.
+Thanks to closure scope and asynchronous mutual recursion we were able to implement a reconnection strategy in `sync.js` quickly and with a small amount of code.
 
 On [line 5 of app/logic/sync.js][] we create out WebSocket connection:
 
@@ -1341,11 +950,7 @@ On [line 5 of app/logic/sync.js][] we create out WebSocket connection:
 var ws = wsab('ws://' + location.hostname + ':4001')
 ```
 
-`wsab` is a small function near the bottom of sync, it simply creates a
-binary WebSocket that uses ArrayBuffers. This is one of the few places
-where we use `var` to declare a reference. The `ws` token is a variable
-because if the client should disconnect for any reason we point `ws` to
-a new WebSocket instance holding the new (hopefully live) connection.
+`wsab` is a small function near the bottom of sync, it simply creates a binary WebSocket that uses ArrayBuffers. This is one of the few places where we use `var` to declare a reference. The `ws` token is a variable because if the client should disconnect for any reason we point `ws` to a new WebSocket instance holding the new (hopefully live) connection.
 
 [Lines 22-36 of app/logic/sync.js] contain most of the rest of the magic:
 
@@ -1367,30 +972,16 @@ const attach = () => {
 }
 ```
 
-Whilst the WebSocket connection is created as soon as `app/logic/sync.js`
-is required, the `attach` function is invoked the first time its
-exported function is called. The `attach` function has two roles.
-It routes incoming messages to the `update` function 
-(which parses incoming messages then populates and updates a relevant 
-components scope accordingly). It also attaches a `close` listener
-to the WebSocket. This is where the `recon` function comes in. 
+Whilst the WebSocket connection is created as soon as `app/logic/sync.js` is required, the `attach` function is invoked the first time its exported function is called. The `attach` function has two roles. It routes incoming messages to the `update` function  (which parses incoming messages then populates and updates a relevant  components scope accordingly). It also attaches a `close` listener to the WebSocket. This is where the `recon` function comes in. 
 
-The `recon` function returns a function that will repeatedly attempt
-to establish a new connection to the server. There is no limit to the 
-amount of attempts, however each attempt will take longer than the last.
+The `recon` function returns a function that will repeatedly attempt to establish a new connection to the server. There is no limit to the  amount of attempts, however each attempt will take longer than the last.
 
-Whilst the server could probably handle 300 simultaneous connection 
-requests, time for proving this assertion was lacking. So we introduced
-pseudo-randomness to the exponential backoff strategy to prevent such
-a scenario.
+Whilst the server could probably handle 300 simultaneous connection  requests, time for proving this assertion was lacking. So we introduced pseudo-randomness to the exponential backoff strategy to prevent such a scenario.
 
-Time-allowing, we could have made a completely seamless offline-first
-experience by recording current selections in `localStorage` and sending
-the selections back to the server upon reconnection.
+Time-allowing, we could have made a completely seamless offline-first experience by recording current selections in `localStorage` and sending the selections back to the server upon reconnection.
 
 ### Supervisor
-Finally we used the [supervisor][] utility to secure minimal downtime
-in the event of a server crash. 
+Finally we used the [supervisor][] utility to secure minimal downtime in the event of a server crash. 
 
 ```sh
 npm install -g supervisor
@@ -1406,8 +997,7 @@ nohup supervisor srv &
 
 ## Behaviour Consistency
 
-Near the top of [app/main.js][] (the entry point the client-side), 
-several libraries are required to ensure cross-platform consistency. 
+Near the top of [app/main.js][] (the entry point the client-side),  several libraries are required to ensure cross-platform consistency. 
 
 [Lines 5-11 of app/main.js][]:
 
@@ -1421,69 +1011,40 @@ require('fastclick')(document.body)
 require('./logic/support').blackberry()
 ```
 
-The [`core-js`][] module is divided up by feature, so we can
-only require what we use. 
+The [`core-js`][] module is divided up by feature, so we can only require what we use. 
 
-The [`fastclick`][] module removes the 300ms delay before a touch
-is registered as a click on mobile devices. Without this, mobile
-interaction seems lethargic.
+The [`fastclick`][] module removes the 300ms delay before a touch is registered as a click on mobile devices. Without this, mobile interaction seems lethargic.
 
-Finally our purpose written [app/logic/support.js][] library is
-used to customize the display by adding a `blackberry` class
-to the `html` element if the device is a blackberry. The `support`
-library is used elsewhere to detect svg support, and load PNG
-faces instead of SVG faces (again this primarily for blackberry).
+Finally our purpose written [app/logic/support.js][] library is used to customize the display by adding a `blackberry` class to the `html` element if the device is a blackberry. The `support` library is used elsewhere to detect svg support, and load PNG faces instead of SVG faces (again this primarily for blackberry).
 
 
 ## Deployment
 
-We kept deployment very simple. We used an Ubuntu digital ocean instance, 
-with `node` and `git` installed on it. We pulled in changes onto the server
-with git, and ran the server with `nohup` (the "no hangup command", it allows
-us to start a process over SSH and terminate the client session without killing
-the process). 
+We kept deployment very simple. We used an Ubuntu digital ocean instance,  with `node` and `git` installed on it. We pulled in changes onto the server with git, and ran the server with `nohup` (the "no hangup command", it allows us to start a process over SSH and terminate the client session without killing the process). 
 
-Due to it's high performance and aggressive caching policy 
-we used [nginx][] to serve static files, simply creating symlinks to the 
-local atmos git repository from the nginx serving folder.
+Due to it's high performance and aggressive caching policy  we used [nginx][] to serve static files, simply creating symlinks to the  local atmos git repository from the nginx serving folder.
 
 
 ## Testing
 
 Unfortunately, like most time-constrained projects we didn't set up any automated tests.
 
-TDD is awesome when there's time and forethought, however we were prototyping and
-exploring possibilities as we went. 
+TDD is awesome when there's time and forethought, however we were prototyping and exploring possibilities as we went. 
 
 Moving forward, the testing strategy will mostly be at the component level. 
 
-We could also do with a stress-testing suite to see how much activity
-the server can take before it comes under strain.
+We could also do with a stress-testing suite to see how much activity the server can take before it comes under strain.
 
 
 ## Future
 
-We'd like to break Atmos up more, decouple the view components
-and make them interchangeable. We'd like to make it very easy
-to create custom components so Atmos can be repurposed yet
-rely on the realtime infrastructure. We'll also look into
-an easy zero-config deployment strategy (possibly with docker containers).
+We'd like to break Atmos up more, decouple the view components and make them interchangeable. We'd like to make it very easy to create custom components so Atmos can be repurposed yet rely on the realtime infrastructure. We'll also look into an easy zero-config deployment strategy (possibly with docker containers).
 
-Offline vote recording as discussed in the **Reconnection** section 
-would also be a nice feature.
+Offline vote recording as discussed in the **Reconnection** section  would also be a nice feature.
 
-We could look into using nginx to round-robin multiple WebSocket servers
-as well as server static files. This would further protect us in the 
-event of a server crash: disconnected clients would quickly reconnect
-to the another WebSocket server that's still alive while the crashed
-server restarts. We would at this point either switch to a database
-to manage persistence across processes (LevelDB looks like a good choice)
-or implement a lateral transport layer (e.g. TCP or maybe a message bus)
-that realizes eventual consistency across the WebSocket services (maybe
-we'd use [SenecaJS][] to abstract away the details).
+We could look into using nginx to round-robin multiple WebSocket servers as well as server static files. This would further protect us in the  event of a server crash: disconnected clients would quickly reconnect to the another WebSocket server that's still alive while the crashed server restarts. We would at this point either switch to a database to manage persistence across processes (LevelDB looks like a good choice) or implement a lateral transport layer (e.g. TCP or maybe a message bus) that realizes eventual consistency across the WebSocket services (maybe we'd use [SenecaJS][] to abstract away the details).
 
-We should probably also fix the layout issue in Internet Explorer, 
-but that's for another time.
+We should probably also fix the layout issue in Internet Explorer,  but that's for another time.
 
 ## Fin
 
