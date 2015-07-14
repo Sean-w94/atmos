@@ -655,7 +655,9 @@ The astute may note that this could have been written in about three lines of co
 
 Whilst it's true that in many cases "Don't Repeat Yourself" is an axiom worth observing, there are times when a declarative approach has more value. In this case we're describing data flow at the top level, we want to be explicit.
 
-Our channels are represented by constants that refer to an integer. These constants are set in [config/chans.json][] and are shared between the server and the client. In [srv/lib/enums.js][] we load the `chans.json` file and flatten out the object structure, leaving us with a shallow object containing the channel names and numbers. Essentially `enums.js` processes `chan.json` into an object that looks like this:
+Our channels are represented by constants that refer to an integer. These constants are set in [config/chans.json][] and are shared between the server and the client. In [srv/lib/enums.js][] we load the `chans.json` file and flatten out the object structure, leaving us with a shallow object containing the channel names and numbers. 
+
+`enums.js` processes `chan.json` into an object that looks like this:
 
 ```js
 {
