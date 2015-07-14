@@ -1,5 +1,5 @@
-# Travelling Light
-## Combining RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant realtime application
+# How to quickly build a social realt-ime application
+## How we combined RiotJS, Node, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
 
 ![](mood.png)
 
