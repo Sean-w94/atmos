@@ -113,9 +113,9 @@ function f(fn) { fn.call({some: 'instance'}) }
 //   λ this:  undefined
 ```
 
-It's important to know this difference. Some libraries do set callback function context. For instance the [through2][] module allows us to call `this.push` inside the user supplied callback. If the supplied callback is an arrow function, calling `push` will fail (or worse, do something else). Instead of the object which `through2` attempted to supply as the context for the callback function the `this` keyword will refer to the global object or `undefined` (depending on the mode). 
+It's important to know this difference. Some libraries do set callback function context. 
 
-In such cases we either have to supply a normal function, or pass values via the second parameter of the `cb` argument (we'll talk more about `through2` later).
+For instance the [through2][] module allows us to call `this.push` inside the user supplied callback. If the supplied callback is an arrow function, calling `this.push` will fail (or worse, if there's a global push method). Instead of the object which `through2` attempted to supply as the context for the callback function the `this` keyword will refer to the global object or `undefined` (depending on the mode). In such cases we either have to supply a normal function, or pass values via the second parameter of the `cb` argument (we'll talk more about `through2` later).
 
 Adopting ES6 syntax resulted in less code being written than using ES5, without obfuscating the intent of the code (in some cases, quite the opposite).
 
