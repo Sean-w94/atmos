@@ -121,7 +121,7 @@ Adopting ES6 syntax resulted in less code being written than using ES5, without 
 
 For this project we steered clear of macro-syntax extensions such as classes, modules and generators. 
 
-For one thing, whilst learning the syntax of these language additions is straightforward understanding the implications of their usage is a longer journey than we had time for. 
+For one thing, whilst learning the syntax of these language additions is straightforward, understanding the implications of their usage is a longer journey than we had time for. 
 
 Further, there's the issue of code bloat during transpilation of macro-syntax extensions, plus runtime inefficiency (generators being the prime candidate for slow execution when transpiled). 
 
