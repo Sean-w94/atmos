@@ -185,7 +185,8 @@ Unlike React where HTML can be written inline among JavaScript code (the JSX for
 
 For instance here's how a react component might be written
 
-```js var Hello = React.createClass({
+```js 
+var Hello = React.createClass({
   change: function (e) {
     this.setState({msg: e.target.value})
   },
@@ -313,6 +314,7 @@ It's important to understand that the `tag` file actually represents a sort of c
 
 
 [app/views/tabs/view.js][]
+
 ```js
 const menu = require('@atmos/config/menu.json')
 
@@ -324,6 +326,7 @@ The `view.js` is the component controller (or perhaps it's a ViewController...).
 Finally the apps entry point can load the tab view and mount it.
 
 [app/main.js][]
+
 ```js
 const riot = require('riot')
 /* ... snip ... */
