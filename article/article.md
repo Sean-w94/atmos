@@ -1131,10 +1131,10 @@ Therefore we sacrificed universal compatibility in favour of small file size. Fo
 plain WebSockets instead of [engine.io][] or [socket.io][] because old browsers simply weren't
 important.
 
-We hadn't heard of RiotJS before starting this project, but it was breeze to work with. 
-This is because Riot is singular in purpose, deliberately limits API growth, and
-introduces concepts that parallel pre-existing paradigms without describing abstractions
-with esoteric language (transclusion, anyone?). 
+We hadn't heard of RiotJS before starting this project, but it was a breeze to work with. 
+We think reasons for this include Riot's small API ideology, single-minded purpose, and 
+concepts that parallel pre-existing paradigms without wrapping abstractions
+in esoteric language (transclusion, anyone?). 
 
 In summary, small is beautiful, research time is never lost time, tailor tools to priorities and always be open to different approaches.
 
