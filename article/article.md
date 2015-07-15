@@ -405,7 +405,7 @@ It's possible to compose a tag from several sources by redeclaring the tag and c
 This means we can decouple style from structure whilst also isolating its domain of influence
 to a particular view.
 
-Let's take a look at the `excitement-in` view (this is the view that uses emoticons for user input)
+Let's take a look at the `excitement-in` view (this is the view that uses emoticons for user input).
 
 [app/views/excitement-in/view.tag][]
 
