@@ -789,6 +789,7 @@ Any time the `subject` changes, we recalculate the vote percentages for that par
 sent out across the WebSocket transport).
 
 We also use EcmaScript 6 destructuring to manage channels on the browser side. 
+
 For instance, in [app/views/topic-out/view.js][]:
 
 ```js
