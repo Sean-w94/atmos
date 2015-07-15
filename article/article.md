@@ -2,7 +2,7 @@
 
 ---
 
-This article been reproduced from the Costa Digital blog at TODO:URL.
+This article has been reproduced from the Costa Digital blog at TODO:URL.
 
 We've been assisting Costa as they strengthen their digital presence and infrastructure. 
 
