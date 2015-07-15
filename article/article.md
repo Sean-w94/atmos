@@ -898,10 +898,9 @@ To transpile our ES6 code for the client side we included the following in [app/
 "build:app": "Browserify -t babelify -t riotify ./main.js -o build/app.js",
 ```
 
-We already know about Browserify and the Riotify transform. 
+Browserify and the Riotify have already been covered.
 
-Babelify is another Browserify transform, that uses the [babel][] 
-library to convert our ES6 code into ES5 code. 
+Babelify is another Browserify transform that uses the [babel][] library to convert our ES6 code into ES5 code. 
 
 On the server, `babel` itself is listed as dependency. 
 
