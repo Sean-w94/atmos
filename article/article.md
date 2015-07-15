@@ -1099,7 +1099,7 @@ The [core-js][] module is divided up by feature. So we get to load only what we 
 
 The [fastclick][] module removes the 300ms delay before a touch is registered on mobile devices. Without this, mobile interaction seems lethargic.
 
-Finally our purpose written [app/logic/support.js][] library is used to customize the display by adding a `blackberry` class to the `html` element if the device is a blackberry. The `support` library is used elsewhere to detect SVG support, and load PNG faces instead of SVG faces (again this primarily for blackberry).
+Finally our purpose written [app/logic/support.js][] library is used to customize the display by adding a `blackberry` class to the `html` element if the device is a BlackBerry. The `support` library is used elsewhere to detect SVG support, and load PNG faces instead of SVG faces (again this primarily for BlackBerry).
 
 
 ## Deployment
