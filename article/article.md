@@ -837,7 +837,7 @@ module.exports = (scope) => {
 
 Each of the channels are passed to `sync.vote` adds the channel number to the outgoing byte-array (the outgoing byte-array in this case is the 7 byte `uid` we created for the device).
 
-We don't use streams on the client-side, once the core `stream` module is required it adds `100kb` to the payload when Browserified. There is the very light weight implementation of streams called `pull-stream` by Dominic Tarr which we could have used. However for this project simple callbacks on the browser side was sufficient.
+We don't use streams on the client-side. Once the core `stream` module is required it adds `100kb` to the payload when Browserified. There is the very light weight implementation of streams called `pull-stream` by Dominic Tarr which we could have used. However for this project simple callbacks on the browser side was sufficient.
 
 
 ## UI
