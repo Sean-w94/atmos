@@ -431,7 +431,7 @@ Let's take a look at the `excitement-in` view (this is the view that uses emotic
 </excitement-in>
 ```
 
-The views `style.tag` is required in in the `view.tag`. 
+The views `style.tag` is required in the `view.tag`. 
 
 [app/views/excitement-in/style.tag][]
 
