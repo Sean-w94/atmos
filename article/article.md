@@ -1081,7 +1081,7 @@ nohup supervisor srv &
 
 ## Behaviour Consistency
 
-Near the top of [app/main.js][] (the entry point the client-side), several libraries are required to ensure cross-platform consistency. 
+Several libraries are required to ensure cross-platform consistency near the top of [app/main.js][] (our frontends entry point). 
 
 [Lines 5-11 of app/main.js][]:
 
