@@ -580,7 +580,7 @@ With streams we can process data in a memory-controlled way. In this particular 
 
 The main benefit of streams in this project is the ability to architect data-flow as a pipeline.
 
-Let's take a look at the [srv/server.es][] file. On line 9 we call the `transport` function and pass it a callback. The `transport` function can be found in [srv/lib/transport.js][], all it does is accept an incoming WebSocket and wrap it in a stream. 
+Let's take a look at the [srv/server.es][] file. On line 9 we call the `transport` function and pass it a callback. The `transport` function can be found in [srv/lib/transport.js][]. All it does is accept an incoming WebSocket and wrap it in a stream. 
 
 In the callback we use that stream:
 
