@@ -850,7 +850,7 @@ For styling the application, we used [Pure.css][], mostly for its responsive gri
 
 This was our first time using Pure.css, but we found it was easy to get moving quickly and it made responsive prototyping effortless. 
 
-Whilst Pure.css already has a small footprint we used an optimization process only pull out the styles we needed (see Preprocessing). 
+Whilst Pure.css already has a small footprint we used an optimization process to extract only the styles we needed (see Preprocessing). 
 
 ### Visual Scaling
 
