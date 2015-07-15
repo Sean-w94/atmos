@@ -973,7 +973,7 @@ The `inliner` takes an HTML file, and parses it using JSDOM, removing all `link`
 
 On both mobile networks (which participants ended up using due to slow WiFi), and strained WiFi networks the major issue is not broadband speed, but connection latency. 
 
-In other words, making the connection is the bottleneck. This is why watching video over 3G isn't always terrible, but it generally takes longer for the video to start playing than on a typical functioning WiFi connection.
+In other words, the making of the connection is the bottleneck. This is why watching video over 3G isn't always terrible, but it generally takes longer for the video to start playing than on a typical functioning WiFi connection.
 
 The `link` tag blocks page rendering until it has downloaded, which means in unoptimized form rendering is reliant on three (probably low-latency) HTTP connections.
 
