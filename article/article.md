@@ -873,7 +873,7 @@ Nevertheless, if we're not dealing with a massive application with complex build
 
 The `scripts` field in `package.json` allows us to define shell tasks that run in a context-specific environment - in that the path of these shell tasks includes the `node_modules/bin` folder. This allow us to drop the relative path when referencing executable dependencies. 
 
-The shell is extremely powerful, and works well with streaming interfaces. We can use the pipe (`|`) to connect outputs. We can also use `&&` to create task chains, `&` to run tasks in parallel and `||` for fallback tasks.
+The shell is extremely powerful. It has a streaming interface: we use the pipe (`|`) to connect outputs. We can also use `&&` to create task chains, `&` to run tasks in parallel and `||` for fallback tasks.
 
 To execute a task we us `npm run`. For instance the `dev` task in [app/package.json][] `scripts` object looks like this:
 
