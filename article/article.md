@@ -1,4 +1,4 @@
-# How to quickly build a social realtime application
+# How to quickly build a social real-time application
 ## Combining RiotJS, Node.js, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
 
 Business demands change and fluctuate constantly, there are occasions that require a quick turn around with a hard deadline.
@@ -22,7 +22,7 @@ Try using the demo in a browser and on a tablet or mobile device at the same tim
 
 # Viewing the Source
 
-Atmos can be found on github [here](https://github.com/costacruise/atmos/tree/v1). The code is intended both as a reference for this article and as a potential starting point for anyone wanting to build a scalable (both in project scope and deployment) realtime application using some of the latest tools and techniques available.
+Atmos can be found on GitHub [here](https://github.com/costacruise/atmos/tree/v1). The code is intended both as a reference for this article and as a potential starting point for anyone wanting to build a scalable (both in project scope and deployment) real-time application using some of the latest tools and techniques available.
 
 # Setting up
 
@@ -33,7 +33,7 @@ Clone from the v1 branch:
 ```sh
 $ git clone --branch v1 http://github.com/costacruise/atmos
 $ cd atmos && npm run setup
-$ npm run start:dev # start dev and realtime servers
+$ npm run start:dev # start dev and real-time servers
 $ npm run stop:dev # power down servers
 ```
 
@@ -146,7 +146,11 @@ Using `Object.observe` meant that we could store data in a plain JavaScript obje
 
 ### Backend platform
 
-Whilst we considered peer-to-peer connections using WebRTC, it wasn't practical. For one thing, iOS Safari does not support WebRTC. Even if it did we would need to research and define an adequate peer-to-peer network architecture for sharing data among the 300 devices. Whilst this would be an interesting diversion there wasn't time to spare.
+We considered building a peer-to-peer real-time application using WebRTC, but it wasn't practical. 
+
+For one thing, iOS Safari does not support WebRTC. Even if it did we would need to research and define an adequate peer-to-peer network architecture for sharing data among the 300 devices. Whilst this would be an interesting diversion there wasn't time to spare. 
+
+On top of that WebRTC peer connections aren't serverless. We would still have needed a switchboard (for making connections) and relay servers (for bypassing firewall restrictions).
 
 We settled instead on creating a mediator server that would count incoming votes and broadcasting totals. We used [Node.js][] for this task.
 
@@ -171,7 +175,7 @@ Angular is the predominant framework in use at Costa Digital. Whilst componentiz
 
 However, for this project we chose RiotJS. The driving factor in this decision was file size.
 
-The less data we have to send across the wire, the faster the app will load and establish a realtime connection. Ideally, use of a framework should result in less code than writing an equivalent implementation sans-framework.
+The less data we have to send across the wire, the faster the app will load and establish a real-time connection. Ideally, use of a framework should result in less code than writing an equivalent implementation sans-framework.
 
 When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb. 
 
@@ -190,6 +194,8 @@ React is 121.7kb and that's before you include a flux implementation.
 Another possibility was writing Atmos using future-standards with the Web Components Polyfill (which is the basis for Polymer). The promise of this approach, is that over time we'll be able shed pieces of the (currently 117kb) polyfill as browser support grows. However, WebComponents haven't been implemented as fast as expected by browser vendors, and anyway we had 5 days not 5 years. 
 
 ### RiotJS
+
+We built our real-time application in RiotJS.
 
 Riot feels like Angular: templates are essentially HTML with a DSL overlay. It's also inspired by React's virtual DOM, where changes are measured and executed by diffing an efficient DOM representation. 
 
@@ -273,7 +279,7 @@ const uid = () => Math.random().toString(35).substr(2, 7)
 module.exports = () => (localStorage.uid = localStorage.uid || uid())
 ```
 
-The `sync.js` module [app/logic/sync.js][] (which provides realtime communication) uses the `uid` module by requiring it (also converting it into an array of integers representing byte values, in preparation for sending binary data across the wire):
+The `sync.js` module [app/logic/sync.js][] (which provides real-time communication) uses the `uid` module by requiring it (also converting it into an array of integers representing byte values, in preparation for sending binary data across the wire):
 
 ```js
 const uid = require('./uid')().split('').map(c => c.charCodeAt(0))
@@ -540,10 +546,10 @@ The final (and most interesting) file is `chans.json`:
 }
 ```
 
-The `chans.json` file is used in both the client and server, it provides a shared contract allowing us to segregate data sent across the wire into channels. We use it to multiplex realtime streams.
+The `chans.json` file is used in both the client and server, it provides a shared contract allowing us to segregate data sent across the wire into channels. We use it to multiplex real-time streams.
 
 
-## Realtime Connections
+## Real-time Connections
 
 ### Transport
 
@@ -1103,7 +1109,7 @@ We could also do with a stress-testing suite to see how much activity the server
 
 ## Future
 
-We'd like to break Atmos up more, decouple the view components and make them interchangeable. We'd like to make it very easy to create custom components so Atmos can be repurposed yet utilize the realtime infrastructure. We'll also look into an easy zero-config deployment strategy (possibly with docker containers).
+We'd like to break Atmos up more, decouple the view components and make them interchangeable. We'd like to make it very easy to create custom components so Atmos can be repurposed yet utilize the real-time infrastructure. We'll also look into an easy zero-config deployment strategy (possibly with docker containers).
 
 Offline vote recording as discussed in the **Reconnection** section  would also be a nice feature.
 
