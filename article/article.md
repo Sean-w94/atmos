@@ -696,7 +696,7 @@ This is where EcmaScript 6 destructuring really shines. It doesn't matter what o
 
 Streams are built on [EventEmitters][], which have a default soft limit of 11 listeners. Nothing breaks if this limit is met, however a warning of a potential memory leak is displayed. We happen to be creating eleven pipelines and attaching them all to the same stream. This leads to an `end` event listener getting added to the `stream` object eleven times. Since we know it's not a memory leak, we call `stream.setMaxListeners` and bump the limit from 11 to 12 to avoid outputting the warning. 
 
-If we wanted to added hundreds of channels, we could pass an object as the second argument to each of the `.pipe(stream)` calls. The object would contain an `end` property with a value of `false`, e.g.
+If we wanted to added hundreds of channels, we could pass an object as the second argument to each of the `.pipe(stream)` calls. The object would contain an `end` property with a value of `false`:
 
 ```js
 source(TOPIC_A).pipe(channel(TOPIC_A)).pipe(stream, {end: false})
@@ -712,7 +712,7 @@ const channel = chan => through((data, enc, cb) => {
 })
 ```
 
-Each time a chunk passes through the stream, we prefix the channel number to it. This gives us a maximum of 256 channels. If we wanted more than that we would consider using the [varint][] module which can create and recognize variable byte-length integers in a chunk of binary data. We only needed 12 channels, so we stuck with a one byte limit.
+Each time a chunk passes through the stream, we prefix the channel number to it. This gives us a maximum of 256 channels. If we wanted more than that we would consider using the [varint][] module which can create and recognize variable byte-length integers in a chunk of binary data. We only needed 12 channels, so we stuck with a single byte slot to hold the channel number.
 
 Notice how we us `cb` instead of `this.push` to pass data down-stream. As discussed
 in the **EcmaScript 6** section, this is because we're using a lambda function as
