@@ -1136,7 +1136,7 @@ Being informed about current progressions in the ecosystem allowed us to make de
 
 Before commencing a project it's worth weighing up the priorities and choosing an approach
 that meets the criteria. For us it was mainly about payload size because we wanted the 
-real-time application to feel instant, in spite of poor network conditions. 
+real-time application to feel instant, despite poor network conditions. 
 
 Cross-platform functionality was less important, because we had a specific target audience. 
 Therefore we sacrificed universal compatibility in favour of small file size. For instance we used 
