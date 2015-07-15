@@ -10,7 +10,7 @@ This post provides a modicum of insight into how nearForm consultants plan and e
 
 ---
 
-## Combining RiotJS, Node.js, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
+## Combining Riot.js, Node.js, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
 
 Business demands change and fluctuate constantly, there are occasions that require a quick turn around with a hard deadline.
 
@@ -185,11 +185,11 @@ We also wanted to be able to isolate features into components in order to reduce
 
 Angular is the predominant framework in use at Costa Digital. Whilst componentization is a little muddied, Angular is nevertheless an excellent framework with a strong ecosystem. 
 
-However, for this project we chose RiotJS. The driving factor in this decision was file size.
+However, for this project we chose Riot.js. The driving factor in this decision was file size.
 
 The less data we have to send across the wire, the faster the app will load and establish a real-time connection. Ideally, use of a framework should result in less code than writing an equivalent implementation sans-framework.
 
-When minified Angular is 145.5kb whereas RiotJS is 11 times smaller at 12.75kb. 
+When minified Angular is 145.5kb whereas Riot.js is 11 times smaller at 12.75kb. 
 
 <table><thead><tr> <th>Framework</th><th>Version</th><th>Minified</th><th>gzip -1</th><th>gzip -6</th></tr></thead><tbody> <tr><td>Angular</td><td>1.4.2</td><td>145.5kb</td><td>59.4kb</td><td>51.7kb</td></tr> <tr><td>Ember</td><td>1.13.3</td><td>493.3kb</td><td>155.8kb</td><td>126.3kb</td></tr> <tr><td>React</td><td>0.13.3</td><td>121.7kb</td><td>42.9kb</td><td>36.2kb</td></tr> <tr><td>Riot</td><td>2.2.2-beta</td><td>12.75kb</td><td>5.8kb</td><td>5.3kb</td></tr> <tr><td>Web Components Polyfill</td><td>0.7.5</td><td>117.1kb</td><td>39.8kb</td><td>33.4kb</td></tr> </tbody></table>
 
@@ -205,9 +205,9 @@ React is 121.7kb and that's before you include a flux implementation.
 
 Another possibility was writing Atmos using future-standards with the Web Components Polyfill (which is the basis for Polymer). The promise of this approach, is that over time we'll be able shed pieces of the (currently 117kb) polyfill as browser support grows. However, WebComponents haven't been implemented as fast as expected by browser vendors, and anyway we had 5 days not 5 years. 
 
-### RiotJS
+### Riot.js
 
-We built our real-time application in RiotJS.
+We built our real-time application in Riot.js.
 
 Riot feels like Angular: templates are essentially HTML with a DSL overlay. It's also inspired by React's virtual DOM, where changes are measured and executed by diffing an efficient DOM representation. 
 
@@ -238,7 +238,7 @@ React.render(<Hello msg="World" />, document.body)
 
 We can view the results [here](http://jsfiddle.net/hkpx3qwh/)
 
-Here's the equivalent in RiotJS
+Here's the equivalent in Riot.js
 
 ```js
 <hello msg=World></hello>
@@ -277,7 +277,7 @@ The event handler attributes in a Riot component can only reference methods that
 
 ## Application Structure
 
-The RiotJS philosophy is one of "tools not policy" which means we had to define our own structural approach for our application. To establish clean code boundaries we wanted a modular structure. Writing small single purpose modules helps to avoid human error.
+The Riot.js philosophy is one of "tools not policy" which means we had to define our own structural approach for our application. To establish clean code boundaries we wanted a modular structure. Writing small single purpose modules helps to avoid human error.
 
 ### Client-side Modularity
 
@@ -383,7 +383,7 @@ Modularizing CSS seems to be the final frontier of frontend development. Due to 
 
 But when it comes to protecting the sanity of a code-base, tools are better than convention.
 
-RiotJS supports scoped style tags. For instance:
+Riot.js supports scoped style tags. For instance:
 
 ```html
 <my-tag>
@@ -397,7 +397,7 @@ RiotJS supports scoped style tags. For instance:
 
 This won't style **all** `p` tags at size 40em, only `p` tags inside `my-tag`. Also the special pseudo-selector `:scope` applies to the `my-tag` tag.
 
-Scoped styles were proposed as a [native specification][], but sadly [may never be][] [implemented][] [across all browsers][]. Fortunately RiotJS does supports the syntax. 
+Scoped styles were proposed as a [native specification][], but sadly [may never be][] [implemented][] [across all browsers][]. Fortunately Riot.js does supports the syntax. 
 
 ### Style Modules
 
@@ -1142,7 +1142,7 @@ Therefore we sacrificed universal compatibility in favour of small file size. Fo
 plain WebSockets instead of [engine.io][] or [socket.io][] because old browsers simply weren't
 important.
 
-We hadn't heard of RiotJS before starting this project, but it was a breeze to work with. 
+We hadn't heard of Riot.js before starting this project, but it was a breeze to work with. 
 We think reasons for this include Riot's small API ideology, single-minded purpose, and 
 concepts that parallel pre-existing paradigms without wrapping abstractions
 in esoteric language (transclusion, anyone?). 
