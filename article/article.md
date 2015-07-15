@@ -1,8 +1,11 @@
 # How to quickly build a social real-time application
 
------
-This article been reproduced from the Costa Digital blog at TODO:URL We've been assisting Costa as they strengthen their digital presence and infrastructure. This post provides a modicum of insight into how nearForm consultants plan and execute technical solutions.
------
+---
+
+This article been reproduced from the Costa Digital blog at TODO:URL We've been assisting Costa as 
+they strengthen their digital presence and infrastructure. This post provides a modicum of insight into how nearForm consultants plan and execute technical solutions.
+
+---
 
 ## Combining RiotJS, Node.js, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
 
