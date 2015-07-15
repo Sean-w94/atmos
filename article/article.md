@@ -1144,7 +1144,7 @@ plain WebSockets instead of [engine.io][] or [socket.io][] because old browsers 
 important.
 
 We hadn't heard of Riot.js before starting this project, but it was a breeze to work with. 
-We think reasons for this include Riot's small API ideology, single-minded purpose, and 
+We think reasons for this include Riot's small API ideology, single-minded purpose and 
 concepts that parallel pre-existing paradigms without wrapping abstractions
 in esoteric language (transclusion, anyone?). 
 
