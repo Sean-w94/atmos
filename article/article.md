@@ -1057,7 +1057,8 @@ The `attach` function has two roles. It routes incoming messages to the `update`
 
 The `recon` function returns a function that will repeatedly attempt to establish a new connection to the server. There is no limit to the  amount of attempts, however each attempt will take longer than the last.
 
-Whilst the server could probably handle 300 simultaneous connection requests, time for proving this assertion was lacking. So we introduced pseudo-randomness to the exponential backoff strategy to prevent such a scenario.
+Whilst the server could probably handle 300 (exactly) simultaneous connection requests, time for proving this assertion was lacking. So we introduced pseudo-randomness to the exponential backoff strategy to prevent such a scenario. Without the variability in time till reconnect all clients would
+try to connect simultaneously.
 
 Time-allowing, we could have made a completely seamless offline-first experience by recording current selections in `localStorage` and sending the selections back to the server upon reconnection.
 
