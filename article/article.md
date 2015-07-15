@@ -635,8 +635,7 @@ WebSocket connections are resource intensive: constantly using a devices antenna
 
 We wanted a way to segregate and identify incoming and outgoing data, without using multiple transports. This is called multiplexing, where multiple signals can be sent through one transport.
 
-Let's take a look at the `transport` call at [line 9 of server.es][]
-again:
+Let's take a look at the `transport` call at [line 9 of server.es][] again:
 
 ```js
 transport(stream => {
@@ -648,7 +647,7 @@ transport(stream => {
 })
 ```
 
-We've already discussed incoming data, let's see how we send data out by
+We've already discussed incoming data. Let's see how we send data out by
 taking a look at the `broadcast` function on [line 17 of server.es][]:
 
 ```js
