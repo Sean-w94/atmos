@@ -940,7 +940,7 @@ For instance in the [srv/package.json][] file we have:
 
 The notable thing about Standard, is it *restricts* semi-colon usage to the rare edge cases. This is why there are no semi-colons in the code examples. 
 
-It's difficult to talk about semi-colons without bikes-shedding, so we won't.
+It's difficult to talk about semi-colons without bike-shedding, so we won't.
 
 If Standard offends sensibilities there's also [Semistandard][] (..of course there is).
 
