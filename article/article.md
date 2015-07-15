@@ -267,7 +267,7 @@ See this in action [here](http://jsfiddle.net/vr91n6j1/).
 
 In some ways this looks like the return of the 90's but there is a vital difference. 
 
-The lack of componentization and handler scoping we're the primary driving forces
+The lack of componentization and handler scoping were the primary driving forces
 behind the failure of attribute references handlers in early web applications. Not
 least because the early web was document-centric, it wasn't the application delivery 
 platform it is today.
