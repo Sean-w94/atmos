@@ -396,7 +396,7 @@ Riot.js supports scoped style tags. For instance:
 
 This won't style **all** `p` tags at size 40em, only `p` tags inside `my-tag`. Also the special pseudo-selector `:scope` applies to the `my-tag` tag.
 
-Scoped styles were proposed as a [native specification][], but sadly [may never be][] [implemented][] [across all browsers][]. Fortunately Riot.js does supports the syntax. 
+Scoped styles were proposed as a [native specification][], but sadly [may never be][] [implemented][] [across all browsers][]. Fortunately Riot.js does support the syntax. 
 
 ### Style Modules
 
