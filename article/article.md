@@ -696,7 +696,7 @@ This is where EcmaScript 6 destructuring really shines. It doesn't matter what o
 
 Streams are built on [EventEmitters][], which have a default soft limit of 11 listeners. Nothing breaks if this limit is met, however a warning of a potential memory leak is displayed. We happen to be creating eleven pipelines and attaching them all to the same stream. This leads to an `end` event listener getting added to the `stream` object eleven times. Since we know it's not a memory leak, we call `stream.setMaxListeners` and bump the limit from 11 to 12 to avoid outputting the warning. 
 
-If we wanted to added hundreds of channels, we could pass an object as the second argument to each of the `.pipe(stream)` calls, the object would contain an `end` property with value false, e.g.
+If we wanted to added hundreds of channels, we could pass an object as the second argument to each of the `.pipe(stream)` calls. The object would contain an `end` property with a value of `false`, e.g.
 
 ```js
 source(TOPIC_A).pipe(channel(TOPIC_A)).pipe(stream, {end: false})
