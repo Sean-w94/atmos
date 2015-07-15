@@ -861,7 +861,7 @@ We used `em` units for all measurements (instead of pixels or percentages). This
 
 ## Preprocessing
 
-All of our code needed to be processed prior to deployment, both on the server side and client side. On the server we needed ES6 to ES5 transpilation and linting. On the client we needed Browserification, Riotification (.. if those are words), and ES6 transpilation, CSS, JavaScript and HTML minification.
+All of our code needed to be processed prior to deployment, both on the server side and client side. On the server we needed ES6 to ES5 transpilation and linting. On the client we needed Browserification, Riotification (.. if those are words), ES6 transpilation, CSS, JavaScript and HTML minification.
 
 ### npm: The Task Runner
 
