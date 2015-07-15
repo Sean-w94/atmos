@@ -869,7 +869,7 @@ There's a couple of strong task runners with great ecosystem out there.
 
 Well known task runners include [Grunt][], [Gulp][] and [Broccoli][]. 
 
-Nevertheless, if we're not dealing with a massive application with complex build process requirements, we prefer to use `package.json` `scripts`.
+Nevertheless, if we're not dealing with a massive application with complex build process requirements we prefer to use `package.json` `scripts`.
 
 The `scripts` field in `package.json` allows us to define shell tasks that run in a context-specific environment - in that the path of these shell tasks includes the `node_modules/bin` folder. This allow us to drop the relative path when referencing executable dependencies. 
 
