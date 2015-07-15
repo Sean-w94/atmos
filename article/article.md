@@ -7,14 +7,15 @@ This was one of those occasions.
 
 The hard deadline in this case was an internal conference where our goal was to engender excitement for technology among stakeholders.
 
-We decided to build a real-time conference voting application that allowed for input via personal devices (mobile, tablet, laptop) immediately displaying results on the presenters screen.
+We decided to build a real-time application that took input from personal devices (mobile, tablet, laptop) and displayed results on the presenters screen.
 
-We called our concept "Atmos".
+We called our concept "Atmos", the real-time conference voting application. 
+
 ![](results.png)
 We had one developer (myself) and two and a half days to have a working proof of concept, followed by the weekend and Monday for tidy-up, polishing, cross browser and performance testing. All told, from the backend to the frontend, Atmos was completed in around five days.
 
 # Live Demo
-A running demo of atmos can be found at <http://atmos.costadigital.io>
+A running demo of Atmos can be found at <http://atmos.costadigital.io>
 
 ![](mood.png)
 
@@ -1117,9 +1118,27 @@ We could look into using nginx to round-robin multiple WebSocket servers as well
 
 We should probably also fix the layout issue in Internet Explorer.
 
-## Fin
+## Conclusion
 
-Thanks for reading, see you next time!
+Being informed about current progressions in the ecosystem allowed us to make decisions that increased productivity whilst avoiding time sink-holes.
+
+Before commencing a project it's worth weighing up the priorities and choosing an approach
+that meets the criteria. For us it was mainly about payload size because we wanted the 
+real-time application to feel instant, in spite of poor network conditions. 
+
+Cross-platform functionality was less important, because we had a specific target audience. 
+Therefore we sacrificed universal compatibility in favour of small file size. For instance we used 
+plain WebSockets instead of [engine.io][] or [socket.io][] because old browsers simply weren't
+important.
+
+We hadn't heard of RiotJS before starting this project, but it was breeze to work with. 
+This is because Riot is singular in purpose, deliberately limits API growth, and
+introduces concepts that parallel pre-existing paradigms without describing abstractions
+with esoteric language (transclusion, anyone?). 
+
+In summary, small is beautiful, research time is never lost time, tailor tools to priorities and always be open to different approaches.
+
+Stay curious, see you next time!
 
 
 
