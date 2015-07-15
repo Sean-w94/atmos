@@ -1063,15 +1063,17 @@ try to connect simultaneously.
 Time-allowing, we could have made a completely seamless offline-first experience by recording current selections in `localStorage` and sending the selections back to the server upon reconnection.
 
 ### Supervisor
-Finally we used the [supervisor][] utility to secure minimal downtime in the event of a server crash. 
+Finally we used the [supervisor][] utility to secure minimal downtime in the event of a server crash.
 
 ```sh
-npm install -g supervisor
+npm install -g supervisor@0.6
 ```
+
+We had to use the 0.6.x version as the 0.7.x line seems to break (on Ubuntu) when used with `nohup`.
 
 Supervisor watches a process and restarts it if the process dies. 
 
-This was the command we ran from the `atmos` directory to start our server
+This was the command we ran from the `atmos` directory to start our server:
 
 ```sh
 nohup supervisor srv &
