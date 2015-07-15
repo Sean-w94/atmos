@@ -4,7 +4,9 @@
 
 This article been reproduced from the Costa Digital blog at TODO:URL.
 
-We've been assisting Costa as they strengthen their digital presence and infrastructure. This post provides a modicum of insight into how nearForm consultants plan and execute technical solutions.
+We've been assisting Costa as they strengthen their digital presence and infrastructure. 
+
+This post provides a modicum of insight into how nearForm consultants plan and execute technical solutions.
 
 ---
 
