@@ -1069,7 +1069,7 @@ Finally we used the [supervisor][] utility to secure minimal downtime in the eve
 npm install -g supervisor@0.6
 ```
 
-We had to use the 0.6.x version as the 0.7.x line seems to break (on Ubuntu) when used with `nohup`.
+We had to use the 0.6.x version as the 0.7.x line seems to break (on Ubuntu) when used with `nohup` (at least on Digital Ocean this appears to be the case).
 
 Supervisor watches a process and restarts it if the process dies. 
 
