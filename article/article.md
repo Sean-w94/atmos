@@ -147,7 +147,7 @@ We also used some ES6 language additions
 
 The `Object.assign` and `Array.from` methods simply afforded a nice way to do mixins and convert array like objects to arrays-proper (no more `Array.prototype.slice.call(ArrayLikeThing)`, hooray!).
 
-The `Set` constructor returns a unique list object. By pushing unique id's (determined browserside), onto a set we could keep a constant running total of voters which allowed us to calculate aggregated percentages.
+The `Set` constructor returns a unique list object. By pushing unique ids (determined browserside), onto a set we could keep a constant running total of voters which allowed us to calculate aggregated percentages.
 
 And one EcmaScript 7 method: [Object.observe][].
 
