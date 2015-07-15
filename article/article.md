@@ -10,7 +10,7 @@ This post provides a modicum of insight into how nearForm consultants plan and e
 
 ---
 
-## Combining Riot.js, Node.js, Browserify, PureCSS and ES6 to rapidly prototype a performant conference voting application
+## Combining Riot.js, Node.js, Browserify, Pure.css and ES6 to rapidly prototype a performant conference voting application
 
 Business demands change and fluctuate constantly, there are occasions that require a quick turn around with a hard deadline.
 
