@@ -969,7 +969,7 @@ Then we pipe it through `@atmos/inliner`, which was written for the project.
 
 Unfortunately, `npm` currently [has a bug][] with scoped package executables. The relative path has to be specified, which is why we couldn't simply write `inliner` or `@atmos/inliner`.
 
-The `inliner` takes an HTML file, and parses it using JSDOM, removing all `link` tags (it leaves inlined `style` tags alone). Then it creates a new `style` tag and writes the CSS that is piped to the process (our minified CSS subset). Finally the `inliner` outputs HTML file when done.
+The `inliner` takes an HTML file, and parses it using JSDOM, removing all `link` tags (it leaves inlined `style` tags alone). Then it creates a new `style` tag and writes the CSS that is piped to the process (our minified CSS subset). Finally the `inliner` outputs an HTML file when done.
 
 On both mobile networks (which participants ended up using due to slow WiFi), and strained WiFi networks the major issue is not broadband speed, but connection latency. 
 
