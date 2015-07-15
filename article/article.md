@@ -103,7 +103,7 @@ These little pieces of sugar helped keep code clean, light and descriptive.
 
 In particular we used destructuring to emulate configuration based enums which were then used to establish light-weight multiplexing (more on this later).
 
-Since `const` keywords are transpiled to `var` keywords usage of `const` was more of a mental assist. It prevented the (generally) bad habit of reassignment, and made us think about what exactly constitutes an actual variable reference. Whilst there wouldn't be a direct performance benefit from using `const` in a transpilation context, we're still facilitating the JavaScript engine by using variables that won't be reassigned. In other words the interpreter has to jump through hoops when a reference keeps changing. Employing an enforceable practice of non-reassignment should make runtime
+Since `const` tokens are transpiled to `var` keywords, usage of `const` was more of a mental assist. It prevented the (generally) bad habit of reassignment, and made us think about what exactly constitutes an actual variable reference. Whilst there wouldn't be a direct performance benefit from using `const` in a transpilation context, we're still facilitating the JavaScript engine by using variables that won't be reassigned. In other words the interpreter has to jump through hoops when a reference keeps changing. Employing an enforceable practice of non-reassignment should make runtime
 optimizations more likely.
 
 Another gem is the lambdas. The removal of noise around a function enhances readability. However there are a couple of caveats.
