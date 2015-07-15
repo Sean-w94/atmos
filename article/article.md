@@ -510,7 +510,7 @@ $ pushd srv
 $ npm link @atmos/config
 ```
 
-The `npm link` command removes the need reinstall every time we change configuration settings.
+The `npm link` command removes the need to reinstall every time we change configuration settings.
 
 This was the process we used during most of the development, however for convenience the
 linking process has been automated. Simply execute `npm run setup` in the `atmos` directory.
