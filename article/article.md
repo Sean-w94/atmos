@@ -1104,7 +1104,7 @@ Finally our purpose-written [app/logic/support.js][] library is used to customiz
 
 ## Deployment
 
-We kept deployment very simple. We used an Ubuntu digital ocean instance,  with `node` and `git` installed on it. We pulled in changes onto the server with git, and ran the server with `nohup`. The `nohup` ("no hangup") command allows us to start a process over SSH and terminate the client session without killing the process. 
+We kept deployment very simple. We used an Ubuntu Digital Ocean instance,  with `node` and `git` installed on it. We pulled in changes onto the server with git, and ran the server with `nohup`. The `nohup` ("no hangup") command allows us to start a process over SSH and terminate the client session without killing the process. 
 
 Due to its high performance and aggressive caching policy  we used [nginx][] to serve static files, simply creating symlinks to the local atmos git repository from the nginx serving folder.
 
