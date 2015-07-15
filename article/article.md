@@ -850,13 +850,13 @@ For styling the application, we used [Pure.css][], mostly for its responsive gri
 
 This was our first time using Pure.css, but we found it was easy to get moving quickly and it made responsive prototyping effortless. 
 
-Whilst Pure.css already has a small footprint we used an optimization process to extract only the styles we needed (see Preprocessing). 
+Whilst Pure.css already has a small footprint we used an optimization process to extract only the styles we needed (see Preprocessing).
 
 ### Visual Scaling
 
-The app needed to work on a wide range of screen sizes. From small mobile screens up to 1080p resolution on a large projector screen. To allow limitless scaling without pixelation, everything had to be created with vectors. Which means all graphics had to be created with HTML and CSS or with SVG. The smiley faces are SVG images, with small PNG fallback images on blackberry. 
+The application needed to work on a wide range of screen sizes. From small mobile screens up to 1080p resolution on a large projector screen. All visuals were created for limitless, pixelation-free scaling without sending large images to the client. This meant all graphics had to be created with HTML and CSS or with SVG. The smiley faces are SVG images, with small PNG fallback images on BlackBerry.
 
-We used `em` units for all measurements (instead of pixels or percentages). This means we could scale all elements by changing the base font-size. However with time running out we simply used browser zoom at the venue to get the right size for the projector screen. Whereas we used responsive grids to reflow the layout on smaller devices. 
+We used `em` units for all measurements (instead of pixels or percentages). This meant we could scale all elements by changing the base font-size. However with time running out we simply used browser zoom at the venue to get the right size for the projector screen. Whereas we used responsive grids to reflow the layout on smaller devices. 
 
 
 ## Preprocessing
