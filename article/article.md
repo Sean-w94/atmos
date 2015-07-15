@@ -82,7 +82,7 @@ Progressive enhancement for SEO and accessibility was not followed on this proje
 
 ### EcmaScript 6
 
-[There's a direct correlation][] between code size and product quality. Defect density can be measured in bugs per 1000 lines of code and averages around .59 bugs per line for open source projects or .72 bugs per line on proprietary code bases. Either way, there will always be a ratio of bugs to code size.The more boilerplate we can shed the better. 
+[There's a direct correlation][] between code size and product quality. Defect density can be measured in bugs per 1000 lines of code and averages around .59 bugs per 1000 lines for open source projects or .72 bugs per 1000 line on proprietary code bases. Either way, there will always be a ratio of bugs to code size.The more boilerplate we can shed the better. 
 
 EcmaScript 6 (a.k.a EcmaScript 2015) was finalized in June 2015. Parts of it have already been implemented in modern browsers and in Node. However for cross-browser consistency and to run Node
 without additional flags we transpiled the ES6 code into ES5 code as part of the build process (see the Build Process section for details).
