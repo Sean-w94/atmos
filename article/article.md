@@ -88,7 +88,7 @@ without additional flags we transpiled the ES6 code into ES5 code as part of the
 
 There was only a subset of ES6 features we wanted to use for this project to help keep the code clean and readable. 
 
-We stuck with micro-syntax extensions such as
+We stuck with micro-syntax extensions such as:
 
 * [lambdas (arrow functions)][]
 * [destructuring][]
@@ -138,7 +138,7 @@ Further, there's the issue of code bloat during transpilation of macro-syntax ex
 
 Finally, it was important to keep the project simple. [Classes][] aren't the right paradigm for linear/cyclical data flow management (actually.. they aren't the right paradigm for a prototypal language but that's another story!). [Iterators][] (counterpart to generators) encourage a procedural approach (which is somewhat backwards). Finally the [ES6 module][] system isn't a good fit for current tooling. Also it may only be opinion, but CommonJS modules are cleaner.
 
-We also used some ES6 language additions
+We also used some ES6 language additions:
 
 * [Set][]
 * [Object.assign][]
