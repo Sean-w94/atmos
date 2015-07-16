@@ -67,13 +67,13 @@ This was a live demo to demonstrate the virtues of technology to non-developers.
 
 ## Process
 
-With little time for bike-shedding, the top considerations had to influence our tools, priorities and workflow.
+With little time for bike shedding, the top considerations had to influence our tools, priorities and workflow.
 
 ### Device Support
 
 Given the time constraints we opted to support modern browsers and modern devices only. All conference participants had received iPhones and iPads, however there was still an inclination towards blackberry devices. 
 
-As a trade-off we supported touch screen blackberries, but did not implement support for key-only blackberries (adjusting the user interface alone would demand a significant time investment that we could not afford). 
+As a trade-off we supported touch screen BlackBerries, but did not implement support for key-only blackberries (adjusting the user interface alone would demand a significant time investment that we could not afford). 
 
 We also didn't pay much attention to IE. Even IE11 can be a time hog when it comes to compatibility and ~99% of our audience would be on (non-windows) mobile devices anyway.
 
