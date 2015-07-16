@@ -67,7 +67,7 @@ This was a live demo to demonstrate the virtues of technology to non-developers.
 
 ## Process
 
-With little time for bike shedding, the top considerations had to influence our tools, priorities and workflow.
+With little time for bike-shedding, the top considerations had to influence our tools, priorities and workflow.
 
 ### Device Support
 
